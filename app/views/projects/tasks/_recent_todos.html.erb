@@ -1,0 +1,8 @@
+<%if !recent_todos.empty?%>
+	<h4>Recent Tasks</h4>
+	<ul class="bullets">
+		<% for todo in recent_todos%>
+			<li><a href="<%=project_task_todo_path(@project.url,@project,todo.task,todo)%>"><%=truncate(todo.title,:ommision =>"...",:length => 30)%></a></li>
+		<%end%>
+	</ul>
+<%end%>

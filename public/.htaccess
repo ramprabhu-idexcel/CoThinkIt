@@ -1,0 +1,2 @@
+auth_basic "RESTRICTED ACCESS";
+auth_basic_user_file /disk1/home/slugs/299389_2af778c_08e0/mnt/public/.htpasswd

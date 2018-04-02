@@ -1,0 +1,78 @@
+<%=stylesheet_link_tag "subpage"%>
+<body class="dialog signup">
+<div id="bg-top"></div>
+	<div id="top">
+		<div id="starburst"></div>
+			<h2 id="logo" class="ir"><a href="/"><span>CoThink.it</span></a></h2>
+			<p id="login-blurb">Already have an account? <a href="/login" title="Log in">Log in.</a></p>
+		</div>
+		<div class="content-wrap">
+			<div class="box-wrap a">
+				<div class="box">
+					<h1>Join the Project</h1>
+					<p><em>You have been invited to <%=session[:project_name]%> project.</em></p>
+					
+					<%form_remote_tag :url=>{ :controller => "users", :action => "create" } do %>
+
+					<fieldset class="share-line">
+						<label>First Name</label>
+						<div class="input-wrapper text-wrapper ">
+							<div class="box-top-left"></div>
+							<div class="box-top"></div>
+							<div class="box-top-right"></div>
+							<div class="box-body"><% if session[:first_name] && !session[:first_name].nil? %>
+							<%=text_field :user, 'first_name',:value=>"#{session[:first_name]}" %> <% else %> <%=text_field :user, 'first_name' %><% end %></div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom"></div>
+							<div class="box-bottom-right"></div>
+						</div>
+					
+						<label>Last Name</label>
+						<div class="input-wrapper text-wrapper ">
+							<div class="box-top-left"></div>
+							<div class="box-top"></div>
+							<div class="box-top-right"></div>
+							<div class="box-body"><% if session[:last_name] && !session[:last_name].nil? %><%= text_field :user,'last_name' ,:value=>"#{session[:last_name]}" %> <% else %> <%=text_field :user, 'last_name' %><% end %></div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom"></div>
+							<div class="box-bottom-right"></div>
+						</div>
+						
+						<label>Email</label>
+						<div class="input-wrapper text-wrapper ">
+							<div class="box-top-left"></div>
+							<div class="box-top"></div>
+							<div class="box-top-right"></div>
+							<div class="box-body"><% if session[:email] && !session[:email].nil? %><%= text_field :user,'email' ,:value=>"#{session[:email]}" %> <% else %> <%=text_field :user, 'email' %><% end %></div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom"></div>
+							<div class="box-bottom-right"></div>
+						</div>
+					
+						<label>Password</label>
+						<div class="input-wrapper text-wrapper ">
+							<div class="box-top-left"></div>
+							<div class="box-top"></div>	
+							<div class="box-top-right"></div>
+							<div class="box-body">
+							<%= password_field :user, 'password' %>
+							<% hidden_field :user, 'password_confirmation' %>
+							</div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom"></div>
+							<div class="box-bottom-right"></div>
+						</div>
+						<p class="fine-print">By clicking <em>'Create my account,'</em> you agree to the <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>.</p>
+							<%=submit_tag "Create My Account", :class=>"btn-47a create-account-btn" %>
+					</fieldset>
+				<% end -%>
+				<% session[:first_name]=nil %>
+				<% session[:last_name]=nil %>
+        <% session[:project_name]=nil%>
+			</div>
+		</div>
+	</div>
+</body>
+  <script>
+    $('user_first_name').focus()
+  </script>

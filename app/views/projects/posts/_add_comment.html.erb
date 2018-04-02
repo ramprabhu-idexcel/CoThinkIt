@@ -1,0 +1,54 @@
+
+
+<a name="add-comment"></a>
+				<h3 id="your-comment">Your Comment</h3>
+        
+        <!-- <div id='progress' style="display:none;" >
+            File upload in progress
+            <div id='bar' style='width: 0%;'>
+                0%
+            </div>
+        </div> -->
+
+				
+				<%form_tag(project_post_comments_path(@project.url,@project,@post),  :multipart => true, :target => 'upload_frame',:id=>"upload") do%>
+         <%#= hidden_field_tag 'X-Progress-ID', @uuid %>
+					<input type="hidden" value="" name="comment_comment_value" id="comment_comment_value"/>
+				<div class="post-comment no-top-p">
+				<%= image_tag "#{show_current_user_picture(current_user)}", :alt=>"#{display_user_name(current_user)}", :title=>"#{display_user_name(current_user)}", :class=>"user" %>
+					<!--<img title="<%#=display_user_name(current_user)%>" alt="<%#=display_user_name(current_user)%>" src="<%#=show_current_user_picture(current_user)%>" class="user" /> -->
+					<!--<form action="#" id="comment-form"> -->
+							<div class="tinyMCE-textarea">
+								<%=text_area_tag 'comment[comment]', nil, :rows => 3, :cols => 50 %>
+							</div>
+              <%#=file_field :attachment,:file_0%>
+							<!-- <div><span style="font-size:10px;color:red;" id="comment_error"></span></div> -->
+						<div class="submit-actions">
+							<label><input type="checkbox" name='comment[status_flag]' id="status_flag_comment"/>Allow status flags</label>
+							<a class="upload-files" href="#file_upload" onclick="$('file_upload').show(); return false;">Upload Files</a>
+               <%= render :partial=>"projects/comment_progress_bar"%>
+							<% if !check_completed_project %>
+							<input  value="Add Comment" class="btn add-comment-btn"  style="float:right;" onclick="completed_alert(); return false" />
+							<% elsif !check_status_project %>
+							<input  value="Add Comment" class="btn add-comment-btn"  style="float:right;" onclick="suspend_alert(); return false" />
+							<%else%>
+							<input type="submit" value="Add Comment" class="btn add-comment-btn" onclick="return comment_progress_bar('<%= project_post_comments_path(@project.url,@project,@post)%>');" id="submit_button" style="float:right;"/>
+							<%end%>
+						</div>
+			<!--		</form> -->
+				</div>
+        <ul class="comment-actions" id="extra-actions" style="margin-top:25px;">
+					<li class="modal-trigger">
+								
+								<div id="file_upload"  style="display:none;margin-left: -87px;">
+								<div id="files_list"></div>
+								<%=file_field_tag 'file_1', :id=>"my_file_element"%>
+								<script>
+												var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 10 );
+												multi_selector.addElement( document.getElementById( 'my_file_element' ) );
+								</script>
+								</div>
+						</li>
+				</ul>
+				<iframe id='upload_frame' name="upload_frame" style="width:0px;height:0px;border:0px;display:none" src="about:blank"></iframe>
+        <%end%>		

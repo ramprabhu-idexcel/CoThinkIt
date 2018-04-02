@@ -1,0 +1,32 @@
+<%=render :partial=>'/admin/base'%>
+<body class="files">
+  <div class="container">
+    <p>&nbsp&nbsp&nbsp<a href="/adminlogout">logout</a></p>
+    <div class="width-wrapper"><!-- width-wrapper starts here -->
+      <div id="chat" class="left-col-user main-content"><!-- left-col-user main-content starts here -->
+        <!--Header Navigation Tabs -->
+        <%=render :partial=>'/admin/tabs'%>
+        <div class="box-top-left"></div>
+        <div class="box-top"></div>
+        <div class="box-top-right"></div>
+        <div class="main-padder">
+
+          <p>
+            <b>Key:</b>
+            <%= @email_template.key %>
+          </p>
+
+          <p>
+            <b>Content:</b>
+            <%= @email_template.content %>
+          </p>
+
+
+          <%= link_to 'Edit', edit_email_template_path(@email_template) %> |
+          <%= link_to 'Back', email_templates_path%>
+
+        </div> 
+      </div>
+    </div>
+  </div>
+</body>

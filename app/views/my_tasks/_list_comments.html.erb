@@ -1,0 +1,61 @@
+		<% if !@comments.empty?%>
+				<a name="comments"></a>
+				<div class="post-comments-header" id="lastest_comment">
+							<%=render :partial=>'/my_tasks/lastest_comment',:locals=>{:comments => @comments}%>
+				</div>
+				
+
+       <%for comment in @comments%> 
+				<div class="post-comment" id="comment_<%=comment.id%>">
+				<%= image_tag "#{show_profile_picture(comment)}", :alt=>"#{display_user_name(comment.user)}", :title=>"#{display_user_name(comment.user)}", :class=>"user" %>
+					<!--<img title="<%#=display_user_name(comment.user)%>" alt="<%#=display_user_name(comment.user)%>" src="<%#=show_profile_picture(comment)%>" class="user" />-->
+					<p class="header"><a href="#<%#=project_people_path(@project.url,@project) %>"><%=display_user_name(comment.user)%></a> on <%=display_time_display(comment.created_at)%>
+           	<a href="<%= edit_mytask_comment_path(:id=>comment.id, :todo_id=>@todo.id) %>" class="btn edit-icon ir" title="Edit" ></a>
+					  <%=link_to_remote "<span>Delete</span>",{:url =>destroy_mytask_comment_path(:id =>@todo.id,:comment_id => comment.id),:method=>:get,:confirm => "Are you sure you want to delete this comment? "},:class => "btn delete-icon ir", :title=>"Delete" %>
+
+           
+					</p>
+					<div class="post-body">
+						<p><%=show_comment_details_with_sanitize(comment.comment)%></p>
+						
+						<ul class="file-list">
+							<%comment.attachments.each do |attachment|%>
+								<%attachment_content_type = find_attachment_content_type(attachment)%>	
+								<%if attachment_content_type != "image"%>								
+									<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>)" >
+									
+									
+										<%=link_to attachment.filename, "#",  :onclick=>"javascript:download_bandwidth_check_my_task(#{attachment.id});"%> </li>
+											
+										
+								<%end%>
+							<%end%>
+						</ul>
+						
+						<ul class="post-imgs">
+							<% comment.attachments.each do |attachment|%>															
+								<%attachment_content_type = find_attachment_content_type(attachment)%>								
+								<%if attachment_content_type == "image"%>
+									<li><a href="<%=attachment.public_filename%>" target="_new"><%= image_tag "#{attachment.small_thumbnail}", :width=>'75', :height=>'75' %><!--<img src="<%#=attachment.small_thumbnail%>" width='75' height='75' >--></a></li>									
+								<%end%>
+							<%end%>
+						</ul>	
+					</div>	
+					 <%#if comment.status_flag%>					
+						<!--<div id="set_status_<%=comment.id%>" class="status-options">
+							<%#=render :partial=>'/my_tasks/status_update',:locals=>{:parent => parent,:comment => comment}%>
+						</div>
+						<div class="post-footer footer-grey post-history">
+							<div id='history_link_<%=comment.id%>'>
+								<%#= render :partial=>'/my_tasks/history_link',:locals=>{:parent => parent,:comment => comment}%>
+							</div>
+							<div id = "history_<%=comment.id%>">
+								<%#= render :partial=>'/my_tasks/history',:locals=>{:parent => parent,:comment => comment}%>
+							</div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom-right"></div>
+						</div>					-->
+					<%#end%> 
+				</div>
+				<%end%>
+		<%end%>

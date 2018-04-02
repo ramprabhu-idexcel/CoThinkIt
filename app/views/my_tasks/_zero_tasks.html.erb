@@ -1,0 +1,15 @@
+
+<div class="zerostate">
+  <div class="zero">
+    <h2>Create your first task list</h2>
+    <div class="zero-icon-task"></div>
+    <p>Get organized by creating your first task list and start adding tasks to it.</p>
+    <ul>
+        <li>	<a href="<%=new_my_task_path%>" class="zero-arrow" id="create_new_task1"><span>Create a new task list</span></a>
+						<script>new Control.Modal($('create_new_task1'), {className:'modal_container', method:'get'});</script></li>
+
+    </ul>
+    <div id="task_list"></div>
+  </div>
+</div> <!-- end main-padder -->
+

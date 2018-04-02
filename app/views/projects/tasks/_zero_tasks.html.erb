@@ -1,0 +1,22 @@
+
+<div class="zerostate">
+  <div class="zero">
+    <h2>Create your first task list</h2>
+    <div class="zero-icon-task"></div>
+    <p>Get organized by creating your first task list and start adding tasks to it.</p>
+    <ul>
+      <% if !check_completed_project %>
+        <li><a href="#" onclick="completed_alert(); return false" class="zero-arrow">Create your first task list</a></li>
+				<% elsif !check_status_project %>
+        <li><a href="#" onclick="suspend_alert(); return false" class="zero-arrow">Create your first task list</a></li>
+      <% elsif check_role_for_guest%>
+        <li><a href="<%=new_project_task_path(@project.url,@project)%>" class="zero-arrow" id="create_new_task_zero">Create your first task list</a></li>
+        <script>new Control.Modal($('create_new_task_zero'), {className:'modal_container', method:'get'});</script>
+      <%else%>	
+        <li><a href="#" onclick="guest_user_alert(); return false" class="zero-arrow">Create your first task list</a></li>
+      <%end%>
+    </ul>
+    <div id="task_list"></div>
+  </div>
+</div> <!-- end main-padder -->
+

@@ -1,0 +1,11 @@
+	<% for task in @tasks%>
+
+							<div style="margin-left:10px;" id="task_list_<%=task.id%>" ><h3 ><%=image_tag("reorder_icon.jpeg",:class=>"handle")%><a href="<%=project_task_path(@project.url,@project,task)%>"><%=task.title%></a></h3></div>
+	
+	<%end%>
+
+
+  <%= sortable_element :task_list,:url  => reorder_task_project_tasks_path(@project.url,@project),:method => :get, :tag => 'div',:handle => 'handle'%> 
+	
+
+		

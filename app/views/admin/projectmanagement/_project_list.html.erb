@@ -1,0 +1,156 @@
+<style>
+#main-content table td, #main-content table th {
+line-height:1.3em;
+padding:10px 5px 10px 0;
+}
+</style>
+
+<% if !@projects.empty? %><p align="right"><%=link_to "Download as csv", download_project_csv_path %></p><%end%>
+<table>
+  <thead>
+    <tr>
+      <th style="padding-left:10px;"><input class="check-all" type="checkbox" id="proj_check" onClick="javascript:check_all();"/></th>
+						<% if !(params[:by].nil?) and (params[:order] == "name" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Project",:url => admin_project_sorting_path(:order=>"name", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Project",:url => admin_project_sorting_path(:order=>"name", :by =>'asc')%> </th>					
+										<%end%>					
+										<% if !(params[:by].nil?) and (params[:order] == "url" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Project URL",:url => admin_project_sorting_path(:order=>"url", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Project URL",:url => admin_project_sorting_path(:order=>"url", :by =>'asc')%> </th>					
+										<%end%>		
+										<% if !(params[:by].nil?) and (params[:order] == "owner" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Owner",:url => admin_project_sorting_path(:order=>"owner", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Owner",:url => admin_project_sorting_path(:order=>"owner", :by =>'asc')%> </th>					
+										<%end%>
+										
+										<% if !(params[:by].nil?) and (params[:order] == "owner_email" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Owner's Email",:url => admin_project_sorting_path(:order=>"owner_email", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Owner's Email",:url => admin_project_sorting_path(:order=>"owner_email", :by =>'asc')%> </th>					
+										<%end%>
+
+										<% if !(params[:by].nil?) and (params[:order] == "storage_used" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Storage (GB)",:url => admin_project_sorting_path(:order=>"storage_used", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Storage (GB)",:url => admin_project_sorting_path(:order=>"storage_used", :by =>'asc')%> </th>					
+										<%end%>
+										
+										<% if !(params[:by].nil?) and (params[:order] == "download_bandwidth_in_MB" and params[:by] == "asc")%>																									
+												<th style="text-align:left"><%=link_to_remote "Current Transfer (GB)",:url => admin_project_sorting_path(:order=>"download_bandwidth_in_MB", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="text-align:left"><%=link_to_remote "Current Transfer (GB)",:url => admin_project_sorting_path(:order=>"download_bandwidth_in_MB", :by =>'asc')%> </th>					
+										<%end%>
+
+										
+										<% if !(params[:by].nil?) and (params[:order] == "project_status" and params[:by] == "asc")%>																									
+												<th style="padding-right: 14px;text-align:left"><%=link_to_remote "Status",:url => admin_project_sorting_path(:order=>"project_status", :by =>'desc')%> </th>					
+										<%else%>
+												<th style="padding-right: 14px;text-align:left"><%=link_to_remote "Status",:url => admin_project_sorting_path(:order=>"project_status", :by =>'asc')%> </th>					
+										<%end%>											
+															<th><a href="#">Edit Icon</a></th>
+									</tr>
+								</thead>	
+								  <tfoot>
+    <tr>
+      <td colspan="8"  style="padding-left:10px;">
+			<% @status=['Active','Suspend','Delete'] %>
+
+        <div class="bulk-actions align-left">
+          <select name="dropdown" id="project_status">
+            <% @status.each do |status| %>
+						<option value="<%= status %>"><%= status %></option>
+						<% end %>
+						
+          </select>
+          <a class="button" href="javascript:enable_user();">Apply to selected</a>
+        </div>
+				<div class="pagination">
+		<% if @lastpage && @lastpage > 1 %>
+   <a rel="next"  href="/adminpanel/projectmanagement?page=1" title="First Page" >&#171;  First</a>
+	 <% end %>
+          <!--<a title="First Page" href="#">&#171;  First</a>-->
+					
+ 					<%= will_paginate @projects , :class=>"", :container=>false, :params => {:order => params[:order],:by=>params[:by] }%>
+					<% if @lastpage && @lastpage > 1 %>
+		<a rel="next"  href="/adminpanel/projectmanagement?page=<%=@lastpage%>" title="Last Page" >Last &#187;</a>			
+		<% end %>
+	        <!--<a title="Last Page" href="#">Last &#187;</a>-->
+        </div>
+        <div class="clear"/>
+      </td>
+    </tr>
+  </tfoot>
+								<%count=0%>
+								<%if @projects.count!=0%>
+										<% @projects.each do |project| %>
+												<%user=project.owner%>
+												<%plan=user.plan_limits if user%>
+												<tbody>
+														<% count=count+1%>
+														<%if count%2!=0%>
+														<tr  align="left">
+														<%else%>
+														<tr align="left" class="alt"><%end%>
+														      <td  style="padding-left:10px;"><input class="check-all" type="checkbox" id="<%= project.id %>"/></td>
+																<td><%= project.name %></td>
+																<td><%= project.url %></td>
+																<td ><%=user.first_name if user%></td>
+																<td ><%=user.email if user%></br></td>
+																<td><%if plan!=nil%><% val = (plan.storage_used.nil?) ? 0 : plan.storage_used %><%=bandwidth_in_gb(val)%><%else%>0<%end%></td>
+																<td><%if plan!=nil%><% val = (plan.download_bandwidth_in_MB.nil?) ? 0 : plan.download_bandwidth_in_MB %>
+																<% val1= (plan.bandwidth_used.nil?) ? 0 : plan.bandwidth_used %><%download=(val+val1)%>
+																<%=bandwidth_in_gb(download)%><%else%>0<%end%></td>
+																<td id="status_<%=project.id%>"><%=project_status(project.project_status) %></td>
+																<td><%=link_to_remote image_tag("/images/admin_images/icons/pencil.png"), :url => { :controller=>"/admin/projectmanagement",:action => "edit", :id => project.id }%></td>
+														</tr>
+												</tbody>
+										<% end %>
+		
+								<%end%>
+							</table>
+<script>
+function edit_project_url(id)
+{
+	document.location.href ="/admin/projectmanagement/edit/"+id+"?edit_url=true";
+			
+}
+function enable_user()
+{
+var ids=new Array();
+var selected_values=""
+var i=0;
+<%if @projects.count!=0%>
+		<% @projects.each do |project| %>
+		check_selected=document.getElementById("<%= project.id %>").checked;
+		if(check_selected==true)
+		{
+		ids[i]="<%= project.id %>,";
+		selected_values=selected_values.concat(ids[i]);
+		i=i++;
+		}
+		<% end %>
+	<% end %>
+status=document.getElementById("project_status").value;
+
+		new Ajax.Request('<%=admin_project_status_path%>', {method: 'get',parameters: 'id='+selected_values+status});
+}
+
+function check_all()
+{
+var i=0;
+var is_checked=document.getElementById("proj_check").checked;
+
+<%if @projects.count!=0%>
+		<% @projects.each do |project| %>
+		if(is_checked==true)
+		document.getElementById("<%= project.id %>").checked=true;
+		else
+		document.getElementById("<%= project.id %>").checked=false;
+		i=i++;
+			<% end %>
+	<% end %>
+}
+</script>

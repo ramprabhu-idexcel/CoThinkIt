@@ -1,0 +1,12 @@
+<%if !recent_todos.empty?%>
+	<h4>Recent Tasks</h4>
+	<ul class="bullets">
+		<% for todo in recent_todos%>
+		<% if !todo.task.project.nil? %>
+				<% proj_owner=ProjectUser.find_by_project_id_and_is_owner(todo.task.project.id, true) %>
+				<% user=User.find_by_id(proj_owner.user_id) %>
+		<% end %>
+			<li><a href="<%= !todo.task.project.nil? ? user.site_address+project_task_todo_path(todo.task.project.url,todo.task.project,todo.task,todo) : show_my_task_path(:id=>todo.id) %>#comments"><%=truncate(todo.title,:ommision =>"...",:length => 30)%></a></li>
+		<%end%>
+	</ul>
+<%end%>

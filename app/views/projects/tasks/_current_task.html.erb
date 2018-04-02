@@ -1,0 +1,8 @@
+<%if !current_tasks.empty?%>		
+		<h4>Current Tasks</h4>
+		<ul class="bullets">
+		  <% for task in current_tasks%>
+				<li><a href="<%=project_task_path(@project.url,@project,task)%>"><%=truncate(task.title,:ommision =>"...",:length => 30)%></a></li>
+			<%end%>	
+		</ul>
+<%end%>		

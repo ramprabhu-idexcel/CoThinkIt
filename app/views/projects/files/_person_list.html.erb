@@ -1,0 +1,46 @@
+		<% head = 0 
+		 file_arr = []
+     alt = true %>
+	<%@user_files.each do |user_id,attachments|%>
+	          <% file = attachments.first%>
+						<div class="dash-list file-list">
+						<div class="header">
+						<h3><%=display_file_filter_by_person(user_id)%></h3>
+						<p class="list-actions" id="select_link_<%=file.id%>">
+						<% if !check_completed_project %>
+				<a href="#" onclick="completed_alert(); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+				<% elsif !check_status_project %>
+				<a href="#" onclick="suspend_alert(); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+<%else%>
+<a href="#" onclick="download_selected_file('<%=file.id%>'); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+						<%end%>
+						</div>
+						<ul class="wide">
+						<% first_file_id = file.id%>
+
+				
+				<% for file1 in attachments%>
+					<% file_arr <<  file1.id %>
+					<%  bgd = (alt==true) ? "background-color:transparent;background-position:15px 40%;background-repeat:no-repeat;" : "background-color:#DFE4E7;"%>
+					<li style="background-image:url(<%=icon_with_file(file1.content_type,file1.filename)%>);background-position:15px 40%;<%=bgd%>" >
+					
+									<%	filter = params[:filter_option]	 %>
+				<% display_file(file1,@filter)%>
+						<%= @file_link%>
+							
+							<span class="filename"><%= file1.created_at.strftime("%m-%d-%Y, %k:%m %p") %><%#=display_attachment_filename(file1.filename)%></span>
+							<input type="checkbox" id="checkbox_<%=file1.id%>" onclick="check_selected(<%=first_file_id%>,<%=file1.id%>)"  />
+							<span class="who">by <a href="<%=project_people_path(@project.url,@project)%>"><%=display_user_name_for_file(file1)%></a></span>
+					</li>
+					<% alt = !(alt)	%>
+				<%end%>
+
+
+					</ul>
+						<%=hidden_field_tag "hidden_field_#{file_arr[0]}",file_arr.join(",")	%>
+						<%=hidden_field_tag "selected_list_#{file_arr[0]}",""	%>
+						<% file_arr =[] 
+						alt =true%>
+						</div>
+
+		<%end%>

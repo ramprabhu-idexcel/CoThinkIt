@@ -1,0 +1,7 @@
+					<%=hidden_field_tag 'filter_type',params[:filter_option],:id => 'filter_type'%>
+					<% filter = params[:filter_option]
+						if !filter.nil? and !filter.blank? and filter == "Person"%>
+						 <%=render :partial => "person_list"%>
+					<%else%>							
+						 <%=render :partial => "files_list"%>										
+					<%end%>

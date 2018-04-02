@@ -1,0 +1,518 @@
+
+<body class="global">
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<!-- Top header Links Ends Here -->
+<div class="container">
+	<div class="width-wrapper">
+		<div id="global-dashboard" class="left-col main-content first-tab">
+			<ul class="nav-tabs">
+				<li id="global-tab" class="active"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li><font color="green" > <%=flash[:notice]%></font>
+			</ul>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div id="upcoming" class="dash-box">
+					<h2 class="header-bar">Today - Tasks &amp; To-Dos</h2>
+					<div class="padder">
+						
+						<div class="calendar f-lft">
+							<div class="month-nav">
+
+								<a class="icon icon-left ir" href="#"><span>&lsaquo;&lsaquo;</span></a>
+								<a class="month-text" href="#">September</a>
+								<a class="icon icon-right ir" href="#"><span>&rsaquo;&rsaquo;</span></a>
+							</div>
+							<table border="0" cellpadding="0" cellspacing="8">
+								<thead>
+									<tr>
+										<th>S</th>
+
+										<th>M</th>
+										<th>T</th>
+										<th>W</th>
+										<th>T</th>
+										<th>F</th>
+										<th>S</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="dim"><a href="#">29</a></td>
+										<td class="dim"><a href="#">30</a></td>
+										<td class="dim"><a href="#">31</a></td>
+
+										<td><a href="#">1</a></td>
+										<td><a href="#">2</a></td>
+										<td class="selected today"><a href="#">3</a></td>
+										<td><a href="#">4</a></td>
+									</tr>
+									<tr>
+										<td><a href="#">5</a></td>
+
+										<td><a href="#">6</a></td>
+										<td class="flag"><a href="#">7</a></td>
+										<td><a href="#">8</a></td>
+										<td><a href="#">9</a></td>
+										<td><a href="#">10</a></td>
+										<td><a href="#">11</a></td>
+
+									</tr>
+									<tr>
+										<td><a href="#">12</a></td>
+										<td><a href="#">13</a></td>
+										<td><a href="#">14</a></td>
+										<td><a href="#">15</a></td>
+										<td><a href="#">16</a></td>
+
+										<td><a href="#">17</a></td>
+										<td><a href="#">18</a></td>
+									</tr>
+									<tr>
+										<td><a href="#">19</a></td>
+										<td><a href="#">20</a></td>
+										<td><a href="#">21</a></td>
+
+										<td><a href="#">22</a></td>
+										<td class="flag"><a href="#">23</a></td>
+										<td><a href="#">24</a></td>
+										<td><a href="#">25</a></td>
+									</tr>
+									<tr>
+										<td><a href="#">26</a></td>
+
+										<td><a href="#">27</a></td>
+										<td><a href="#">28</a></td>
+										<td><a href="#">29</a></td>
+										<td><a href="#">30</a></td>
+										<td class="dim"><a href="#">1</a></td>
+										<td class="dim"><a href="#">2</a></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="dash-tasks f-lft">
+							<h3 class="task-title">Tasks</h3>
+							<ul>
+								<li><label><input type="checkbox" /><strong>Nike Project -</strong> Finish training manual</label></li>
+
+								<li><label><input type="checkbox" /><strong>CoThink Project -</strong> Finish content outline</label></li>
+								<li><label><input type="checkbox" /><strong>Nike Project -</strong> Information architecture</label></li>
+								<li><a href="/tasks" class="more-link">5 More Tasks</a>
+							</ul>
+							<h3 class="todo-title">To-Dos</h3>
+
+							<ul>
+								<li><label><input type="checkbox" /><strong>9:00 AM -</strong> Information architecture</label></li>
+								<li><label><input type="checkbox" /><strong>10:00 AM -</strong> Call Steve Jobs</label></li>
+								<li><a href="/tasks" class="more-link">4 More To-Dos</a>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="activity-list selected">
+					<div class="wrap-header"><h3>Today</h3></div>
+										<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+
+								<th class="type">Type</th>
+								<th class="description">Description</th>
+								<th class="by">By</th>
+								<th class="user">User</th>
+								<th class="time">Time</th>
+								<th class="project">Project</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="first">
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 2 minutes ago">Create a new design UI</a></td>
+								<td class="by"  >Posted by</td>
+
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">10:28AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 3 hours ago">Remix Madonna's Santa Baby</a></td>
+
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">10:27AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="comment ir"><span>Comment</span></td>
+
+								<td class="desc"><a href="/post-detail" title="Last post 4 hours ago">Some minor change <strong>(5)</strong></a></td>
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">9:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc strike"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by strike"  >Completed by</td>
+								<td class="who strike" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">9:25AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="file ir"><span>File</span></td>
+								<td class="desc"><a href="/files" title="Posted 6 hours ago">Wireframes.pdf</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+
+								<td class="time"><a href="#">9:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 6 hours ago">Remix Madonna's Santa Baby</a></td>
+								<td class="by"  >Posted by</td>
+
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">8:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Photoshop Comps</a></td>
+
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Deadlines and due dates</a></td>
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="see-more">
+						<a href="#"><span class="icon icon-down">8 More</span></a>
+
+					</div>
+				</div>
+				<div class="activity-list">
+					<div class="wrap-header"><h3>Yesterday</h3></div>
+										<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th class="type">Type</th>
+
+								<th class="description">Description</th>
+								<th class="by">By</th>
+								<th class="user">User</th>
+								<th class="time">Time</th>
+								<th class="project">Project</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr class="first">
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 2 minutes ago">Create a new design UI</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+
+								<td class="time"><a href="#">10:28AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 3 hours ago">Remix Madonna's Santa Baby</a></td>
+								<td class="by"  >Posted by</td>
+
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">10:27AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="comment ir"><span>Comment</span></td>
+								<td class="desc"><a href="/post-detail" title="Last post 4 hours ago">Some minor change <strong>(5)</strong></a></td>
+
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">9:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+
+								<td class="desc strike"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by strike"  >Completed by</td>
+								<td class="who strike" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">9:25AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="file ir"><span>File</span></td>
+								<td class="desc"><a href="/files" title="Posted 6 hours ago">Wireframes.pdf</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">9:00AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 6 hours ago">Remix Madonna's Santa Baby</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+
+								<td class="time"><a href="#">8:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Photoshop Comps</a></td>
+								<td class="by"  >Last post by</td>
+
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Deadlines and due dates</a></td>
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="see-more">
+						<a href="#"><span class="icon icon-down">3 More</span></a>
+					</div>
+				</div>
+
+				<div class="activity-list">
+					<div class="wrap-header"><h3>August 22</h3></div>
+										<table cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<th class="type">Type</th>
+								<th class="description">Description</th>
+
+								<th class="by">By</th>
+								<th class="user">User</th>
+								<th class="time">Time</th>
+								<th class="project">Project</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<tr class="first">
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 2 minutes ago">Create a new design UI</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">10:28AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 3 hours ago">Remix Madonna's Santa Baby</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+
+								<td class="time"><a href="#">10:27AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="comment ir"><span>Comment</span></td>
+								<td class="desc"><a href="/post-detail" title="Last post 4 hours ago">Some minor change <strong>(5)</strong></a></td>
+
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">9:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+
+								<td class="desc strike"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by strike"  >Completed by</td>
+								<td class="who strike" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">9:25AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="file ir"><span>File</span></td>
+								<td class="desc"><a href="/files" title="Posted 6 hours ago">Wireframes.pdf</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">9:00AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="todo ir"><span>To-Do</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 6 hours ago">Remix Madonna's Santa Baby</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+
+								<td class="time"><a href="#">8:30AM</a></td>
+								<td class="proj"><a href="/project-dashboard">Nike</a></td>
+							</tr>
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Photoshop Comps</a></td>
+								<td class="by"  >Last post by</td>
+
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+							<tr>
+								<td class="post ir"><span>Post</span></td>
+
+								<td class="desc"><a href="/post-detail" title="Posted 7 hours ago">Deadlines and due dates</a></td>
+								<td class="by"  >Last post by</td>
+								<td class="who" ><a href="people">Stuart B.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+
+							<tr>
+								<td class="task ir"><span>Task</span></td>
+								<td class="desc"><a href="/tasks" title="Posted 4 hours ago">Finish Training Manual</a></td>
+								<td class="by"  >Posted by</td>
+								<td class="who" ><a href="people">Jesse M.</a></td>
+								<td class="time"><a href="#">7:00AM</a></td>
+
+								<td class="proj"><a href="/project-dashboard">CoThink.it</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<a href="#" class="btn show-more-history ir"><span>Show more history</span></a>
+			</div>
+			<div class="box-bottom-left"></div>
+
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	<div id="sidebar" class="right-col">
+		<a href="/create-project" class="btn create-new-project-btn ir"><span>Create a new project</span></a>
+		<h2><a href="/account">Your Overall Usage</a></h2>
+		<div class="sidebar-box">
+
+			<h4 class="box-top">Storage</h4>
+			<div class="meter">
+				<div class="meter-marker mark-20"></div>
+				<p><a href="/account" title="1.5GB Used">1.5GB Used</a></p>
+			</div>
+			<h4 class="box-mid">Bandwidth</h4>
+			<div class="meter">
+
+				<div class="meter-marker mark-10"></div>
+				<p><a href="/account" title="1GB Used">1 GB Used</a></p>
+			</div>
+			<div class="box-bottom"></div>
+		</div>
+		<h2><a href="/project-dashboard">Nike Project</a></h2>
+		<div class="sidebar-box">
+			<h4 class="box-top">Online</h4>
+
+			<ul class="online-users">
+				<li class="online"><a href="/chat">James M.</a></li>
+				<li class="alt idle"><a href="/chat">Ben L. (idle)</a></li>
+				<li class="online"><a href="/chat">Micheal A.</a></li>
+			</ul>
+			<div class="box-bottom"></div>
+		</div>
+
+		<h2><a href="/project-dashboard">CoThink.it Project</a></h2>
+		<div class="sidebar-box">
+			<h4 class="box-top">Online</h4>
+			<ul class="online-users">
+				<li class="idle"><a href="/chat">Jesse M. (idle)</a></li>
+				<li class="alt online"><a href="/chat">Steve J.</a></li>
+				<li class="online"><a href="/chat">Georgina L.</a></li>
+
+			</ul>
+			<div class="box-bottom"></div>
+		</div>
+	</div>
+</div>
+<div id="footer" class="width-wrapper">
+	<p class="left-col">Managed <em>with</em> <a href="/">co&middot;think&middot;it</a></p>
+
+</div>
+
+</body>
+
+

@@ -1,0 +1,32 @@
+	<%=render :partial=>'/admin/base'%>
+	<body id="login">
+		<div id="login-wrapper" class="png_bg">
+			<div id="login-top">
+			<%= link_to(image_tag("../images/front/layout/logo.png" ))%>
+
+			</div> <!-- End #logn-top -->
+						<div id="login-content">
+						<%if flash[:notice]%><div class="notification success png_bg">
+						<div>
+		 <%=flash[:notice]%>
+		</div>
+		</div>
+		<% end %>
+					<b>Reset Password<br />
+					<br/>
+						<% form_for :admin do |f| -%>
+							<p><label>Password  </label></b>
+								<%= password_field_tag "admin[password]", nil, :class=>"text-input"  %><br />
+								
+							</p>
+							<div class="clear"></div>
+							<!--   <p>
+								<label for="password">Confirm Password</label><br />
+								<#%= f.password_field :password_confirmation %>
+							</p> -->
+							<p><input type="submit" class="button" value="Save" /></p>
+						<% end -%>
+	</div> <!-- End #login-content -->
+		</div> <!-- End #login-wrapper -->
+								
+	</body>

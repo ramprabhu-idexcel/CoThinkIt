@@ -1,0 +1,8 @@
+<li class="no-icon">
+<% if @email_notification.blank? %>
+<%=link_to_remote "Subscribe from this list",{:url =>subscribe_and_unsubscribe_post_path(@project.url,@project,@post,:subscribe=>true)}%>
+<% else %>
+<%=link_to_remote "Unsubscribe from this list",{:url =>subscribe_and_unsubscribe_post_path(@project.url,@project,@post,:subscribe=>false)}%>
+<% end %>
+</li>
+

@@ -1,0 +1,85 @@
+		<% head = 0 
+		 file_arr = [] 
+		 alt =true
+		 time_zone=find_time_zone
+		 %>
+		 <%	filter = params[:filter_option]	 %>
+		 
+		<% for count in 0..@all_files.count-1%>
+				
+				<% file = @all_files[count] %>
+				<% if head==0%>
+						<%if  filter=="Alphabetical" or filter =="File Type"%>
+						<%head=1 %>
+						<%end%>
+						<div class="dash-list file-list">
+						<div class="header">
+						<h3>
+						<%if filter=="Alphabetical" or filter =="File Type"%>
+							<%=filter%>
+						<%else%>
+						   <%=display_post_time_details_with_year(file.created_at)%>
+						<%end%>
+						
+						</h3>
+						<p class="list-actions" id="select_link_<%=file.id%>">
+						<% if !check_completed_project %>
+						<a href="#" onclick="completed_alert(); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+						<% elsif !check_status_project %>
+						<a href="#" onclick="suspend_alert(); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+						<%else%>
+						<a href="#" onclick="download_selected_file('<%=file.id%>'); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=file.id%>',<%=file.id%>); return false">Select All</a></p>
+						<%end%>
+
+						</div>
+						<ul class="wide">
+						<% first_file_id = file.id%>
+				<%end%>
+				<% file_arr <<  file.id %>
+        
+				<%  bgd = (alt==true) ? "background-color:transparent;background-position:15px 40%;background-repeat:no-repeat;" : "background-color:#DFE4E7;"%>
+
+				<li style="background-image:url(<%=icon_with_file(file.content_type,file.filename)%>);background-position:15px 40%;<%=bgd%>" >
+
+				
+			
+				<% display_file(file,@filter)%>
+						<%= @file_link%>
+						<!-- <span class="filename"><#%=display_attachment_filename(file.filename)%></span> -->
+						 <span class="filename"><%=@date %></span> 
+						<input type="checkbox" id="checkbox_<%=file.id%>" onclick="check_selected(<%=first_file_id%>,<%=file.id%>)"  />
+						
+						<span class="who">by <a href="<%=project_people_path(@project.url,@project)%>"><%=display_user_name_for_file(file)%></a></span>
+				</li>
+				<% 
+					 file_next = @all_files[count+1] 
+					 head = 1 if file_next.nil?
+					 if !file_next.nil? and (file_next.created_at+find_current_zone_difference(time_zone)).strftime("%d-%m%Y") == (file.created_at+find_current_zone_difference(time_zone)).strftime("%d-%m%Y")
+							head = 1
+					 else
+						  if filter!="Alphabetical" and filter !="File Type"
+							   head = 0
+						 end
+					 end	
+				%>	
+				<% alt = !(alt)	%>
+				<% if head==0%>	
+						</ul>
+						<%=hidden_field_tag "hidden_field_#{file_arr[0]}",file_arr.join(",")	%>
+						<%=hidden_field_tag "selected_list_#{file_arr[0]}",""	%>
+						<% file_arr =[]
+                  alt =true
+									%>
+						</div>
+				<%end%>
+		<%end%>
+		
+		<% if filter=="Alphabetical" or filter =="File Type" %>
+								</ul>
+						<%=hidden_field_tag "hidden_field_#{file_arr[0]}",file_arr.join(",")	%>
+						<%=hidden_field_tag "selected_list_#{file_arr[0]}",""	%>
+						<% file_arr =[]
+                  alt =true
+									%>
+						</div>
+		<% end %>

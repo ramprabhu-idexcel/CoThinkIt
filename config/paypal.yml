@@ -1,0 +1,14 @@
+development:
+  login: railsf_1286521108_biz_api1.gmail.com
+  password: 1286521234
+  signature: AU562tW4ph9J8h9tWUS9wpuYK9zeAKH7Mk4Fco.pSrh.tWlRw3XLBpiN
+
+test:
+  login: railsf_1286521108_biz_api1.gmail.com
+  password: 1286521234
+  signature: AU562tW4ph9J8h9tWUS9wpuYK9zeAKH7Mk4Fco.pSrh.tWlRw3XLBpiN
+
+production:
+  login: jessema_api1.gmail.com
+  password: DAMXBMWW9JBSS4W3
+  signature: AFcWxV21C7fd0v3bYYYRCpSSRl31AP99o9Y2CxqKddm6SUKAKVPVGkYU

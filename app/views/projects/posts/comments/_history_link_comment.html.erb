@@ -1,0 +1,6 @@
+<%if params[:show_history]%>
+	<%=link_to_remote("History",{:url =>history_display_project_post_comments_path(@post.project.url,@post.project, @post,:comment_id => comment),:method => :get}, {:class => "expand-down", :id=> "expand_#{comment.id}"})%>
+<%else%>
+	<%=link_to_remote("History",{:url =>history_display_project_post_comments_path(@post.project.url,@post.project, @post,:comment_id => comment, :show_history => 1),:method => :get}, {:class => "expand-right", :id=> "expand_#{comment.id}"})%>
+<%end%>
+

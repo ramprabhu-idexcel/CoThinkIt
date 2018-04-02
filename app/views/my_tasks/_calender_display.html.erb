@@ -1,0 +1,23 @@
+						<div class="calendar f-lft">
+							<div class="month-nav">
+								<a class="icon icon-left ir" href="#" onclick="next_month_for_task_todo_with_id('<%=@year%>','<%=@month%>','<%= @task.id %>')"><span>&lsaquo;&lsaquo;</span></a>
+								<a class="month-text" href="#"><%=return_month_name(@month)%></a>
+								<a class="icon icon-right ir" href="#" onclick="previous_month_for_task_todo_with_id('<%=@year%>','<%=@month%>','<%= @task.id %>'); return false"><span>&rsaquo;&rsaquo;</span></a>
+							</div>
+		<%= calendar({:year => @year, :month => @month,:abbrev => (0..0),:other_month_class=>"dim",:month_header =>false, :table_class => "calender11" }) do |d| 
+			cell_text = "#{d.mday}<br />" 
+			cell_attrs = {:class => 'day'}   
+
+			
+			cell_attrs[:class]="selected today"  if @current_date.to_date==d.to_date
+			cell_attrs[:class]="dim"  if @current_date.to_date > d.to_date
+					
+			 	
+			cell_text=%Q{<a href="javascript:select_date_for_task_with_id('#{display_date_format(d)}','#{@task.id}');">#{cell_text}</a>}  if !(@current_date.to_date > d.to_date)
+			[cell_text, cell_attrs] 
+		end %>							
+							
+							
+					</div>
+	
+	

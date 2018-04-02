@@ -1,0 +1,5 @@
+<%if params[:show_history]%>
+	<%=link_to_remote("History",{:url =>history_project_posts_path(@post.project.url,@post.project, :post_id =>@post.id),:method => :get}, {:class => "expand-down", :id=> 'expand'})%>
+<%else%>
+	<%=link_to_remote("History",{:url =>history_project_posts_path(@post.project.url,@post.project, :post_id =>@post.id, :show_history => 1),:method => :get}, {:class => "expand-right", :id=> 'expand'})%>
+<%end%>

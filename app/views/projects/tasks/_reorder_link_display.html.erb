@@ -1,0 +1,5 @@
+<% if params[:reorder] %>
+	<%=link_to_remote("Reorder Done",{:url =>change_reorder_page_project_tasks_path(@project.url,@project),:method => :get} ,{:id => "reorder-tasks",:style =>"color:#A30202"})%>
+<%else%>	
+  <%=link_to_remote("Reorder Task Lists",{:url =>change_reorder_page_project_tasks_path(@project.url,@project,:reorder=>1),:method => :get} ,{:id => "reorder-tasks"})%>
+<% end %>

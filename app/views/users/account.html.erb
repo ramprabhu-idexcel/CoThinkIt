@@ -1,0 +1,109 @@
+<body class="global">
+<%=render :partial=>'/layouts/header_top'%>
+			<%= render :partial => '/projects/alert_message' %>
+<div class="container"><!-- container starts here -->
+	<div class="width-wrapper"><!-- width-wrapper starts here -->
+		<div id="edit-account" class="left-col main-content first-tab"><!-- left-col main-content first-tab starts here -->
+			<%if params && params[:project_id] %>
+				<%= render :partial => '/layouts/header_nav_tabs' %>
+			<%else%>
+					<ul class="nav-tabs">
+						<li id="global-tab" class="active"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li>
+									<li><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+					</ul>
+			<%end%>
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+						<div class="main-padder"><!-- main-padder starts here -->
+								<div class="dash-box"><!-- dash-box starts here -->
+									<h2 class="header-bar">Edit Account Information</h2>
+									<div id="plan_details"><%=render :partial=>"plan"%></div>
+								</div><!--  dash-box ends here -->
+									<div class="dash-box topless"><!-- dash-box topless starts here -->
+										<div class="padder dark-bg"><!--padder dark-bg starts here -->
+											<h3>Billing History</h3>
+											<ul class="bullets bill-history">
+											<%current_user.billing_histories.each do |history|%>
+												<li><a href="#"><%=history.billing_date.strftime("%B %e, %Y")%></a>
+													<span class="plan desc"><%=history.plan_name%></span>
+													<span class="dollars desc">$<%=history.amount.to_i%></span>
+												</li>
+											<%end unless current_user.billing_histories.empty?%>
+											<%unless current_user.billing_histories.empty?%>
+												<li class="no-bullet">
+													<%=link_to "Download all history (.csv)", "#", :onclick=>"javascript:download_bandwidth_check_account();",:class=>"more-link"%>
+												</li>
+											<%end%>
+											</ul>
+										</div><!--padder dark-bg ends here -->
+									</div><!-- dash-box topless ends here -->
+<% if params[:recurly] %> <div id="card_details" style="display:block;"> <% else %> <div id="card_details" style="display:none;"> <% end %>
+	<%= render :partial=>"card_details" %>
+</div>
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	<div id="sidebar" class="right-col">
+	<% if @project_own && !@project_own.nil? %>
+	<% if params[:project_id] %>
+<% path="/users/#{current_user.id}/account?project_id=#{params[:project_id]}" %>
+<% else %>
+<% path="/users/#{current_user.id}/account" %>
+<% end %>
+
+			<% if @project_own && !@project_own.nil? %>
+			    <%unless beta_plan_user%>
+      <h2><a href="<%= path %>">Your Overall Usage</a></h2>
+      <%= render :partial=>'home/bandwidth' %>
+			<% end %>
+    <% end %>
+	<% end %>
+		<%if current_user.billing_information && current_user.billing_information.plan_id!=5 && current_user.billing_information.plan_id!=6 && !@next_billing_date.next_billing_date.nil?%>
+      <h2><a href="/account">Your Next Billing Date</a></h2>
+      <p id="next-billing" class="red"><%=@next_billing_date.next_billing_date.strftime("%B %d, %Y")%></p>
+    <%end%>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+<div id="spinner" style="display:none;"></div>
+</body>
+
+
+  <script>
+  function download_bandwidth_check_account()
+{
+
+		var check="<%= @status %>";
+		
+		if (check=="true")
+		{
+		
+				document.location.href ="/users/download_billing_history";
+		
+		}
+		else
+		{
+$('account-limit-modal').show();
+		}
+}
+
+function show_credit_card()
+{
+$('card_details').show();
+}
+ </script>
+
+
+

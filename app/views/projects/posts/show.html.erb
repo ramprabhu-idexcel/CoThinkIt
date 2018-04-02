@@ -1,0 +1,175 @@
+<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+<script type="text/javascript" src="/javascripts/multifile_compressed.js" ></script >
+<script type="text/javascript" >
+	tinyMCE.init({
+		mode : "textareas",
+		theme : "advanced",
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,|,code",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		content_css : "/stylesheets/base.css",
+
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		width: "100%",
+		theme_advanced_resizing : true
+	});
+</script >
+
+<body class="posts">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<%= render :partial => '/projects/alert_message' %>
+<!-- Top header Links Ends Here -->
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="view-post" class="left-col main-content">
+			<!--Header Navigation Tabs -->
+			<%= render :partial => '/layouts/header_nav_tabs' %>
+			<%= render :partial => '/projects/alert_message' %>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div id="post-5" class="post">
+					<div class="header avatar-header">
+						<div class="managepost poster">
+						<% if @post.user_id==current_user.id %>
+							<a href="<%= project_edit_post_path(@project.url, @project, @post) %>" class="post-edit ir" title="Edit"></a>
+						<% end %>
+						<% if check_user_for_post_delete(@post)==true %>
+							<%=link_to_remote "", {:url => delete_post_comments_path(@project.url, @project, @post)}, :class=>'post-delete ir', :title=>"Delete" %> 
+						<% end %>
+						</div>
+						<%= image_tag "#{show_profile_picture(@post)}", :alt=>"#{display_user_name(@post.user)}" %>
+					<!--	<img alt="<%#=display_user_name(@post.user)%>" src="<%#=show_profile_picture(@post)%>" /> -->
+						<h3><%=@post.title%></h3>
+						<%comment = find_last_user_comment(@post)%>
+						<%if !comment.nil?%>
+							<p class="desc"><strong>Last comment by <%=display_user_name(comment.user)%></strong> on <%=display_post_time_details_with_year(comment.created_at)%><!--on Wednesday, August 1, 2009--></p>
+						<%end%>
+
+					</div>
+					<div class="post-body">
+						<p><%=@post.content%></p>
+
+						<ul class="file-list">
+							<%@post.attachments.each do |attachment|%>
+								<%attachment_content_type = find_attachment_content_type(attachment)%>	
+								<%if attachment_content_type != "image"%>								
+									<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>)" >
+									<% if !check_completed_project %>
+				<%=link_to attachment.filename,  "#", :id => attachment.id,  :onclick=>"completed_alert();"%></li>					
+				<% elsif !check_status_project %>
+				<%=link_to attachment.filename,  "#", :id => attachment.id,  :onclick=>"suspend_alert();"%></li>					
+										<%else%>
+										<%=link_to attachment.filename, "#",  :onclick=>"javascript:download_bandwidth_check_post_comment(#{attachment.id});"%></li>
+				
+			<%end%>
+								<%end%>
+							<%end%>
+						</ul>
+						
+						<ul class="post-imgs">
+							<%@post.attachments.each do |attachment|%>															
+								<%attachment_content_type = find_attachment_content_type(attachment)%>								
+								<%if attachment_content_type == "image"%>
+									<li><a href="<%=attachment.public_filename%>" target="_new">
+									<%= image_tag "#{attachment.small_thumbnail}", :width=>'75', :height=>'75' %>
+									<!--<img src=<%#=attachment.small_thumbnail%> width='75' height='75'>--></a></li>
+								<%end%>
+							<%end%>
+						</ul>
+						
+
+					</div>
+					<%if @post.status_flag%>
+						<div id="set_status" class="status-options">
+							<%=render :partial=>'/projects/posts/status_update'%>
+						</div>
+						<div class="post-footer footer-grey post-history" >
+							<div id='history-link'>
+								<%= render :partial=>'/projects/posts/history_link'%>
+							</div>
+							<div id = "history">
+								<%= render :partial=>'/projects/posts/history'%>
+							</div>
+						</div>
+					<%end%>
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom-right"></div>
+				</div>
+
+				<div id="comments_list">
+					<%=render :partial => "list_comments"%>									
+				</div>
+        <div id="add_new_comment">
+					<%=render :partial => "add_comment"%>
+        </div>
+			</div> <!-- end main-padder -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	<div id="sidebar" class="right-col">
+	<div id="online_user">
+		<%= render :partial=>'projects/dashboard/online_users' %>
+		</div>
+		<h4>Email Notifications</h4>
+		<ul class="file-list" id="email_notification">
+			<%= render :partial=>'email_notification' %>
+		</ul>
+
+		<div id="post_files">
+			<%= render :partial => "post_files"%>
+		</div>
+		
+		
+		<h4>Download Post</h4>
+		<ul class="file-list">
+			<li class="file-txt">
+			<% if !check_completed_project %>
+			<a href="#"  onclick="completed_alert(); return false">Post<%=file_time%>.txt</a></li>
+			<% elsif !check_status_project %>
+			<a href="#"  onclick="suspend_alert(); return false">Post<%=file_time%>.txt</a></li>
+			<%else%>
+			<%=link_to "Post#{file_time}.txt", "#",   :onclick=>"javascript:download_bandwidth_check_post_download();"%></li>
+			<%end%>
+		</ul>
+	</div>
+</div>
+	<%= render :partial=>'/layouts/base_footer'%>
+	
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+
+</body>
+
+ <script>
+ function download_bandwidth_check_post_download()
+{
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+			<% if check_status_project %>
+					document.location.href ="<%= download_post_project_post_path(@project.url,@project,@post)%>";
+			<% end %>
+		}
+		else
+		{
+		$('account-limit-modal').show();
+		}
+}
+ </script>

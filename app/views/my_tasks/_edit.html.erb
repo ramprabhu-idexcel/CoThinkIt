@@ -1,0 +1,71 @@
+
+									<td colspan="3" class="desc">
+
+                                    								<div style="" class="update-todo-inline inline clear">
+																										
+									<%form_remote_tag(:url => update_my_todo_path(:alt=>@c) ,:method => :put ,:html => {:class => "padder"}) do %>
+									<input type="hidden" name="todo_id" value="<%= @todo.id %>"/>
+										<div class="group">
+											<label>Task Title</label>
+												<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+				<%=text_field :todo ,'title'%>
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+											</div>
+										<div class="group date-col">
+											<label>Due Date <span class="instr">(E.g. 01/15/2010)</span></label>
+												<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+			<input type="text" name="todo[due_date]" value="<%= @todo.due_date.nil? ? "no date" : @todo.due_date.strftime('%B %d, %Y') %>"  id="date_display_<%=@task.id%>" onclick="document.getElementById('update_calender_<%=@task.id%>').style.display='block';" />
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+											</div>
+											
+											
+							<div class="calendar-widget">
+					<!--	<a href="#" class="btn ir calendar-btn" onclick="document.getElementById('update_calender').style.display='block';"><span>Date picker</span></a> -->
+
+						<div class="calendar-flyout" id ="update_calender_<%=@task.id%>">
+							<%=render :partial => "calender_display"%>
+							
+					</div>
+					</div>											
+											
+										<!--<div class="group who-col">
+											<label>Who's responsible?</label>
+<%#=select_tag 'todo_users' ,options_for_select(@assignees,@assigned_user)%>
+											</div>-->
+										<div class="group flag-col">
+											<label>Status</label>
+											<%=select_tag 'todo[todo_status]', options_for_select(["Not Started","In Progress","Late"],@todo.todo_status)%>
+										</div>
+										<!--<div class="group notify-col">
+											<label>Notify by email?</label>
+											                                <div>
+                             	<%=check_box :todo,:is_notify%>
+                                </div>
+										</div>-->
+										<div class="group submit-col" style="margin-top:70px;">
+											<input type="submit" value="Update Task" class="btn update-task">
+										</div>
+									<%end%>
+								</div>
+
+
+									</td>
+				

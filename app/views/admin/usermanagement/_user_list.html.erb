@@ -1,0 +1,144 @@
+<p align="right"><%=link_to "Download as csv", download_csv_path %></p>
+<table>
+  <thead>
+    <tr>
+      <th><input class="check-all" type="checkbox"  id="user_check" onClick="javascript:check_all();"/></th>
+			
+      <% if !(params[:by].nil?) and (params[:order] == "first_name" and params[:by] == "asc")%>
+												<th><%=link_to_remote "Name",:url => admin_user_sorting_path(:order=>"first_name", :by =>'desc')%> </th>
+			
+										 <% else %>
+			
+												<th><%=link_to_remote "Name",:url => admin_user_sorting_path(:order=>"first_name", :by =>'asc')%> </th>
+										 <% end %>
+										 
+										 <% if !(params[:by].nil?) and (params[:order] == "email" and params[:by] == "asc")%>
+												<th><%=link_to_remote "Email",:url => admin_user_sorting_path(:order=>"email", :by =>'desc')%> </th>												
+										 <% else %>		
+										    <th><%=link_to_remote "Email",:url => admin_user_sorting_path(:order=>"email", :by =>'asc')%> </th>
+										 <% end %>
+										 
+										 <% if !(params[:by].nil?) and (params[:order] == "site_address" and params[:by] == "asc")%>
+													<th><%=link_to_remote "Site Address",:url => admin_user_sorting_path(:order=>"site_address", :by =>'desc')%> </th>										 
+										 <% else %>
+													<th><%=link_to_remote "Site Address",:url => admin_user_sorting_path(:order=>"site_address", :by =>'asc')%> </th>										 
+										 <% end %>
+										 
+										 <% if !(params[:by].nil?) and (params[:order] == "plan" and params[:by] == "asc")%>										 
+													<th><%=link_to_remote "Plan",:url => admin_user_sorting_path(:order=>"plan", :by =>'desc')%> </th>	
+										 <%else%>
+										      <th><%=link_to_remote "Plan",:url => admin_user_sorting_path(:order=>"plan", :by =>'asc')%> </th>	
+										 <%end%>
+										 
+										 
+										 <% if !(params[:by].nil?) and (params[:order] == "status" and params[:by] == "asc")%>
+												<th><%=link_to_remote "Status",:url => admin_user_sorting_path(:order=>"status", :by =>'desc')%> </th>
+										 <%else%>
+												<th><%=link_to_remote "Status",:url => admin_user_sorting_path(:order=>"status", :by =>'asc')%> </th>										 
+										 <%end%>
+										 <th><a href="#">Edit Icon</a></th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+		<% @status=['Active','Suspend','Delete'] %>
+      <td colspan="7">
+        <div class="bulk-actions align-left">
+          <select name="dropdown" id="user_status">
+						<% @status.each do |status| %>
+							<option value="<%= status %>"><%= status %></option>
+						<% end %>
+          </select>
+          <a class="button"  href="javascript:enable_user();">Apply to selected</a>
+        </div>
+       		<div class="pagination">
+		<% if @lastpage > 1 %>
+   <a rel="next"  href="/adminpanel/usermanagement?page=1" title="First Page" >&#171;  First</a>
+	 <% end %>
+          <!--<a title="First Page" href="#">&#171;  First</a>-->
+ 					<%= will_paginate @user , :class=>"", :container=>false, :params => {:order => params[:order],:by=>params[:by] }%>
+					<% if @lastpage > 1 %>
+		<a rel="next"  href="/adminpanel/usermanagement?page=<%=@lastpage%>" title="Last Page" >Last &#187;</a>			
+		<% end %>
+	        <!--<a title="Last Page" href="#">Last &#187;</a>-->
+        </div>
+        <div class="clear"/>
+      </td>
+    </tr>
+  </tfoot>
+<%count=0%>
+										<%if @user.count!=0%>
+											<% @user.each do |user| %>
+												<tbody>
+														<% count=count+1%>
+															<%if count%2!=0%>
+																<tr  align="left">
+															<%else%>
+																<tr align="left" class="alt">
+															<%end%>
+															 <td><input class="check-all" type="checkbox" id="<%= user.id %>"/></td>
+															<td><%= user.first_name %></td>
+                              <td><%= user.email%></td>
+															<td><%= user.site_address%></td>
+															<%if user.id!=0%>
+																<%billing_user=BillingInformation.find_by_user_id(user.id) %>
+																<% if billing_user %>
+																	<td id="plan_<%=user.id %>">
+																		<%= user_plan(billing_user) %>																	</td>
+																<%else%>
+																	<td id="plan_<%=user.id %>">
+																		<%= "Trial" %>
+																	</td>
+																<%end%>
+															<%end%>
+																	<td id="status_<%=user.id%>">
+																		<%= user_status(user.status)%>
+																	</td>
+																	<td><%=link_to_remote image_tag("/images/admin_images/icons/pencil.png"), :url => { :controller=>"/admin/usermanagement",:action => "edit", :id => user.id }%></td>
+															</tr>
+                        </tbody>     
+											<% end %>
+										<%end%>
+							</table>
+
+<script>
+
+
+
+function enable_user()
+{
+var ids=new Array();
+var selected_values=""
+var i=0;
+<%if @user.count!=0%>
+											<% @user.each do |user| %>
+		check_selected=document.getElementById("<%= user.id %>").checked;
+		if(check_selected==true)
+		{
+		ids[i]="<%= user.id %>,";
+		selected_values=selected_values.concat(ids[i]);
+		i=i++;
+		}
+		<% end %>
+	<% end %>
+status=document.getElementById("user_status").value;
+
+		new Ajax.Request('<%=admin_user_status_path%>', {method: 'get',parameters: 'id='+selected_values+status});
+}
+
+function check_all()
+{
+
+var i=0;
+var is_checked=document.getElementById("user_check").checked;
+<%if @user.count!=0%>
+											<% @user.each do |user| %>
+		if(is_checked==true)
+		document.getElementById("<%= user.id %>").checked=true;
+		else
+		document.getElementById("<%= user.id %>").checked=false;
+		i=i++;
+			<% end %>
+	<% end %>
+}
+</script>

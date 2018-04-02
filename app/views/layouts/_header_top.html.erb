@@ -1,0 +1,35 @@
+<div id="masthead" class="container">
+	<div id="top" class="width-wrapper">
+		<div class="left-col">
+			<div id="logo-button">
+				<div id="logo-lft"></div>
+				<%if !@project.nil? and !@project.id.nil?%>
+        <%site_url="https://#{@project.owner.site_address}.#{APP_CONFIG[:site][:name]}"%>
+					<h2><a href="<%=site_url+project_dashboard_index_path(@project.url,@project)%>"><%=truncate(modified_captialize_call(@project.name),:ommision =>"...",:length => 25) if @project.name%></a></h2>					
+				<%else%>
+					<h2><a href="<%="https://#{APP_CONFIG[:site][:name]}"%>/global"><%=truncate(current_user.full_name,:ommision =>"...",:length => 25)%></a></h2>					
+				<%end%>
+				<div id="logo-rgt"></div>
+			</div>
+			<%= render :partial=>'/home/user_settings' %>
+    </div>
+  </div>
+	<div id="searchbar" class="right-col">
+		
+		<% if @project%>
+		   <% path = project_search_index_path(@project.url,@project) %>
+		<% else	%>
+		    <% path = search_index_path %>
+		<%end%>		
+		   <% form_tag(path,:method =>:get) do %>
+			<div>
+			  <% if @project%>
+					<input id="search" value="Search <%=@project.name%>..."   onclick="this.value=''" type="text" name="search_text" size="31" />
+				<%else%>
+				  <input id="search" value="Search All Projects"   onclick="this.value=''" type="text" name="search_text" size="31" />
+				<%end%>
+				<input id="submit-search" class="clickable" type="submit" value="Search" name="sa" />
+			</div>
+		<%end%>
+	</div>
+</div>

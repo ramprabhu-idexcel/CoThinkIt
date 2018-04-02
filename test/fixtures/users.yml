@@ -1,0 +1,45 @@
+
+quentin:
+  id:                        1
+  first_name:                quentin
+  last_name:                 quentin
+  email:                     quentin@example.com
+  company:                   sedin
+  site_address:              sedin
+  title:                     developer
+  mobile:                    9992220222
+  time_zone:                 GMT
+  color_code:                FFFFFF
+  office_phone:              
+  salt:                      083e8a8c33bbc3e70ef5d1aa7cab3bb0f927b92e # SHA1('0')
+  crypted_password:          c599e9e66be8b46b935e1743992b09500a279102 # '123456'
+  created_at:                <%= 5.days.ago.to_s :db  %>
+  remember_token_expires_at: <%= 1.days.from_now.to_s %>
+  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
+  activation_code:           
+  activated_at:              <%= 5.days.ago.to_s :db %>
+  reset_code:                77de68daecd823babbb58edb1c8e14d7106e83bb
+      
+aaron:
+  id:                        2
+  first_name:                aaron
+  last_name:                 aaron
+  email:                     aaron@example.com
+  company:                   sedin
+  site_address:              sedin
+  title:                     developer
+  mobile:                    9992220222
+  time_zone:                 GMT
+  color_code:                FFFFFF
+  office_phone:              
+  salt:                      083e8a8c33bbc3e70ef5d1aa7cab3bb0f927b92e # SHA1('0')
+  crypted_password:          c599e9e66be8b46b935e1743992b09500a279102 # '123456'
+  created_at:                <%= 5.days.ago.to_s :db  %>
+  remember_token_expires_at: <%= 1.days.from_now.to_s %>
+  remember_token:            77de68daecd823babbb58edb1c8e14d7106e83bb
+  activation_code:           
+  activated_at:              <%= 5.days.ago.to_s :db %>
+  reset_code:                77de68daecd823babbb58edb1c8e14d7106e83bb
+
+
+

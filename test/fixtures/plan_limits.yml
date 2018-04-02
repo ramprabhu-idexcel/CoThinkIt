@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  max_storage_in_MB: 1
+  max_bandwidth_in_MB: 1
+  download_bandwidth_in_MB: 1
+  no_of_users: 1
+  no_of_projects: 1
+
+two:
+  user_id: 1
+  max_storage_in_MB: 1
+  max_bandwidth_in_MB: 1
+  download_bandwidth_in_MB: 1
+  no_of_users: 1
+  no_of_projects: 1

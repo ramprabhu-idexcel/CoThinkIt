@@ -1,0 +1,68 @@
+<%=render :partial=>'/admin/base'%>
+<!--	<body class="dialog login"></br></br>
+			<center><font color="green" > <%#=flash[:notice]%></font>
+				<%#if flash[:error]%><font color="red" > <%#=flash[:error]%></font><%# end %>
+			</center>		
+				<form method="post" action="/admin/create">
+					<center>
+						<table cellpadding="10" width="25%">
+							<tr><td><B>Username</B></td><td><input type="text" name="username"></td></tr>
+							<tr><td><b></b></td><td><br/></td></tr>
+							<tr><td><B>Password</B></td><td><input type="password" name="password"></td></tr>
+							<tr><td></td><td><%#= image_submit_tag ("../images/front/buttons/admin-login-btn.png ")%></td></tr>
+							<tr><td></td><td><br></td></tr>
+							<tr><td></td><td><h6 style="font-size:13px;"><a href="/adminforgot" >Forgot Password ?</a></h6></td></tr>
+						</table>							
+					</center>
+				</form>
+	</body>-->
+	
+	<body id="login">
+		<div id="login-wrapper" class="png_bg">
+			<div id="login-top">
+			<%= link_to(image_tag("../images/front/layout/logo.png" ))%>
+			</div> <!-- End #logn-top -->
+			
+			<div id="login-content">
+		<form method="post" action="/admin/create">
+			<%if flash[:notice] %>
+		<div class="notification success png_bg">
+						<div>
+		 <%=flash[:notice]%>
+		</div>
+		</div>
+		<% end %>
+		<%if flash[:error] %>
+					<div class="notification error png_bg">
+						<div>
+		
+				 <%=flash[:error]%>
+			
+						</div>
+					</div>
+			<% end %>
+					<p>
+						<label>Username</label>
+						<input type="text" name="username" class="text-input">
+					</p>
+					<div class="clear"></div>
+					<p>
+						<label>Password</label>
+						<input type="password" name="password" class="text-input">
+					</p>
+					<div class="clear"></div>
+					<p id="remember-password">
+						<a href="/adminforgot" >Forgot Password ?</a>
+					</p>
+					<div class="clear"></div>
+					<p>
+					<input class="button" type="submit" value="Sign In" />
+					
+					</p>
+					
+					
+				</form>
+			</div> <!-- End #login-content -->
+		</div> <!-- End #login-wrapper -->
+								
+	</body>

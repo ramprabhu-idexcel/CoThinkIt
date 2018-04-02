@@ -1,0 +1,19 @@
+<div id="add-file-modal" class="modal">
+				<a class="btn close-btn ir"  onclick='Control.Modal.close();return false;' href="#"><span>Close</span></a>
+				<%form_tag(project_files_path(@project.url,@project) , :multipart => true, :target => 'upload_frame', :html => {:class => "padder"}) do %>
+					<br>
+					<center><h2> <b>Upload Files</b></h2>	<div id="file_upload"  style="">
+								<div id="files_list"></div>
+								<%=file_field_tag 'file', :id=>"my_file_element"%>
+								<script>
+												var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 10 );
+												multi_selector.addElement( document.getElementById( 'my_file_element' ) );
+								</script>
+								</div></center>
+					
+					<div class="group submit-col">
+						<input type="submit" class="btn" value="Add Task" style="width:108px;" />
+					</div>
+				<%end%>
+			</div>
+			<iframe id='upload_frame' name="upload_frame" style="width:0px;height:0px;border:0px" src="about:blank"></iframe>

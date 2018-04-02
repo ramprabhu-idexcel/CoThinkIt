@@ -1,0 +1,76 @@
+<script type="text/javascript" src="/javascripts/admin/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/admin/simpla.jquery.configuration_prototype.js"></script>
+<script type="text/javascript">jQuery.noConflict();</script>
+ <div id="error_success_message_user">
+  <%if flash[:error_user] %>
+	<div class="notification error png_bg">
+	<div>
+		<%= flash[:error_user] %>
+		</div>
+	</div>
+	<% else %>
+	<%if flash[:success_user] %>
+	<div class="notification success png_bg">
+	<div>
+		<%= flash[:success_user] %>
+		</div>
+	</div>
+	<% end %>
+	<% end %>
+	</div>
+
+<div id="edit_user">
+<% if @edituser %>
+	<%= render :partial=>"edit_user" %>
+<% end %>
+</div>
+
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Users</h3>
+    
+  <div class="clear"></div>
+</div>
+
+<div class="content-box-content">
+  <div id="tab1" class="tab-content default-tab" style="display: block;">
+	<div id="user_listing">
+	    <%=render :partial =>"user_list"%>
+		</div>
+</div>
+</body>
+<script>
+
+function change_plan(user_id,selected_id,selected_name)
+{
+  var c=confirm("Are you sure, you want to change the plan to "+ selected_name);
+  if (c==true)
+  {
+    new Ajax.Request('/admin/usermanagement/change_plan/'+user_id+'/'+selected_id, {method: 'get'});
+  }
+  else
+  {}
+}
+
+function change_user_status(user_id,selected_id,selected_name)
+{
+	 if (selected_name=="Delete")
+	 {
+	   var c=confirm("Are you sure, you want to delete ? ");
+			if (c==true)
+			{
+				 document.getElementById("form_id_"+user_id).submit();
+			}
+			else
+			{
+				
+				new Ajax.Updater("status_"+user_id,'/admin/usermanagement/edit/'+user_id+'?edit_status='+true, {method: 'post'});
+
+			}
+	}
+ else
+	{
+	  document.getElementById("form_id_"+user_id).submit();
+	} 
+}
+</script>

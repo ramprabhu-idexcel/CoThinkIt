@@ -1,0 +1,26 @@
+<div class="right-col" id="sidebar">
+
+		
+		
+<div id="online_user">	<%= render :partial=>'projects/dashboard/online_users' %></div>
+		<div id="todo_files">
+			<%= render :partial => "todo_files"%>
+		</div>
+		
+		
+		<h4>Email Notifications</h4>
+		<ul class="file-list" id="email_notification">
+			<%= render :partial=>'todo_email_notification' %>
+		</ul>
+
+		<h4>Download To-Do</h4>
+		<ul class="file-list">
+			<li class="file-txt"><% if !check_completed_project %>
+			<a href="#"  onclick="completed_alert(); return false">Todo<%=file_time%>.txt</a></li>
+			<% elsif !check_status_project %>
+			<a href="#"  onclick="suspend_alert(); return false">Todo<%=file_time%>.txt</a></li>
+			<%else%>
+			<a href="<%=download_todo_project_task_todo_path(@project.url,@project,@task,@todo)%>">Todo<%=file_time%>.txt</a></li>
+			<%end%>
+		</ul>
+	</div>

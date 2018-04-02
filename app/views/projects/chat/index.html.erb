@@ -1,0 +1,326 @@
+
+<script type="text/javascript" src="/javascripts/multifile_compressed.js" ></script >
+	<%= javascript_include_tag "control.modal" %>
+
+
+
+<body class="chat">
+  <%=render :partial=>"layouts/header_top"%>
+  <%= render :partial=>"projects/alert_message" %>
+<div class="container">
+  <div class="width-wrapper">
+		<div id="chat" class="left-col main-content">
+			<%= render :partial=>"layouts/header_nav_tabs"%>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+          <div class="zerostate" id="chat_zero_state" style="<%=(@chats.empty? && @today_chats.empty?) ? "" : "display:none;"%>">
+            <div class="zero zero-chat">
+              <h2>Start your first co&middot;think&middot;it chat</h2>
+              <div class="zero-icon-chat"></div>
+              <p>Chat sessions with your team are a great way to discuss, brainstorm, cothink, and jump-start your project.</p>
+              <ul><li><a class="zero-arrow" href="javascript:show_chat();">Start your first chat</a></li></ul>
+            </div>
+          </div>
+        <div id="show_chat" style="<%=(@chats.empty? && @today_chats.empty?) ? "display:none;" : ""%>">
+        <% form_tag message_project_chat_path(@project.url,@project) , :multipart => true, :target => 'upload_frame' ,:id=>"chat-form" do %>
+				<input type="hidden" value="" name="message_value" id="message_value"/>
+          <div class="input-wrapper textarea-wrapper">
+            <div class="box-top-left"></div>
+            <div class="box-top"></div>
+            <div class="box-top-right"></div>
+            <div class="box-body" id="change_text_area" style="overflow:hidden;">
+						 <% if !check_completed_project %>
+      			<%= text_area_tag :message,"",:id=>'chat-msg',:onkeypress=>"completed_alert()",:rows=>1,:cols=>50%>      
+						<% elsif !check_status_project %>
+      			<%= text_area_tag :message,"",:id=>'chat-msg',:onkeypress=>"suspend_alert()",:rows=>1,:cols=>50%>      
+						<%else%>
+						<%= text_area_tag :message,"",:id=>'chat-msg',:onkeypress=>"send_message(event)",:rows=>1,:cols=>50%>
+			
+						<%end%>
+            </div>
+            <div class="box-bottom-left"></div>
+            <div class="box-bottom"></div>
+            <div class="box-bottom-right"></div>
+          </div>
+          <div class="submit-actions">
+						  <% if !check_completed_project %>
+									<%=submit_tag 'Send', {:class => "btn send-btn",:id=>"submit-chat",:onclick=>"completed_alert(); return false",:style=>"margin-bottom:20px;"}%>
+									<% elsif !check_status_project %>
+									<%=submit_tag 'Send', {:class => "btn send-btn",:id=>"submit-chat",:onclick=>"suspend_alert(); return false",:style=>"margin-bottom:20px;"}%>
+							  <%else%>
+                    
+										<%=submit_tag 'Send', {:class => "btn send-btn",:id=>"submit-chat",:onclick=>"this.disabled=true;store_content_in_chat('chat-msg');return send_chat();",:style=>"margin-bottom:20px;"}%>
+								<%end%>	
+            <a class="upload-files link-label command-alt" href="#file_upload" onclick="$('file_upload').show(); return false;">Upload Files</a>
+            <% if !check_completed_project %>
+						 <a class="create-todo link-label command-alt" href="#" onclick="completed_alert(); return false" id="chat_add_todo">Add Task</a>
+						 <% elsif !check_status_project %>
+						 <a class="create-todo link-label command-alt" href="#" onclick="suspend_alert(); return false" id="chat_add_todo">Add Task</a>
+            <%else%>
+              
+							
+							<% if check_role_for_guest%>
+										<a class="create-todo link-label command-alt" href="<%=new_todo_project_chat_path(@project.url,@project)%>" id="chat_add_todo">Add Task</a>
+										<script>new Control.Modal($('chat_add_todo'), {className:'modal_container', method:'get'});</script>
+							<%else%>
+										<a class="create-todo link-label command-alt" href="#" onclick="guest_user_alert(); return false" id="chat_add_todo">Add Task</a>
+							<%end%>
+            <%end%>	
+             <%= render :partial=>"projects/comment_progress_bar"%>
+          </div>
+        <%= render :partial=>'remove_upload_files' %>
+        <iframe id='upload_frame' name="upload_frame" style="width:0px;height:0px;border:0px;display:none" src="about:blank"></iframe>
+      <% end %>
+        <br/>
+			<div id="display_form" style="display:none;">
+			<!--<div id="add-file-modal" class="modal">-->
+
+			<form action="#" class="padder">
+						<div class="group">
+							<label>Title</label>
+							<div class="input-wrapper text-wrapper ">
+								<div class="box-top-left"></div>
+								<div class="box-top"></div>
+								<div class="box-top-right"></div>
+								<div class="box-body">
+									<input type="text" value="" onclick="this.value=''" />
+								</div>
+								<div class="box-bottom-left"></div>
+								<div class="box-bottom"></div>
+								<div class="box-bottom-right"></div>
+							</div>
+						</div>
+						<div class="group">
+							<label>Tags <span class="instr">(E.g. accepted, rejected, pending)</span></label>
+							<div class="input-wrapper text-wrapper ">
+								<div class="box-top-left"></div>
+								<div class="box-top"></div>
+								<div class="box-top-right"></div>
+								<div class="box-body">
+									<input type="text" value="" onclick="this.value=''" />
+								</div>
+								<div class="box-bottom-left"></div>
+								<div class="box-bottom"></div>
+								<div class="box-bottom-right"></div>
+							</div>
+						</div>
+						<div class="group choose-col">
+							<a href="#"><span>Choose File(s)</span></a>
+							<span class="filename">accepted.psd</span>
+						</div>
+						<div class="group submit-col">
+							<input type="submit"  value="Add Files "/>
+						</div>
+					</form>
+					</div>
+        
+				<div class="chat-log">
+        	<div class="chatContent" id="chatContent" style="height:auto; display:none();"> </div>
+          <div  id="cha-information">
+              <div id="log-arrow" class='log-arrow' style="<%= @today_chats.empty? ? "display:none" : ""%>"></div>
+          </div> <!--caht messages -->
+            
+            <%@user_id=0%>
+            <%@alt=""%>
+						<% if @today_chats && !@today_chats.empty?  %>
+            <%@today_chats.each do |chat|%>
+								<div class="chat-row a3 <%=@user_id==chat.user_id ? "same-author" : ""%>" style="background-color:#<%=user_color(chat.user)%>;">
+                <div class="box-top"></div>
+                <div class="box-top-right"></div>
+                <span class="author"><%= chat.user.user_name %></span>
+                <div class="chat-log-msg <%=chat_shade(chat.user_id)%>">
+                   <%=message_formation(chat,:main=>true)%>
+								</div>
+								<div class="timestamp"><%=find_elapsed_time(chat.created_at)%></div>
+								<div class="box-bottom-right"></div>
+								<div class="box-bottom"></div>
+							</div>
+							<% @user_id=chat.user.id %>
+						<% end %>
+						<%end%>
+            
+            <input type="hidden" value="true" id="sound_notification"></input>
+            <input type="hidden" value="<%= current_user.first_name%>" id="user_name"></input>
+  
+             
+              <% @user_id=0 %>
+              <%@alt=""%>
+							<% if @chats && !@chats.empty?  %>
+              <% @chats.each_with_index do |chat_message,index| %>
+							<%@user=chat_message.user%>
+							<%color = @user.color_code.nil? ? "ffffff" : @user.color_code %>
+							<% if @user_id==@user.id %>
+                <div class="chat-row a3 same-author <%=index==0 ? "first" : ""%>" style="background-color:#<%=color%>;">
+							<% else %>
+                <div class="chat-row a3 <%=index==0 ? "first" : ""%>" style="background-color:#<%=color%>;">
+							<% end %>
+               <%if index==0%>
+                 <% if @chats && !@chats.empty? %><div class="day-divider"><h4><a href="/logs/.txt"><%= @date %></a></h4></div><%end%>
+                 <%= @today_chats.empty? ? "<div class='log-arrow'></div>" : ""%>
+               <%end%>
+              <div class="box-top"></div>
+              <div class="box-top-right"></div>
+              <span class="author"><%= @user.user_name %></span>
+								<div class="chat-log-msg <%=chat_shade(@user.id)%>">
+                   <%=message_formation(chat_message,:main=>true)%>
+								</div>
+								<div class="timestamp"><%= current_user.user_time(chat_message.created_at).strftime("%l %P") %></div>
+								<div class="box-bottom-right"></div>
+								<div class="box-bottom"></div>
+							</div>
+							<% @user_id=@user.id %>
+						<% end %>
+						<%end%>
+					</div>
+          </div><!--show_chat-->
+      </div>
+      <div class="box-bottom-left"></div>
+      <div class="box-bottom"></div>
+      <div class="box-bottom-right"></div>
+    </div>
+  </div>
+  <div id="sidebar" class="right-col">
+		<div id="online_user">	<%= render :partial=>'projects/dashboard/online_users' %></div>
+    
+		<div id ="recent_files"><%=render :partial=>"recent_files"%></div>
+		<h4>Recent Logs</h4>
+		<ul class="file-list">
+
+				<%@dates.each do |date, chat_record|%>
+
+          <%#if index<4%>
+          <li class="file-txt">        
+						<% if !check_completed_project %>
+						
+						<a href="#" onclick="completed_alert(); return false">Chat<%=DateTime.strptime(date.to_s, "%Y-%m-%d").strftime("%m%d%y")%>.txt</a>
+						<% elsif !check_status_project %>
+						
+						<a href="#" onclick="suspend_alert(); return false">Chat<%=DateTime.strptime(date.to_s, "%Y-%m-%d").strftime("%m%d%y")%>.txt</a>
+					<%else%>
+						<a href="javascript:download_bandwidth_check_chat_log('<%=chat_record.first.created_at.to_date%>');">Chat <%=DateTime.strptime(date.to_s, "%Y-%m-%d").strftime("%m%d%y")%>.txt</a>
+							
+					<%end%></li>
+          <%#else%>
+          <!--<div id="more_chat_logs" style="display:none">
+            <li class="file-txt"><a href="<%#=download_chat_project_chat_path(:date=>chat_record.first.created_at.to_date)%>">Chat <%#=DateTime.strptime(date.to_s, "%Y-%m-%d").strftime("%m%d%y")%>.txt</a></li>
+          </div>-->
+          <%#end%>
+        <%end%>
+        <li class="no-icon" id="chat_more"><%=display_chatlog_link%></li>
+	
+		</ul>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<%=hidden_field_tag :current_user_id,current_user.id,:id => "current_user_id"%>
+<div id="testing_beep">
+
+
+</div>
+<script>
+  function send_message(event)
+  {
+    store_content_in_chat('chat-msg');
+   if(event.keyCode==13)
+   {
+    if (($('chat-msg').value.strip()=="") && ($('files_list').innerHTML==""))
+    {return false;}
+    else
+    {
+		if($('submit-chat').disabled==false)
+		{
+		 // $('chat-msg').focus();
+      if($('files_list').childElements().length>0)
+      {
+        $('progress').show();
+        $('progress_status').innerHTML="";
+        $('progress_status').show();
+        var uuid = "";
+         for (i = 0; i < 32; i++) {
+          uuid += Math.floor(Math.random() * 16).toString(16);
+         }
+          document.getElementById('change_text_area').innerHTML='<textarea onkeypress="send_message(event)" name="message" id="chat-msg" rows=1 cols=50></textarea>';
+          document.getElementById("chat-form").action="<%=message_project_chat_path(@project.url,@project)%>"+"?X-Progress-ID=" + uuid;
+          $("chat-form").submit();
+          interval = window.setInterval(
+                  function () {
+                  fetch(uuid);},1000);
+      }
+      else
+      {
+        document.getElementById("chat-form").action="<%=message_project_chat_path(@project.url,@project)%>";
+        $("chat-form").submit();
+      }
+		}
+		$('submit-chat').disabled=true;
+   }}
+  }
+
+  function send_chat()
+  {
+    
+    if (($('chat-msg').value.strip()=="") && ($('files_list').innerHTML==""))
+    {  return false;}
+    else
+    {
+      if($('files_list').childElements().length>0)
+      {
+        $('progress').show();
+        $('progress_status').innerHTML="";
+        $('progress_status').show();
+        var uuid = "";
+         for (i = 0; i < 32; i++) {
+          uuid += Math.floor(Math.random() * 16).toString(16);
+         }
+          document.getElementById("chat-form").action="<%=message_project_chat_path(@project.url,@project)%>"+"?X-Progress-ID=" + uuid;
+					 $("chat-form").submit();
+          interval = window.setInterval(
+                  function () {
+                  fetch(uuid);},1000);
+      }
+      else
+      {
+        document.forms["chat-form"].submit();
+      }
+    }
+  }
+	
+	function enable_button()
+	{
+
+	 $('submit-chat').disabled=false;
+//$('chat-msg').disabled=false;
+ $('chat-msg').focus();
+	}
+	
+	  function download_bandwidth_check_chat_log(date)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+			<% if check_status_project %>
+				document.location.href ="/<%= @project.url %>/chat/download_chat/<%= @project.id %>?date="+date;
+			<% end %>
+			}
+		else
+		{
+$('account-limit-modal').show();
+}
+}
+
+function show_chat()
+{
+  $('show_chat').style.display="block";
+  $('chat_zero_state').style.display="none";
+}
+	
+</script>
+
+  <%= yield( :bottom ) %>
+
+</body>
+

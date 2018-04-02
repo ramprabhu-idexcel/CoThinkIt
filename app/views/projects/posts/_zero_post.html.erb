@@ -1,0 +1,18 @@
+<div class="zerostate">
+  <div class="zero">
+    <h2>Create your first post</h2>
+    <div class="zero-icon-post"></div>
+    <p>Posts keep you and your team connected and updated about your project. Use posts to communicate with people in your project.</p>
+    <ul>
+		      <% if !check_completed_project %>
+        <li><a href="#" onclick="completed_alert(); return false" class="zero-arrow">Create your first post</a></li>
+				<% elsif !check_status_project %>
+        <li><a href="#" onclick="suspend_alert(); return false" class="zero-arrow">Create your first post</a></li>
+      <% elsif check_role_for_guest%>
+      <li><a href="<%=new_project_post_path(@project.url,@project)%>" class="zero-arrow">Create your first post</a></li>
+			<%else%>	
+        <li><a href="#" onclick="guest_user_alert(); return false" class="zero-arrow">Create your first post</a></li>
+      <%end%>
+    </ul>
+  </div>
+</div>

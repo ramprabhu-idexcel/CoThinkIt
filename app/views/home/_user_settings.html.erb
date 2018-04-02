@@ -1,0 +1,32 @@
+<div id="settings-menu" class="dropmenu">
+  <a class="menu-trigger ir" href="#"><span>Settings Menu:</span></a>
+  <ul>  
+	<%if params && params[:project_id] %>
+  <%@project=Project.find_by_id(params[:project_id])%>
+  <%site_url="https://#{@project.owner.site_address}.#{APP_CONFIG[:site][:name]}"%>
+		<li class="first"><a href="<%=site_url+project_people_path(@project.url,@project)%>"><span>People &amp; Permissions</span></a></li>
+    <li><a href="<%= "https://#{APP_CONFIG[:site][:name]}"+edit_user_path(current_user,:project_id => params[:project_id]) %>"><span>Edit Profile</span></a></li>
+    <li><a href="<%= "https://#{APP_CONFIG[:site][:name]}"+account_path(current_user,:project_id=> params[:project_id]) %>"><span>Edit Account</span></a></li>
+		<%if current_user==@project.owner%><li><a href="<%= site_url+project_settings_path(@project.url,@project) %>"><span>Project Settings</span></a></li><%end%>
+	<% else %>
+    <!--<li><a href="#"><span>People &amp; Permissions</span></a></li>-->
+    <li><a href="<%= edit_user_path(current_user) %>"><span>Edit Profile</span></a></li>
+    <li><a href="<%= account_path(current_user) %>"><span>Edit Account</span></a></li>
+	<% end %>
+    <li><a href="/logout"><span>Sign Out</span></a></li>
+  </ul>
+</div>
+
+<div id="select-proj-menu" class="dropmenu">
+  <a class="menu-trigger ir" href="#"><span>Switch project dashboard</span></a>
+  <ul class="bullets">
+    <li class="select-global"><div><a href="<%=path_global%>"><span>Global Dashboard</span></a></div></li>
+		<%@projects.each_with_index do |project,index|%>
+      <%if index<19%>
+        <%site_url="https://#{project.owner.site_address}.#{APP_CONFIG[:site][:name]}"%>
+        <li><a href="<%=site_url+project_dashboard_index_path(project.url,project)%>"><span><%=h project.name%></span></a></li>
+      <%end%>
+    <%end%>
+    <% if @projects && @projects.count>0 %><li class="project-select-all"><div><a href="/all-projects"><span>All projects</span></a></div></li><% end %>
+  </ul>
+</div>

@@ -1,0 +1,100 @@
+
+<%=javascript_include_tag :defaults%>
+<%=render :partial=>'/admin/base'%>
+<body class="files">
+<div class="container"><!-- container starts here -->
+<p>&nbsp&nbsp&nbsp<a href="/adminlogout">logout</a></p>
+
+	<div class="width-wrapper"><!-- width-wrapper starts here -->
+		<div id="chat" class="left-col-user main-content"><!-- left-col-user main-content starts here -->
+			<!--Header Navigation Tabs -->
+			<%=render :partial=>'/admin/tabs'%>
+	            
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">	<!-- main-padder starts here -->
+          <center>
+	       <table style="width:764px;"class="price-plans" >
+			<thead>
+                            <tr align="left">
+                             <th style="padding: 9px 20 8px 52px;">Name </th>
+                             <th style="padding: 9px 20 8px 52px;">Email </th>
+			       <th style="padding: 9px 20 8px 52px;">Site Address </th>
+			     <th style="padding: 9px 20 8px 52px;">Plan </th>
+			      <th style="padding: 9px 20 8px 52px;">Status </th>
+			     </tr>
+			</thead>
+			<%count=0%>
+			<%if User.count!=0%>
+			   <% @user.each do |user| %> 
+			<tbody>
+			<%count=count+1%>
+			   <%if count%2!=0%>
+			      <tr align="left">
+			    <%else%>
+			    <tr align="left" class="alt"><%end%>
+			       <td><%= user.first_name %></td>
+							<td><%= user.email%></td>
+			            <%if user.id==@id.to_i%>
+			    			       <td><% remote_form_for @user, :url =>{:controller=>"/admin/usermanagement", :action=> "update" ,:id=>@id}  do |f| %> 
+													<%=f.text_field :site_address,:value=>@siteaddress,:size=>10%>
+													<%=submit_tag"update"%>
+											<%end%></td>
+									<%else%>
+											<td><%= user.site_address%>&nbsp&nbsp<%=link_to "Edit", { :controller=>"/admin/usermanagement",:action => "edit", :id => user.id }%>   <%end%>	</td>
+											<td><%if user.id!=nil%><%billing_user=BillingInformation.find_by_user_id(user.id)%>
+											<%if billing_user%><%=user_plan(billing_user)%><%else%>Trial<%end%><%end%></td>
+											<td id="status_<%=user.id%>">
+											<%=link_to_remote user_status(user.status) ,:url => { :controller=>"/admin/usermanagement",:action => "edit",:edit_status => true,:id => user.id},:update => "status_#{user.id}"%></td>
+                               				
+                             </tr>          
+                             <% end %>
+			<%end%>
+                      </tbody>     
+	  </table>   
+	
+          </center>
+	     
+	</div> <!-- main-padder ends here -->
+       </div><!--  left-col-user main-content ends here -->
+     </div><!-- width-wrapper ends here -->
+</div><!-- container ends here -->
+
+
+</body>
+<script>
+
+function change_plan(user_id,selected_id,selected_name)
+{
+  var c=confirm("Are you sure, you want to change the plan to "+ selected_name);
+  if (c==true)
+  {
+    new Ajax.Request('/admin/usermanagement/change_plan/'+user_id+'/'+selected_id, {method: 'get'});
+  }
+  else
+  {}
+}
+
+function change_user_status(user_id,selected_id,selected_name)
+{
+	 if (selected_name=="Delete")
+	 {
+	   var c=confirm("Are you sure, you want to delete ? ");
+			if (c==true)
+			{
+				 document.getElementById("form_id_"+user_id).submit();
+			}
+			else
+			{
+				
+				new Ajax.Updater("status_"+user_id,'/admin/usermanagement/edit/'+user_id+'?edit_status='+true, {method: 'post'});
+
+			}
+	}
+ else
+	{
+	  document.getElementById("form_id_"+user_id).submit();
+	} 
+}
+</script>

@@ -1,0 +1,172 @@
+
+<body class="search">
+<%=render :partial=>'/layouts/header_top'%>
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="project-dashboard" class="left-col main-content first-tab">
+			<%= render :partial => '/layouts/header_nav_tabs' %>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div class="search-header">
+
+ <% if @project%>
+ 					<h1>Search the <%=@project.name%> Project</h1>
+					<p>or <a href="#">search all projects</a></p>
+ <%else%>
+           <h1>Search All Project</h1>
+ <%end%>
+
+					<form action="#">
+						<fieldset class="width-wrapper">
+							<div class="left-col">
+									<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+			<input value="project deadline" onclick="this.value=''" type="text">
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+								</div>
+						</fieldset>
+						<div class="right-col">
+							<input class="btn submit-btn" value="Submit" type="submit">
+						</div>
+						<p><strong>25 results</strong> <em>over 3 days</em></p>
+					</form>
+
+				</div>
+
+				<div class="activity-list wrap-posts">
+					<div class="wrap-header"><h3>Posts</h3></div>
+										<table cellpadding="15">
+						<tbody>
+							<tr class="first">
+								<td>
+									<a href="/post-view">Create a new design UI for the Nike branding stuff</a>
+
+									<div class="desc">
+										<p>I've created a new design UI for the <strong class="search-term">project deadline</strong> to complete on the 24th of August...</p>
+										<p class="meta"><a class="status rejected" href="#">Rejected</a> <span class="by">Posted by <a href="/people">Stuart B.</a></span> <a href="#" class="date">August 24</a></p>
+									</div>
+
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="/post-view">Create a new design UI for the Nike branding stuff</a>
+									<div class="desc">
+										<p>I've created a new design UI for the <strong class="search-term">project deadline</strong> to complete on the 24th of August...</p>
+
+										<p class="meta"><a class="status rejected" href="#">Rejected</a> <span class="by">Posted by <a href="/people">Stuart B.</a></span> <a href="#" class="date">August 24</a></p>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="activity-list wrap-comments">
+					<div class="wrap-header"><h3>Comments</h3></div>
+										<table cellpadding="15">
+						<tbody>
+							<tr class="first">
+								<td>
+									<a href="/post-view">Create a new design UI for the Nike branding stuff</a>
+
+									<div class="desc">
+										<p>I've created a new design UI for the <strong class="search-term">project deadline</strong> to complete on the 24th of August...</p>
+										<p class="meta"><a class="status rejected" href="#">Rejected</a> <span class="by">Posted by <a href="/people">Stuart B.</a></span> <a href="#" class="date">August 24</a></p>
+									</div>
+
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<a href="/post-view">Create a new design UI for the Nike branding stuff</a>
+									<div class="desc">
+										<p>I've created a new design UI for the <strong class="search-term">project deadline</strong> to complete on the 24th of August...</p>
+
+										<p class="meta"><a class="status rejected" href="#">Rejected</a> <span class="by">Posted by <a href="/people">Stuart B.</a></span> <a href="#" class="date">August 24</a></p>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="file-list wrap-files dash-box">
+					<div class="wrap-header"><h3>Files</h3></div>
+					<ul class="wide">
+						<li class="file-pdf">
+							<a href="#" class="desc">Project dates</a>
+							<span class="filename">dates.pdf</span>
+
+							<span class="date"><a href="#">August 24</a></span>
+						</li>
+						<li class="alt file-pdf">
+							<a href="#" class="desc">Deliverables</a>
+							<span class="filename">deliverables.pdf</span>
+							<span class="date"><a href="#">August 19</a></span>
+						</li>
+
+						<li class="file-psd">
+							<a href="#" class="desc">Related Images</a>
+							<span class="filename">related-images.psd</span>
+							<span class="date"><a href="#">August 19</a></span>
+						</li>
+						<li class="alt file-fla">
+							<a href="#" class="desc">Flash Mockup</a>
+
+							<span class="filename">flash.fla</span>
+							<span class="date"><a href="#">August 1</a></span>
+						</li>
+						<li class="file-zip">
+							<a href="#" class="desc">Deadline docs</a>
+							<span class="filename">deadline.zip</span>
+							<span class="date"><a href="#">July 10</a></span>
+
+						</li>
+					</ul>
+				</div>
+			</div><!-- end main-padder -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+
+	<div id="sidebar" class="right-col">
+		<h2>Recent Searches</h2>
+		<ul class="bullets">
+			<li><a href="#">Marketing outline and stuff</a></li>
+			<li><a href="#">Notes for marketing</a></li>
+			<li><a href="#">Icons John Hicks</a></li>
+			<li><a href="#">Product Tour</a></li>
+
+			<li><a href="#">Something else</a></li>
+		</ul>
+	</div>
+</div>
+<div id="footer" class="width-wrapper">
+	<p class="left-col">Managed <em>with</em> <a href="/">co·think·it</a></p>
+
+</div>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+</body>

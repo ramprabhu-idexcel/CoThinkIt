@@ -1,0 +1,12 @@
+<p>Set Status:</p>						
+<%["pending", "accepted", "rejected"].each do |status| %>
+	<% if @post.project.is_completed == true %>
+	<%=link_to_remote(status,{},{:class => status_flag_style_update(@post, status),:onclick =>"completed_alert();"} )%>
+	<% elsif @post.project.project_status == false %>
+	<%=link_to_remote(status,{},{:class => status_flag_style_update(@post, status),:onclick =>"suspend_alert();"} )%>
+	<%else%>
+	<%=link_to_remote(status,{:url =>status_update_path(@post.id, status), :method => :get} ,{:class => status_flag_style_update(@post, status)})%>
+	 
+	 <%end%>
+	
+<%end%>

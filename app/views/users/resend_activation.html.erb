@@ -1,0 +1,45 @@
+<body class="dialog activate">
+  <div id="bg-top"></div>
+  <div id="top">
+    <div id="starburst"></div>
+    <h2 id="logo" class="ir"><a href="/"><span>CoThink.it</span></a></h2>
+    <p id="login-blurb">Already have an account? <a href="/login" title="Log in">Log in.</a></p>
+  </div>
+  <div class="content-wrap">
+    <div class="box-wrap">
+      <div class="box">
+        <h1>You've got mail! Check your inbox to activate your account</h1>
+        <p>Please check your inbox for your activation email with your activation link. Please click the link to activate your account. If you need us to resend your activation link, please enter your email below:</p>
+        <%form_remote_tag :url=>resend_activation_path do%>
+          <% field_set_tag '', :class=>"share-line" do %>
+            <label>Your Email</label>
+            <div class="input-wrapper text-wrapper ">
+              <div class="box-top-left"></div>
+              <div class="box-top"></div>
+              <div class="box-top-right"></div>
+              <div class="box-body">
+                <%=text_field_tag "email",nil, :onclick=>"this.value=''" %>
+              </div>
+              <div class="box-bottom-left"></div>
+              <div class="box-bottom"></div>
+              <div class="box-bottom-right"></div>
+            </div>
+            <%=submit_tag "Resend activation email",:class=>"btn-47 resend-btn" ,:onclick=>"return check_valid_form();"%>
+          <%end%>
+        <%end%>
+      </div>
+    </div>
+  </div>
+  <script>
+    function check_valid_form()
+    {
+      if($('email').value.strip()=="")
+      {
+      alert("Please enter your email.");
+      return false;
+      }
+      else
+      return true;
+    }
+  </script>
+</body>

@@ -1,0 +1,31 @@
+
+			<!--Header Navigation Tabs -->
+	<ul id="main-nav">
+		<% if action_name=="summary" %> 
+		<li><a class="nav-top-item current" href="/adminpanel/summary">Summary</a></li>
+		<% else %>
+		<li><a class="nav-top-item" href="/adminpanel/summary">Summary</a></li>
+		<% end %>
+		<% if action_name=="usermanagement" || action_name=="sorting_user" %>
+		<li><a class="nav-top-item current" href="/adminpanel/usermanagement">Users</a></li>
+		<% else %>
+		<li><a class="nav-top-item" href="/adminpanel/usermanagement">Users</a></li>
+		<% end %>
+		<% if action_name=="projectmanagement" || action_name=="sorting_project" %>
+		<li><a class="nav-top-item current" href="/adminpanel/projectmanagement">Projects</a></li>
+		<% else %>
+		<li><a class="nav-top-item" href="/adminpanel/projectmanagement">Projects</a></li>
+		<% end %>
+		<% if action_name=="plans" %>
+		<li><a class="nav-top-item current" href="/adminpanel/plans">Plans</a></li>
+		<% else %>
+		<li><a class="nav-top-item" href="/adminpanel/plans">Plans</a></li>
+		<% end %>
+		<% if action_name=="index" %>
+    <li><a class="nav-top-item current" href="/adminpanel/email_templates">Email Templates</a></li>
+		<% else %>
+		<li><a class="nav-top-item" href="/adminpanel/email_templates">Email Templates</a></li>
+		<% end %>
+	</ul>
+
+	            

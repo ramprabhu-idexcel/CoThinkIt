@@ -1,0 +1,17 @@
+<%if !current_tasks.empty?%>		
+		<h4>Current Task Lists</h4>
+		<ul class="bullets">
+		  <% for task in current_tasks%>
+			
+					<%if !task.project.nil?%>
+					<% @project=task.project %>
+									<% @project_owner=	ProjectUser.find(:first, :conditions=>['project_id=? and is_owner =?', @project.id, true]) %>
+																			<% site_url="http://#{@project_owner.project.owner.site_address}.#{APP_CONFIG[:site][:name]}" %>
+										<li><a href="<%=site_url+project_task_path(@project.url,@project,task)%>"><%=return_truncate_string_in_view_page(task.title,35)%></a></li>
+					<%else%>
+										<li><a href="<%= show_my_tasklist_path(:id=>task.id) %>"><%=return_truncate_string_in_view_page(task.title,35)%></a></li>
+					<%end%>
+			
+			<%end%>	
+		</ul>
+<%end%>		

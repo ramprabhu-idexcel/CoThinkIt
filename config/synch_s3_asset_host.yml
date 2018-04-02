@@ -1,0 +1,7 @@
+AWS_ACCESS_KEY_ID: AKIAIIQ5TFGKAUTWSG2A
+AWS_SECRET_ACCESS_KEY: fBtXFC6CWL2Zk1Z+cK/R1wL1Qo9ijMOhOdcT9bly
+production:
+  asset_host_name: cti-asset%d
+#"yourapp-com-cdn%d" 
+# This is whatever you named your S3 buckets, using %d in place of the numbers 0-3
+# dry_run: false # Set to true if you want to test the asset_host uploading without doing anything on Amazon S3

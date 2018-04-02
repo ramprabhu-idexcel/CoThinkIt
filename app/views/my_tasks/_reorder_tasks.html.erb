@@ -1,0 +1,13 @@
+<% @tasks.each do |pos, task1| %>
+<% if pos.nil? %>
+<% task1.each do |task| %>
+
+						 <div style="margin-left:10px;" id="task_list_<%=task.id%>" ><h3 ><%=image_tag("reorder_icon.jpeg",:class=>"handle")%><a href="<%=my_tasks_path%>"><%=task.title%></a></h3></div>
+	<% end %>
+	<%end%>
+<% end %>
+
+  <%= sortable_element :task_list_,:url  => reorder_mytask_path,:method => :get, :tag => 'div',:handle => 'handle'%> 
+	
+
+		

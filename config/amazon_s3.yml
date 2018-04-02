@@ -1,0 +1,14 @@
+development:
+  bucket_name: cothinkit-development
+  access_key_id: AKIAJQ575MT55SYOALSA
+  secret_access_key: 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
+
+test:
+  bucket_name: cothink-development
+  access_key_id: AKIAJQ575MT55SYOALSA
+  secret_access_key: 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
+
+production:
+  bucket_name: cothinkit-production
+  access_key_id: AKIAJQ575MT55SYOALSA
+  secret_access_key: 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

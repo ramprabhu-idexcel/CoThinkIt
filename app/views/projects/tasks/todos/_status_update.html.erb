@@ -1,0 +1,25 @@
+<p>Set Status:</p>						
+	<% if parent =="task" %>
+		<%["pending", "accepted", "rejected"].each do |status| %>
+		<% if !check_completed_project %>
+			<%=link_to_remote(status,{},{:class => status_flag_style_update(comment, status),:onclick =>"completed_alert();"})%>
+			<% elsif !check_status_project %>
+			<%=link_to_remote(status,{},{:class => status_flag_style_update(comment, status),:onclick =>"suspend_alert();"})%>
+				<%else%>
+				
+				<%=link_to_remote(status,{:url =>update_status_path_project_task_path(@project.url,@project,:comment_id => comment.id,:status =>status,:parent => parent), :method => :get} ,{:class => status_flag_style_update(comment, status)})%>
+	 	 
+	 <%end%>
+		<%end%>
+	<%else%>
+		<%["pending", "accepted", "rejected"].each do |status| %>
+		<% if !check_completed_project %>
+			<%=link_to_remote(status,{},{:class => status_flag_style_update(comment, status),:onclick =>"completed_alert();"})%>
+			<% elsif !check_status_project %>
+			<%=link_to_remote(status,{},{:class => status_flag_style_update(comment, status),:onclick =>"suspend_alert();"})%>
+				<%else%>
+				<%=link_to_remote(status,{:url =>update_status_path_project_task_todos_path(@project.url,@project,@task,:id => @todo.id,:comment_id => comment.id,:status =>status,:parent => parent), :method => :get} ,{:class => status_flag_style_update(comment, status)})%>
+	 	 
+	 <%end%>
+		<%end%>
+	<%end%>

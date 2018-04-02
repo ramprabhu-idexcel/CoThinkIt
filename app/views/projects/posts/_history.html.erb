@@ -1,0 +1,7 @@
+<div style="display:none" id="history_display">
+<ul >
+	<%@post.history_posts.each do |history|%>
+		<li><%=display_user_name(history.user)%> <%=history.action%>  - <i><%=time_ago_in_words(history.created_at) + " ago"%> </i></li>
+	<%end%>	
+</ul>
+</div>

@@ -1,0 +1,19 @@
+Hi <%=@user.first_name.capitalize %>:  <br/><br/>
+
+You're currently on the <%= @now_plan.name %> Plan, which allows for <%= @now_storage %> storage and <%= @now_transfer %> transfer per month. You have used <%= (@plan_limit.storage_used/1024).round(2) %>GB storage and <%= (@plan_limit.bandwidth_used/1024).round(2) %>GB transfer this month. <br/><br/>
+
+It might be a good time to upgrade to the <%= @next_plan.name %> Plan, which allows for <%= @next_storage %> storage and <%= @next_transfer %> transfer. You can upgrade to the <%= @next_plan.name %> Plan by clicking the link below:<br/><br/>
+<a href="<%= APP_CONFIG[:site_url] %>/users/account/<%= @user.id %>"> <%= APP_CONFIG[:site_url] %>/users/account/<%= @user.id %></a> <br/><br/>
+
+If you have any questions, email us at support@cothinkit.com and we'll get back to you! <br/><br/>
+
+Best, <br/><br/>
+
+Jesse Ma <br/>
+
+Founder of co·think·it <br/>
+jesse@cothinkit.com <br/>
+@cothinkit <br/> <br/>
+
+-- <br/>
+Collaborating is just easier with co·think·it! 

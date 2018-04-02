@@ -1,0 +1,50 @@
+
+	<tr class="<%=@c%>" id="todo_item_<%=@todo.id%>">
+												<!--	<td>	<div id="todo_spinner_<%#=todo.id%>" style="float:left;width:15px;"><%#=image_tag "loader.gif"%></div></td> -->
+							<td class="desc" style="min-width:245px;">
+							<%=show_status_flag(@todo)%>
+							<% completed =  (!@todo.is_completed.nil? and @todo.is_completed== true) ? true : false %>
+							<% if  !check_completed_project %>
+							<%=check_box_tag "todo_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;completed_alert();	" %>  
+							<% elsif  !check_status_project %>
+							<%=check_box_tag "todo_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;suspend_alert();	" %>  
+								<%else%>
+								<% if check_role_for_guest%>
+										<%=check_box_tag "todo_complete",0,completed,:id =>"show_selected",:onclick => "new Ajax.Updater('rightParsfsdfsft', '#{completed_todo_project_task_todos_path(@project.url,@project,@todo.task,@todo,:checked => completed)}',{method: 'get', parameters: 'id='+#{@todo.id} });"%>
+								<%else%>
+                     <%=check_box_tag "todo_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;guest_user_alert();	" %>								
+								<%end%>
+						 
+				<%end%>
+								<label class="desc-text">
+									<%=return_truncate_string_in_view_page(@todo.title,230)%> 
+									<% if @todo.comments.count > 0%>									
+									<a class="view-comment <%=check_unread_comments(@todo)%>" title="View <%=@todo.comments.count%> comments" href="<%=project_task_todo_path(@project.url,@project,@todo.task,@todo)%>#comments"><span><%=@todo.comments.count%> </span></a> 								
+									<%end%>
+									<span class="actions">																				
+										
+										<% if !check_completed_project %>
+										<a class="todo-comment ir" title="Comment" href="#" onclick="completed_alert(); return false"><span>Comment</span></a>
+										<a class="todo-edit ir" title="Edit" href="#" onclick="completed_alert(); return false"><span>Edit</span></a>
+												<a class="todo-delete ir" title="Delete" href="#" onclick="completed_alert(); return false"><span>Delete</span></a>
+															<% elsif !check_status_project %>
+										<a class="todo-comment ir" title="Comment" href="#" onclick="suspend_alert(); return false"><span>Comment</span></a>
+										<a class="todo-edit ir" title="Edit" href="#" onclick="suspend_alert(); return false"><span>Edit</span></a>
+												<a class="todo-delete ir" title="Delete" href="#" onclick="suspend_alert(); return false"><span>Delete</span></a>
+												
+                    <% elsif check_role_for_guest%>	
+										<a class="todo-comment ir" title="Comment" href="<%=project_task_todo_path(@project.url,@project,@todo.task,@todo)%>#add-comment"><span>Comment</span></a>
+												<%=link_to_remote "<span>Edit</span>", :url => edit_project_task_todo_path(@project.url,@project,@todo.task,@todo,:filter_option => params[:filter_option]),:method =>:get,:html => {:class =>"todo-edit ir"},:id =>"edit_todo_#{@todo.id}"%>
+												
+												<%=link_to_remote "<span>Delete</span>",:url => project_task_todo_path(@project.url,@project,@todo.task,@todo,:filter_option => params[:filter_option]),:method => "delete",:confirm => "Are you sure you want to delete this to-do? ",:html => {:class =>"todo-delete ir"}%>
+										<%else%>
+												<a class="todo-comment ir" title="Comment" href="<%=project_task_todo_path(@project.url,@project,@todo.task,@todo)%>#add-comment"><span>Comment</span></a>										
+												<a class="todo-edit ir" title="Edit" href="#" onclick="guest_user_alert(); return false"><span>Edit</span></a>
+												<a class="todo-delete ir" title="Delete" href="#" onclick="guest_user_alert(); return false"><span>Delete</span></a>
+										<%end%>
+									</span>
+								</label>
+							</td>
+							<td class="due"><%=(@todo.due_date.nil?) ? "" : @todo.due_date.strftime("%b %e")%></td>
+							<td class="who"><%=@todo.assignee_type%></td>
+						</tr>

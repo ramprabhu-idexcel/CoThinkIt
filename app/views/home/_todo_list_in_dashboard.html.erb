@@ -1,0 +1,34 @@
+  <h3 class="todo-title">To-Dos</h3>
+  <ul>
+    <%@todos.each_with_index do |todo,index|%>
+      <%if index==2%><div id="more_todos" style="display:none;"><%end%>
+      <li id="todo_<%= todo.id %>"><label id="label_todo_<%= todo.id %>">
+			
+				<% completed =  (!todo.is_completed.nil? and todo.is_completed== true) ? true : false %>
+				<%if @global%>
+				<% if  check_status_global_project_for_todo(todo) %>
+				  <% if check_user_role_for_todo(todo)%>
+							<%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "new Ajax.Updater('test', '#{completed_todo_project_task_todos_path(todo.task.project.url,todo.task.project,todo.task,todo,:checked => completed,:no_update => true,:dashboard => true)}',{method: 'get', parameters: 'id='+#{todo.id} });"%>
+					<%else%>
+					   <%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "guest_user_alert_check_box('todo_com_#{todo.id}');"%>
+					<%end%>
+					<%else%>
+						 <%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "suspend_alert_check_box('todo_com_#{todo.id}');"%>
+				<%end%>
+				<%else%>
+				<% if  check_status_project %>
+					<% if check_role_for_guest%>
+							<%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "new Ajax.Updater('test', '#{completed_todo_project_task_todos_path(@project.url,@project,todo.task,todo,:checked => completed,:no_update => true,:dashboard => true)}',{method: 'get', parameters: 'id='+#{todo.id} });"%>
+					<%else%>
+							<%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "guest_user_alert_check_box('todo_com_#{todo.id}');"%>				
+					<%end%>
+					<%else%>
+						 <%=check_box_tag "todo_uncomplete",0,completed,:id =>"todo_com_#{todo.id}",:onclick => "suspend_alert_check_box('todo_com_#{todo.id}');"%>
+				<%end%>
+			  <%end%>
+			
+			<strong><% if controller_name=="home"  %><%= h todo.task.project.name %> -<% end %> </strong><%=h truncate(todo.title,:ommision =>"...",:length =>35)%></label></li>
+    <%end%>
+    <%if @todos.count>2%></div><li><%=link_to pluralize(@todos.count-2,"More To-Do"),"javascript:;",:onclick=>"expand_todos();",:id=>"todos_link"%></li><%end%>
+
+  </ul>

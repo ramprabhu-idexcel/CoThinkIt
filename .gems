@@ -1,0 +1,8 @@
+adamwiggins-rest-client --version 1.0.4 --source gems.github.com
+builder --version 2.1.2
+hpricot --version 0.8.2
+skyfallsin-ruby_bosh --version 0.5.4 --source gems.github.com
+SystemTimer --version 1.2 --source gems.github.com
+xmpp4r --version 0.5 --source gems.github.com
+aws-s3 --version 0.6.2 --source gems.github.com
+rubyzip --version 0.9.4 --source gems.github.com

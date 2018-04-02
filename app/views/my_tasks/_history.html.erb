@@ -1,0 +1,7 @@
+<div style="display:none" id="history_display_<%=comment.id%>">
+<ul >
+	<%comment.history_posts.each do |history|%>
+		<li><%=history.user.first_name%> <%=history.action%></li>
+	<%end%>	
+</ul>
+</div>

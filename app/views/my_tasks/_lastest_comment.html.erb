@@ -1,0 +1,5 @@
+<% if !comments.nil? and !comments.empty? %>
+  <h3><%=comments_display(comments)%></h3>					
+  <span>| &nbsp; Last post by <a href="<%#=project_people_path(@project.url,@project) %>"><strong><%=display_user_name(comments.last.user)%></strong></a> 
+  <%=display_month_day_details(comments.last.created_at)%></span>
+<%end%>

@@ -1,0 +1,184 @@
+<body class="posts">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<!-- Top header Links Ends Here -->
+
+<div class="container" style="overflow: visible;">
+	<div class="width-wrapper">
+		<div id="posts" class="left-col main-content">
+			<!--Header Navigation Tabs -->
+			<%= render :partial => '/layouts/header_nav_tabs' %>
+
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+      <%if @posts.empty?%>
+        <%= render:partial=>"zero_post"%>
+      <%else%>
+			<%= render :partial=>'projects/alert_message' %>
+				<div class="dash-box">
+					<h2 class="header-bar">Posts</h2>
+					<div class="header-tools">
+						<div id="posts-filter" class="filter dropmenu"><a href="<%=project_posts_path(@project.url,@project)%>" class="menu-trigger btn ir"><span>View All</span></a> <p>Filter</p>
+							<ul>
+								<li><a href="<%=status_filter_path(@project.url, @project,  'accepted')%>" class="accepted">Accepted</a></li>
+								<li><a href="<%=status_filter_path(@project.url, @project,  'rejected')%>" class="rejected">Rejected</a></li>
+								<li><a href="<%=status_filter_path(@project.url, @project,  'pending')%>" class="pending">Pending</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+					
+						
+				<%if @posts.length > 0%>
+				<%i = 1%>
+				<% @posts.each do |post|%>
+				<div id="post-<%=i%>">
+					<div class="<%= i == 1 ? 'avatar-header topless' : 'avatar-header'%>">
+					<%= image_tag "#{show_profile_picture(post)}", :alt=>"#{display_user_name(post.user)}" %>
+						<!--<img alt="<%#=display_user_name(post.user)%>" src="<%#=show_profile_picture(post)%>" /> -->
+
+						<h3><a href="<%=project_post_path(@project.url,@project, post)%>"><%=return_truncate_string_in_view_page(post.title,30)%></a></h3>
+						<% last_comment = find_last_user_comment(post)%>
+						<% if !last_comment.nil? %>
+						<p class="desc">
+						<strong>Last comment by <%=display_user_name(last_comment.user)%></strong>  on <%=display_time_display(last_comment.created_at)%>
+						</p>
+						<%else%>
+						<p class="desc">
+						<strong>Posted by <%=display_user_name(current_user)%></strong>  on <%=display_time_display(post.created_at)%>
+						</p>						
+						<%end%>
+					</div>
+					<div class="post-body">
+						<p><%=return_without_striptag_in_view_page(post.content,300)%>  <%= more(post) %></p>
+
+						<ul class="file-list">
+							<%post.attachments.each do |attachment|%>
+								<%attachment_content_type = find_attachment_content_type(attachment)%>	
+								<%if attachment_content_type != "image"%>								
+									<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>)" >
+									<% if !check_completed_project %>
+				<%=link_to attachment.filename,  "#", :id => attachment.id,  :onclick=>"completed_alert();"%></li>	
+				<% elsif !check_status_project %>
+				<%=link_to attachment.filename,  "#", :id => attachment.id,  :onclick=>"suspend_alert();"%></li>	
+								<%else%>
+												<%=link_to attachment.filename,  "#",  :onclick=>"javascript:download_bandwidth_check_post(#{attachment.id});"%></li>
+				
+			<%end%>
+								<%end%>
+							<%end%>
+						</ul>
+						
+						<ul class="post-imgs">
+							<%post.attachments.each do |attachment|%>															
+								<%attachment_content_type = find_attachment_content_type(attachment)%>								
+								<%if attachment_content_type == "image"%>
+									<li><a href="<%=attachment.public_filename%>" target="_new">
+									<%= image_tag "#{attachment.small_thumbnail}", :width=>'75', :height=>'75' %>
+									<!--<img src=<%#=attachment.small_thumbnail%> width='75' height='75'>--></a></li>
+								<%end%>
+							<%end%>
+						</ul>
+					</div>
+
+					<div class="post-footer">
+						<p><a href="<%=project_post_path(@project.url,@project, post)%>">View Post</a> <%=status_display(post)%></p>
+						<a href="<%=project_post_path(@project.url,@project, post)%>#comments" class="f-rgt"><%=comments_count_display(post)%></a> 
+						<div class="box-bottom-left"></div>
+						<div class="box-bottom-right"></div>
+					</div>
+				</div>
+				
+				<%i = i + 1%>
+			<%end%>
+			<%end%>
+      
+    <%end%>
+			</div> <!-- end main-padder -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	<div id="sidebar" class="right-col">
+	
+<% if !check_completed_project %>
+			 <a href="#" class="btn create-new-post-btn ir" onclick="completed_alert(); return false"><span>Create a new post</span></a>
+<% elsif !check_status_project %>			 
+			 <a href="#" class="btn create-new-post-btn ir" onclick="suspend_alert(); return false"><span>Create a new post</span></a>
+	 <% elsif check_role_for_guest%>	
+	    <a href="<%=new_project_post_path(@project.url,@project)%>" class="btn create-new-post-btn ir"><span>Create a new post</span></a>	   
+		<%else%>
+			 <a href="#" class="btn create-new-post-btn ir" onclick="guest_user_alert(); return false"><span>Create a new post</span></a>
+		<%end%>
+		<div id="online_user">
+		<%= render :partial=>'projects/dashboard/online_users' %>
+		</div>
+		<% attachments = recent_files_for_project %>
+		<% if  !attachments.empty? %>
+		<h4>Recent Files</h4>
+		<ul class="file-list">
+			
+			<%attachments.first(5).each do |attachment|%>
+				<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>)" >
+				<% if !check_completed_project %>
+			<%=link_to return_truncated_filename(attachment.filename),  "#",   :onclick=>"completed_alert();"%></li>
+			<% elsif !check_status_project %>
+			<%=link_to return_truncated_filename(attachment.filename),  "#",   :onclick=>"suspend_alert();"%></li>
+				<%else%>
+					<%=link_to return_truncated_filename(attachment.filename),  "#",   :onclick=>"javascript:download_bandwidth_check_post(#{attachment.id});"%></li>
+				
+			<%end%>
+			<%end%>
+			<%if attachments.length > 5 %>				
+				<li class="no-icon" id="com_more"><a href="#" class="more-link" onclick="document.getElementById('com_more').hide();document.getElementById('hidden_com_posts').show(); return false" ><%=attachments.length - 5%> more</a></li>
+				<div id="hidden_com_posts" style="display:none">
+					<%for attachment in attachments[5..attachments.length]%>
+						<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>)">
+							<% if check_status_project %>
+							<%=link_to return_truncated_filename(attachment.filename),  "#",   :onclick=>"javascript:download_bandwidth_check_post(#{attachment.id});"%></li>
+							<%else%>
+				<%=link_to return_truncated_filename(attachment.filename),  "#",   :onclick=>"suspend_alert();"%></li>
+			<%end%>
+					<%end%>
+				</div>				
+			<%end%>
+		</ul>
+		<%end%>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+
+</body>
+
+ <script>
+ function download_bandwidth_check_post(id)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+			<% if  !attachments.empty? %>
+					document.location.href ="/<%= @project.url %>/posts/<%= @project.id %>/download/"+id;
+			<% end %>
+		}
+		else
+		{
+
+				$('account-limit-modal').show();
+		}
+}
+ </script>

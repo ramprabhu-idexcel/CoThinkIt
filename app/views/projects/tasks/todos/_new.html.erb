@@ -1,0 +1,62 @@
+
+<div style="height:175px;" class="add-todo-inline inline clear" id="create_new_todo_<%=@task_id.id %>">
+
+						<%form_remote_tag(:url => project_task_todos_path(@project.url,@project,@task_id) ,:method => :post ,:html => {:class => "padder"}) do %>
+
+					<input type="hidden" name="filter_option", value="<%= params[:filter_option] %>"/>
+										<div class="group">
+											<label>Task Title</label>
+												<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+				<%=text_field :todo ,'title',:value => ""%>
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+											</div>
+										<div class="group date-col">
+											<label>Due Date <span class="instr">(E.g. 01/15/2010)</span></label>
+												<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+			<input type="text" name="todo[due_date]" value="no date"  id="date_display_<%=@task.id%>" onclick="document.getElementById('update_calender_<%=@task.id%>').style.display='block';" />
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+											</div>
+							<div class="calendar-widget">
+					<!--	<a href="#" class="btn ir calendar-btn" onclick="document.getElementById('update_calender').style.display='block';"><span>Date picker</span></a> -->
+
+						<div class="calendar-flyout" id ="update_calender_<%=@task.id%>">
+							<%=render :partial => "calender_display"%>
+							
+					</div>
+					</div>
+										<div class="group who-col">
+											<label>Who's responsible?</label>
+<%=select_tag 'todo_users' ,options_for_select(@assignees,@assignees.last)%>
+											</div>
+								
+								<div class="group notify-col">
+											<label>Notify by email?</label>
+											                                <div>
+																<%=check_box :todo,:is_notify,:checked => true%>
+                               
+                                </div>
+										</div>
+										<div class="group submit-col">
+											<input type="submit" value="Add Task" class="btn task-btn">
+											<a href="#" onclick='$("create_new_todo_<%=@task_id.id%>").hide(); document.getElementById("add_todo_link_for_<%=@task_id.id%>").show(); return false'>I'm done adding tasks</a>
+										</div>
+									<%end%>
+								</div>

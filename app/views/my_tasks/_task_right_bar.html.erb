@@ -1,0 +1,25 @@
+<div id="sidebar" class="right-col">
+		<div class="modal-trigger">
+			<%# if !check_status_project %>
+				<!--<a class="btn create-new-task-btn" href="#" onclick="suspend_alert(); return false"><span>Create a new task</span></a> -->
+			<%# elsif check_role_for_guest%>
+						<a href="<%=new_my_task_path%>" class="btn create-new-task-btn" id="create_new_task"><span>Create a new task</span></a>
+						<script>new Control.Modal($('create_new_task'), {className:'modal_container', method:'get'});</script>
+			<%#else%>	
+					<!--	<a class="btn create-new-task-btn" href="#" onclick="guest_user_alert(); return false"><span>Create a new task</span></a> -->
+			<%#end%>
+		</div>
+		<div id="online_user"><%#= render :partial=>'projects/dashboard/online_users' %></div>
+		<div id="recent_todos">
+       <%=render :partial => "recent_todos",:locals=>{:recent_todos => @recent_todos}%>
+		</div>
+
+		<div id="current_tasks">
+       <%=render :partial => "current_task",:locals=>{:current_tasks => @current_tasks}%>
+		</div>
+
+		<div id="completed_tasks">
+      <%=render :partial => "completed_tasks",:locals=>{:completed_tasks => @completed_tasks}%>
+		</div>
+</div>
+ 

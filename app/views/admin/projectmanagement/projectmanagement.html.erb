@@ -1,0 +1,64 @@
+<script type="text/javascript" src="/javascripts/admin/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/admin/simpla.jquery.configuration_prototype.js"></script>
+<script type="text/javascript">jQuery.noConflict();</script> 
+ <div id="error_success_message">
+  <%if flash[:error] %>
+	<div class="notification error png_bg">
+	<div>
+		<%= flash[:error] %>
+		</div>
+	</div>
+	<% else %>
+	<%if flash[:message] %>
+	<div class="notification success png_bg">
+	<div>
+		<%= flash[:message] %>
+		</div>
+	</div>
+	<% end %>
+	<% end %>
+	</div>
+
+<div id="edit_project">
+<% if @project %>
+	<%= render :partial=>"edit_project" %>
+<% end %>
+</div>
+
+
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Projects</h3>
+    
+  <div class="clear"></div>
+</div>
+
+<div class="content-box-content">
+  <div id="tab1" class="tab-content default-tab" style="display: block;">
+	<div id="project_listing">
+	    <%=render :partial =>"project_list"%>
+	</div>
+</div>
+</body>
+
+<script>
+function change_project_status(project_id,selected_id,selected_name)
+{
+	 if (selected_name=="Delete")
+	 {
+	   var c=confirm("Are you sure, you want to delete ? ");
+			if (c==true)
+			{
+				 document.getElementById("form_id_"+project_id).submit();
+			}
+			else
+			{
+				new Ajax.Updater("status_"+project_id,'/admin/projectmanagement/edit/'+project_id+'?edit_status='+true, {method: 'post'});
+			}
+	}
+ else
+	{
+	  document.getElementById("form_id_"+project_id).submit();
+	} 
+}
+</script>

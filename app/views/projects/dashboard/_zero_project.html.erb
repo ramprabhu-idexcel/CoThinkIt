@@ -1,0 +1,21 @@
+
+<div class="box-top-left"></div>
+  <div class="box-top"></div>
+  <div class="box-top-right"></div>
+  <div class="main-padder">
+    <div class="zerostate">
+      <div class="zero">
+        <h2>Welcome to your new project</h2>
+        <div class="zero-icon-project"></div>
+        <p>Congratulations on your new project! Get started off right by adding people to the project and start organizing by creating a task list.</p>
+        <ul>
+          <li><a href="<%= site_url+invite_path(@project.url,@project)%>" class="zero-arrow">Invite people to the project</a></li>
+          <li><a href="<%= site_url+project_tasks_path(@project.url,@project) %>" class="zero-task-list">Add a task list</a></li>
+
+          <li><a href="<%=site_url+project_posts_path(@project.url,@project)%>" class="zero-post-pen">Create a post</a></li>
+          <li><a href="<%= site_url+project_chat_index_path(@project.url,@project) %>" class="zero-chat-bubble">Start a chat</a></li>
+          <li><a href="<%=site_url+project_files_path(@project.url,@project)%>" class="zero-upload-file">Upload a file</a></li>
+        </ul>
+    </div>
+  </div>
+</div>

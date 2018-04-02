@@ -1,0 +1,3 @@
+<% form_for @user, :url =>{:controller=>"/admin/usermanagement", :action=> "update" ,:id=>@user.id},:html => {:id => "form_id_#{params[:id]}"}  do |f| %>
+<%=select_tag :status,options_for_select(@status,@val),:onchange =>"change_user_status('#{params[:id]}',this.options[this.selectedIndex].value,this.options[this.selectedIndex].text);"%>
+<%end%>

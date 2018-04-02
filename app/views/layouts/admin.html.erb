@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+     <title><%= APP_CONFIG[:site_name].titleize %> - Admin</title>
+		<!--                       CSS                       -->
+
+		<!-- Reset Stylesheet -->
+		<%=stylesheet_link_tag "admin/reset.css"%>
+	  
+		<!-- Main Stylesheet -->
+
+    <%=stylesheet_link_tag "admin/style.css"%>
+		
+		<!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
+
+    <%=stylesheet_link_tag "admin/invalid.css"%>
+		
+		<!-- Colour Schemes
+	  
+		Default colour scheme is green. Uncomment prefered stylesheet to use it.
+		
+		<link rel="stylesheet" href="/stylesheets/admin/blue.css" type="text/css" media="screen" />
+		
+		<link rel="stylesheet" href="/stylesheets/admin/red.css" type="text/css" media="screen" />  
+	 
+		-->
+		
+		<!-- Internet Explorer Fixes Stylesheet -->
+		
+		<!--[if lte IE 7]>
+			<link rel="stylesheet" href="/stylesheets/admin/ie.css" type="text/css" media="screen" />
+		<![endif]-->
+		
+		<!--                       Javascripts                       -->
+  
+		<!-- jQuery -->
+
+		<!-- Facebox jQuery Plugin -->
+		
+		
+		<!-- jQuery WYSIWYG Plugin -->
+
+		
+			<%= javascript_include_tag "prototype" %>
+	<%= javascript_include_tag "effects.js" %>
+	<%= javascript_include_tag "dragdrop.js" %>
+	<%= javascript_include_tag "controls.js" %>
+	<link rel="shortcut icon" href="/images/favicon.ico" />
+		<!-- Internet Explorer .png-fix -->
+		
+		<!--[if IE 6]>
+			<script type="text/javascript" src="resources/scripts/DD_belatedPNG_0.0.7a.js"></script>
+			<script type="text/javascript">
+				DD_belatedPNG.fix('.png_bg, img, li');
+			</script>
+		<![endif]-->
+
+ <!--<link rel="stylesheet" href="<%#=APP_CONFIG[:css_and_js_url]%>/stylesheets/admin.css" type="text/css" />
+ <link rel="stylesheet" href="<%#=APP_CONFIG[:css_and_js_url]%>/stylesheets/base.css" type="text/css" />-->
+	<!--[if gt IE 7]>
+  <link href="/stylesheets/ie7_admin.css" rel="stylesheet" type="text/css" />
+    <![endif]-->
+  </head>
+	<body>
+    <div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+      <div id="sidebar">
+        <div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+          <h1 id="sidebar-title"><a href="#"><%= APP_CONFIG[:site_name].titleize %> - Admin</a></h1>
+          <!-- Logo (221px wide) -->
+          <a href="#"><%= image_tag "/images/front/layout/logo.png", :id=>"logo", :alt=>"Admin logo", :width=>'215' %> <!--<img id="logo" src="/images/front/layout/logo.png" alt="Admin logo" style="width:215px;" />--></a>
+          <!-- Sidebar Profile links -->
+          <div id="profile-links">
+            <a href="<%=root_path%>" title="View the Site">View the Site</a> | <a href="/adminlogout" title="Sign Out">Sign Out</a>
+          </div>  
+          <%= render :partial=>"admin/tabs"%>
+        </div>  
+      </div>  
+      <div id="main-content">
+        <%=yield%>
+        <div id="footer">
+          <small>
+            Managed <em>with</em> <%=link_to "co&middot;think&middot;it",root_path(:source => "base")%>  | <a href="#">Top</a>
+          </small>
+        </div><!-- End #footer -->
+      </div> <!-- End #main-content -->
+    </div> 
+<!-- End #main-content -->
+  </body>
+</html>

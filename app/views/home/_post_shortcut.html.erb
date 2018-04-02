@@ -1,0 +1,26 @@
+<div class="dash-shortcuts-content activity-list" id="dash_shortcuts">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@posts.each do |post|%>
+        <tr>
+          <td class="type post ir"><span>Post</span></td>
+          <td class="desc"><a href="<%=project_site_url(post.project)+project_post_path(post.project.url,post.project,post)%>" title="Posted 2 minutes ago"><%=truncate(post.title,180)%></a></td>
+          <td class="by" >Posted by</td>
+          <td class="who" ><a href="<%=project_site_url(post.project)+project_people_path(post.project.url,post.project)%>"><%=truncate(post.user.full_name,10)%></a></td>
+          <td class="time"><a href="#"><%=post.created_at.strftime("%m")%></a></td>
+          <td class="proj"><a href="<%=project_site_url(post.project)+project_dashboard_index_path(post.project.url,post.project)%>"><%=truncate(post.project.name,10)%></a></td>
+        </tr>       
+      <%end%>
+    </tbody>
+  </table>
+</div>

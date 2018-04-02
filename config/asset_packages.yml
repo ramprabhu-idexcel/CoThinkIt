@@ -1,0 +1,22 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - effects
+  - dragdrop
+  - controls
+  - application
+- chat:
+  - socky
+  - socky/FABridge
+  - socky/json2
+  - socky/swfobject
+  - socky/web_socket
+stylesheets: 
+- base:
+  - base
+  - front
+  - common
+  - mod_base
+  - admin
+

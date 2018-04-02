@@ -1,0 +1,187 @@
+<%=javascript_include_tag "autocomplete.js"%>
+<%=stylesheet_link_tag "common.css"%>
+<body class="global">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+
+<%= render :partial=> 'projects/alert_message' %>
+<!-- Top header Links Ends Here -->
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="create-project" class="left-col main-content first-tab">
+			<ul class="nav-tabs">
+				<li id="global-tab" class="active"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li>
+							<li><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+			</ul>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div class="dash-box">
+					<h2 class="header-bar">Create New Project</h2>
+					<div class="padder dark-bg">
+						<%remote_form_for @project,:html=>{:class=>"wide-col-form share-line"} do |f|%>
+							<div class="left-col">
+              <%@user=current_user%>
+              <%if current_user.owned_projects.empty?%>
+                <%if @user.company.nil? || @user.company.blank?%>
+                  <label>Organization: </label>
+                  <div class="input-wrapper text-wrapper ">
+                    <div class="box-top-left"></div>
+                    <div class="box-top"></div>
+                    <div class="box-top-right"></div>
+                    <div class="box-body">
+                      <%=text_field :user,:company%>
+                    </div>
+                    <div class="box-bottom-left"></div>
+                    <div class="box-bottom"></div>
+                    <div class="box-bottom-right"></div>
+                  </div>
+                <%end%>
+                <%if @user.site_address.nil? || @user.site_address.blank?%>
+                  <label>Domain <a href="#" title="Your site address is the subdomain where all the projects you create are stored. Projects other users create are stored on their own site addresses. Only projects you create count toward your storage and transfer limits.">(?)</a></label>
+                  <div class="input-wrapper text-wrapper site-address">
+                    <div class="box-top-left"></div>
+                    <div class="box-top"></div>
+                    <div class="box-top-right"></div>
+                    <div class="box-body">
+                      <%=text_field :user,:site_address%>
+                    </div>
+                    <div class="box-bottom-left"></div>
+                    <div class="box-bottom"></div>
+                    <div class="box-bottom-right"></div>
+                  </div>
+                  <span class="desc f-rgt">.cothinkit.com</span>
+                <%end%>
+              <%end%>
+              
+								<label>Project Name</label>
+                <div class="input-wrapper text-wrapper ">
+                  <div class="box-top-left"></div>
+                  <div class="box-top"></div>
+                  <div class="box-top-right"></div>
+                  <div class="box-body">
+                    <%=text_field :project,:name  %>
+                  </div>
+								  <div class="box-bottom-left"></div>
+                  <div class="box-bottom"></div>
+                  <div class="box-bottom-right"></div>
+								</div>
+								<label class="no-bottom-p">Invite People</label>
+                <div class="input-wrapper text-wrapper no-bottom-p">
+                <div class="box-top-left"></div>
+                <div class="box-top"></div>
+                <div class="box-top-right"></div>
+                <div class="box-body">
+                                 
+       
+                        <div tabindex="-1" id="ids" class="clearfix tokenizer" onclick="$('autocomplete_input').focus()" >
+                            <span class="tokenizer_stretcher"></span><span class="tab_stop"><input type="text" id="hidden_input" tabindex="-1" ></span>
+                    	    
+							
+                            <div id="autocomplete_display" class="tokenizer_input">
+                                            <input type="text" size="1" tabindex="" id="autocomplete_input" class="textfield_effect"  name="new_member" value="Start typing a name ..." onclick="javascript:del_message();" style="width:320px;"/>
+                            </div>                                                                          
+                        </div>
+                        <div id="autocomplete_populate" class="clearfix autocomplete typeahead_list" style="width: 358px; height: auto; overflow-y: hidden;display:none">
+                        </div>  
+                
+                
+        
+      
+                  <!--<input type="text" value="Start typing a name &hellip;" onclick="this.value=''" />-->
+                  
+                  
+                </div>
+                <div class="box-bottom-left"></div>
+                <div class="box-bottom"></div>
+                <div class="box-bottom-right"></div>
+              </div>
+            </div>
+						
+						<% if @other_members && !@other_members.empty? %>
+            <div class="scroll span-cols">
+              <ul class="people fit-3">
+								
+                <%@other_members.each do |mem|%>
+                  <li><label><%=check_box_tag "project_user[]",mem.id,checked=(current_user==mem),:disabled=>(current_user==mem),:id=>mem.email%><%=mem.full_name%></label></li>
+                <%end%>
+								
+              </ul>
+            </div>
+						<% end %>
+            <div class="submit-actions">
+              <%=submit_tag "Create Project",:class=>"btn create-project-btn"%>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div> <!-- end main-padder -->
+    <div class="box-bottom-left"></div>
+    <div class="box-bottom"></div>
+    <div class="box-bottom-right"></div>
+  </div>
+</div>
+<div id="sidebar" class="right-col">
+<% if @project_owner && !@project_owner.nil? %>
+<%unless beta_plan_user%>
+  <h2><a href="/users/<%=current_user.id%>/account">Your Overall Usage</a></h2>
+  <%= render :partial=>"/home/bandwidth"%>
+	<% end %>
+	<% end %>
+</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+
+</body>
+<script type="text/javascript">
+	// preload images.
+  (new Image()).src='/images/autocomplete/token.gif';
+  (new Image()).src='/images/autocomplete/token_selected.gif';
+  (new Image()).src='/images/autocomplete/token_hover.gif';
+  (new Image()).src='/images/autocomplete/token_x.gif';
+  var contacts = [
+      <%@other_members.each do |user|%>
+			  <% if user!=current_user %>
+					{name:"<%=user.full_name%>",email:"<%=user.email%>"},
+				<% end %>
+      <%end%>
+      {name:"",email:""}];
+
+  var typeahead = new Autocompleter.LocalAdvanced('autocomplete_input', 'autocomplete_populate', contacts, {                                                  
+                            frequency: 0.1,
+                            updateElement: addContactToList,
+                            search_field: "name"
+                        });
+  var hidden_input = new HiddenInput('hidden_input',typeahead);
+</script>  
+<script>
+function del_message()
+{
+val=document.getElementById('autocomplete_input').value;
+if(val=="Start typing a name ...")
+{
+document.getElementById('autocomplete_input').value="";
+}
+}
+function auto_write()
+{
+a=document.getElementById('project_name').value;
+a=a.replace(/\s+$/, '');
+proj_name=a.split(' ').join('_');
+proj_name=proj_name.split('.').join('');
+document.getElementById('project_url').value=proj_name.toLowerCase();
+}
+</script>

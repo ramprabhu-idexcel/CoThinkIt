@@ -1,0 +1,29 @@
+  <% if !@task_files.nil? and !@task_files.empty?%>
+		<h4>Files in this Task</h4>
+		<ul class="file-list">
+			<% count =5%>
+		 <% for task_file in @task_files[0..count-1] %>
+			<li style="background-image:url(<%=icon_with_file(task_file.content_type,task_file.filename)%>)">
+			
+														<%=link_to return_truncated_filename(task_file.filename), "#",  :onclick=>"javascript:download_bandwidth_check_my_task(#{task_file.id});"%></li>
+
+			
+		 <%end%>	
+			<% if @task_files.length > count %>
+				<li class="no-icon" id="com_more_<%@task.id%>"><a href="#" class="more-link" onclick="document.getElementById('com_more_<%@task.id%>').hide();document.getElementById('hidden_com_tasks_<%=@task.id%>').show(); return false" ><%=@task_files.length - count%> more</a></li>
+				<div id="hidden_com_tasks_<%=@task.id%>" style="display:none">
+					<%for task_file in @task_files[count..@task_files.length]%>
+						<li style="background-image:url(<%=icon_with_file(task_file.content_type,task_file.filename)%>)">
+						<% if !check_completed_project %>
+				<%=link_to return_truncated_filename(task_file.filename),  "#", :id => task_file.id,  :onclick=>"completed_alert();"%></li>		
+				<% elsif !check_status_project %>
+				<%=link_to return_truncated_filename(task_file.filename),  "#", :id => task_file.id,  :onclick=>"suspend_alert();"%></li>		
+														<%else%>
+														<%=link_to return_truncated_filename(task_file.filename), "#",  :onclick=>"javascript:download_bandwidth_check_my_task(#{task_file.id});"%></li>
+				
+			<%end%>
+					<%end%>
+				</div>
+			<%end%>		 
+		</ul>	
+ <%end%>		

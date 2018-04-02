@@ -1,0 +1,5 @@
+<%if params[:achieve]%>
+	<%=link_to_remote("View Archived Tasks",{:url =>achieved_todo_project_tasks_path(@project.url,@project,:id =>@task.id),:method => :get},{:class => "icon expand-down",:id=> "view_completed_#{@task.id}"})%>
+<%else%>
+	<%=link_to_remote("View Archived Tasks",{:url =>achieved_todo_project_tasks_path(@project.url,@project,:id =>@task.id,:achieve => 1),:method => :get},{:class => "icon expand-right",:id=> "view_completed_#{@task.id}"})%>
+<%end%>

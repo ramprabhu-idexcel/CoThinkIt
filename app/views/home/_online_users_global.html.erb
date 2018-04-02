@@ -1,0 +1,30 @@
+<script>
+function startCounter() {
+       new Ajax.Request('/home/online_user_card', {asynchronous:true, evalScripts:true, method:'post'}); return false;
+    }
+		var myInterval = window.setInterval("startCounter()", 300000)
+</script>
+<% if @first_project_users && !@first_project_users.nil? %>
+<% @first_project_users.each do |proj_user, value| %>
+	<% value.each do |val| %>
+	 	<% @project_owner=ProjectUser.find_by_project_id_and_is_owner(val.project_id,true) %>
+	<% end %>
+	<% project=Project.find(@project_owner.project_id) %>
+	<% site_url="https://#{project.owner.site_address}.#{APP_CONFIG[:site][:name]}" %>
+<h2><a href="<%= site_url+ project_dashboard_index_path(value.first.project.url,value.first.project) %>"><%= modified_captialize_call(value.first.project.name) %> Project</a></h2>
+<div class="sidebar-box">
+	<div class="box-top"><h4>Online</h4> </div>
+	<ul class="online-users">
+	<% alt =""%>
+				<% value.each do |online| %>
+					<% if ((Time.now.gmtime-online.updated_at).to_i<300) %>
+						<li class="<%=alt%> online"><a href="<%=  project_chat_index_path(online.project.url,online.project) %>"><%= display_user_name(online.user)%></a></li>
+				
+          <% end %>
+		<% alt = (alt=="alt") ? "" : "alt"%>
+<% end %>
+	</ul>
+	<div class="box-bottom"></div>
+</div>
+<% end %>
+<% end %>

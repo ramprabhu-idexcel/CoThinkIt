@@ -1,0 +1,206 @@
+
+<body class="search">
+<%=render :partial=>'/layouts/header_top'%>
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="project-dashboard" class="left-col main-content first-tab">
+			<%= render :partial => '/layouts/header_nav_tabs' %>
+      <%= render :partial=> 'projects/alert_message' %>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div class="search-header">
+
+ <% if @project%>
+ 					<h1>Search the <%=@project.name%> Project</h1>
+					<p>or <a href="<%=search_index_path(:search_text => params[:search_text],:id => @project.id)%>">search all projects</a></p>
+ <%else%>
+           <h1>Search All Project</h1>
+ <%end%>
+
+		<% if @project%>
+		   <% path = project_search_index_path(@project.url,@project) %>
+		<% else	%>
+		    <% path = search_index_path %>
+		<%end%>		
+		   <% form_tag(path,:method =>:get) do %>
+			 <% if @project %>
+					<%=hidden_field_tag :project_id,@project.id%>
+			 <%end%>			 
+						<fieldset class="width-wrapper">
+							<div class="left-col">
+									<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">		
+			<%=text_field_tag "search_text" ,params[:search_text]%>
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+								</div>
+						</fieldset>
+						<div class="right-col">
+							<input class="btn submit-btn" value="Submit" type="submit">
+						</div>
+						<p><%=@result_display %></p>
+	<%end%>
+
+				</div>
+        <% if !@posts.empty?%>
+				<div class="activity-list wrap-posts">
+					<div class="wrap-header"><h3>Posts</h3></div>
+										<table cellpadding="15">
+						<tbody>
+						<% post_first = @posts.first%>
+							<tr class="first">
+								<td>
+									<a href="#"><%=link_to(return_truncate_string_in_view_page(post_first.title,100),project_post_path(post_first.project.url,post_first.project,post_first))%>
+</a>
+
+									<div class="desc">
+										<p><%=highlight(return_truncate_string_in_view_page(post_first.content,100),@search_values)%></p>
+										<p class="meta">
+										<%=status_display_search(post_first)%>
+										<span class="by" >Posted by <%=link_to display_user_name(post_first.user), project_people_path(post_first.project.url,post_first.project)%></span> 
+										<a href="#" class="date"><%=link_to(display_time_display_search_page(post_first.created_at),project_post_path(post_first.project.url,post_first.project,post_first),:class=>"date")%></a></a></p>
+									</div>
+
+								</td>
+							</tr>
+							<% if @posts.count >1%>
+							<% for post in @posts[1..@posts.count] %>
+							<tr>
+								<td>
+									<a href="#"><%=link_to(return_truncate_string_in_view_page(post.title,50),project_post_path(post.project.url,post.project,post))%></a>
+									<div class="desc">
+										<p><%=highlight(return_truncate_string_in_view_page(post.content,100),@search_values)%></p>
+										<p class="meta">
+										<%=status_display_search(post)%>
+										<span class="by" >Posted by <%=link_to display_user_name(post.user), project_people_path(post.project.url,post.project)%></span> 
+										<a href="#" class="date"><%=link_to(display_time_display_search_page(post.created_at),project_post_path(post.project.url,post.project,post),:class=>"date")%></a></p>
+									</div>
+								</td>
+							</tr>
+							<%end%>
+							<%end%>
+						</tbody>
+					</table>
+				</div>
+				<%end%>
+				<%if !@comments.empty?%>
+				<div class="activity-list wrap-comments">
+					<div class="wrap-header"><h3>Comments</h3></div>
+										<table cellpadding="15">
+						<tbody>
+						<%comment_first = @comments.first%>
+							<tr class="first">
+								<td>
+									<a href="#"><%=link_to(return_truncate_string_in_view_page(comment_first.commentable.title,100),path_for_search_comment_details(comment_first))%></a>
+									<div class="desc">
+										<p><%=highlight(return_truncate_string_in_view_page(comment_first.comment,100),@search_values)%></p>
+										<p class="meta">
+										<%=status_display_search(comment_first)%>
+										<span class="by" >Posted by <%=link_to display_user_name(comment_first.user), project_people_path(@project.url,@project)%></span>
+										<a href="#" class="date"><%=link_to(display_time_display_search_page(comment_first.created_at),path_for_search_comment_details(comment_first),:class=>"date")%></a></p>
+									</div>
+
+								</td>
+							</tr>
+							<% if @comments.count >1%>
+							<% for comment in @comments[1..@comments.count] %>
+							<tr>
+								<td>
+									<a href="#"><%=link_to(return_truncate_string_in_view_page(comment.commentable.title,100),path_for_search_comment_details(comment))%></a>
+									<div class="desc">
+										<p><%=highlight(return_truncate_string_in_view_page(comment.comment,100),@search_values)%></p>
+										<p class="meta">
+										<%=status_display_search(comment)%>
+										<span class="by" >Posted by <%=link_to display_user_name(comment.user), project_people_path(@project.url,@project)%></span> 
+										<a href="#" class="date">
+<%=link_to( display_time_display_search_page(comment.created_at),path_for_search_comment_details(comment),:class=>"date")%></a></p>
+									</div>
+								</td>
+							</tr>
+							<%end%>
+							<%end%>
+						</tbody>
+					</table>
+
+				</div>
+				<%end%>
+				<%if !@files.empty?%>
+				<div class="file-list wrap-files dash-box">
+					<div class="wrap-header"><h3>Files</h3></div>
+					<% for file in @files %>	
+	<% display_file_search(file)%>					
+					<ul class="wide">
+						<li style="background-image:url(<%=icon_with_file(file.content_type,file.filename)%>);background-position:15px 40%;">
+								<%= @file_link%>
+							<span class="filename"><%=@date%></span>
+							<span class="date"><a href="#"><%=file.created_at.strftime("%B %e")%></a></span>
+						</li>
+					</ul>
+					<%end %>
+				</div>
+				<%end%>
+			</div><!-- end main-padder -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+
+	<div id="sidebar" class="right-col">
+		<h2>Recent Searches</h2>
+		<ul class="bullets">
+		  <% if !@recent_searches.empty?%>
+			<% for search in @recent_searches%>
+			<li><!--<a href="#"><%#=return_truncate_string_for_side_bar_details(search.search_text) 	%></a>--><%=link_to return_truncate_string_for_side_bar_details(search.search_text) ,project_search_index_path(@project.url,@project,:search_text=>search.search_text)%></li>
+			<%end%>
+			<%end%>
+		</ul>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+ <script>
+ function download_bandwidth_check_file(id)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+			
+					document.location.href ="/users/download/"+id;
+			
+		}
+		else
+		{
+$('account-limit-modal').show();
+		}
+}
+ </script>
+<style>
+.highlight{
+color:#292D30;
+font-style:normal;
+font-weight:700;
+}
+</style>
+</body>

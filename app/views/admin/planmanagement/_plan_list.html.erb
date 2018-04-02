@@ -1,0 +1,75 @@
+<% if !@plans.empty? %><p align="right"><%=link_to "Download as csv", download_plan_csv_path %></p><%end%>
+<table>
+  <thead>
+    <tr>
+      
+													<% if !(params[:by].nil?) and (params[:order] == "name" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Plan",:url => admin_plan_sorting_path(:order=>"name", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Plan",:url => admin_plan_sorting_path(:order=>"name", :by =>'asc')%> </th>					
+													<%end%>
+													
+													<% if !(params[:by].nil?) and (params[:order] == "no_of_users" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Users",:url => admin_plan_sorting_path(:order=>"no_of_users", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Users",:url => admin_plan_sorting_path(:order=>"no_of_users", :by =>'asc')%> </th>					
+													<%end%>
+													
+													<% if !(params[:by].nil?) and (params[:order] == "no_of_projects" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Projects",:url => admin_plan_sorting_path(:order=>"no_of_projects", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Projects",:url => admin_plan_sorting_path(:order=>"no_of_projects", :by =>'asc')%> </th>					
+													<%end%>
+													
+													<% if !(params[:by].nil?) and (params[:order] == "storage" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Storage(GB)",:url => admin_plan_sorting_path(:order=>"storage", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Storage(GB)",:url => admin_plan_sorting_path(:order=>"storage", :by =>'asc')%> </th>					
+													<%end%>
+													
+													<% if !(params[:by].nil?) and (params[:order] == "transfer" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Transfer(GB)",:url => admin_plan_sorting_path(:order=>"transfer", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Transfer(GB)",:url => admin_plan_sorting_path(:order=>"transfer", :by =>'asc')%> </th>					
+													<%end%>
+													
+													<% if !(params[:by].nil?) and (params[:order] == "price" and params[:by] == "asc")%>																									
+															<th><%=link_to_remote "Monthly Price",:url => admin_plan_sorting_path(:order=>"price", :by =>'desc')%> </th>					
+													<%else%>
+															<th><%=link_to_remote "Monthly Price",:url => admin_plan_sorting_path(:order=>"price", :by =>'asc')%> </th>					
+													<%end%>													
+													<th><a href="#">Edit Icon</a></th>
+													</tr>
+											</thead>
+
+											<%count=0%>
+											<%if @plans.count!=0%>
+													<% @plans.each do |plan|%>
+													<tbody>	
+															<% count=count+1%>
+															<%if count%2!=0%>
+																	<tr  align="left">
+															<%else%>
+																	<tr align="left" class="alt">
+															<%end%>
+															   
+															<td ><%=plan.name%></td>
+															<td ><%if plan.no_of_users!=nil%><%=plan.no_of_users%><%else%>Unlimited<%end%></td>							
+															<td ><%if plan.no_of_projects!=nil%><%=plan.no_of_projects%><%else%>Unlimited<%end%></td>						
+															<td  ><%=convert_to_GB(plan.storage)%></td>		
+															<td ><%=convert_to_GB(plan.transfer)%></td>				
+															
+															<% if plan.name!="Beta" %>
+																<% recurly_plan=Recurly::Plan.find(plan.name.downcase) %>
+																<% price=recurly_plan.unit_amount_in_cents/100 %>
+															<% else %>
+																<% price=plan.price %>
+															<% end %>
+															<td>$<%=price.to_i%></td>
+															<td><%=link_to_remote image_tag("/images/admin_images/icons/pencil.png"), :url => { :controller=>"/admin/planmanagement",:action => "edit", :id => plan.id }%></td>
+														</tr>
+													<%end%>
+											<%end%>
+											</tbody>
+									</table>
+							</center>

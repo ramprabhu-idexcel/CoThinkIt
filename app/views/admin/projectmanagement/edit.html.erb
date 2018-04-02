@@ -1,0 +1,119 @@
+<%=javascript_include_tag :defaults%>
+<%=render :partial=>'/admin/base'%>
+<body class="files">
+		<div class="container"><!-- container starts here -->
+		<h6>&nbsp&nbsp&nbsp<a href="/adminlogout">logout</a></h6>
+			<div class="width-wrapper"><!-- width-wrapper starts here -->
+				<div id="chat" class="left-col-project main-content"><!-- left-col-user main-content starts here -->
+				<!--Header Navigation Tabs -->
+					<%=render :partial=>'/admin/tabs'%>
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+					<div class="main-padder" id="project_listing">	<!-- main-padder starts here -->
+      <center>
+	       <table class="price-plans" >
+					<thead>
+            <tr align="left">
+              <th >Project </th>
+							<th >Project URL</th>
+              <th>Owner </th>
+							<th>Owner Email </th>
+							<th>Storage(GB) </th>
+							<th>Current Transfer(GB) </th>
+							<th style="padding: 9px 20 8px 52px;" >Status </th>
+						</tr>
+			</thead>
+		<%count=0%>
+	
+		<%if @projects.count!=0%>
+			<% @projects.each do |project| %>
+						<%user=project.owner%>
+						<%plan=user.plan_limits if user%>
+						<tbody>
+							<%count=count+1%>
+							<%if count%2!=0%><tr align="left"><%else%><tr align="left" class="alt"><%end%>
+			    		    <%if project.id==@id.to_i%>
+										   <% if @change_project_url==false %>
+												<td><% remote_form_for @project, :url =>{:controller=>"/admin/projectmanagement", :action=> "update" ,:id=>@id}  do |f| %> 
+													<%=f.text_field :name ,:value=>@name ,:size=>10%>
+													<%=submit_tag"update"%>
+												<%end%></td>
+												<td> <%= project.url %>&nbsp&nbsp<a href="javascript:edit_project_url(<%=project.id%>);">Edit</a></td> 
+												<%else%>
+												<td><%= project.name%>&nbsp&nbsp<%=link_to "Edit", { :controller=>"/admin/projectmanagement",:action => "edit", :id => project.id }%></td>
+												<td><% remote_form_for @project, :url =>{:controller=>"/admin/projectmanagement", :action=> "update" ,:id=>@id}  do |f| %> 
+													<%=f.text_field :url ,:value=>project.url ,:size=>10%>
+													<%=submit_tag"update"%>
+												<%end%></td>
+												<% end %>
+												<td ><%=user.first_name if user%></td>
+												<td ><%=user.email if user%></br></td>
+												<td><%if plan!=nil%><% val = (plan.storage_used.nil?) ? 0 : plan.storage_used %><%=bandwidth_in_gb(val)%><%else%>0<%end%></td>
+												<td><%if plan!=nil%><% val = (plan.download_bandwidth_in_MB.nil?) ? 0 : plan.download_bandwidth_in_MB %>
+															<% val1= (plan.bandwidth_used.nil?) ? 0 : plan.bandwidth_used %><%download=(val+val1)%>
+															<%=bandwidth_in_gb(download)%><%else%>0<%end%></td>
+												<td id="status_<%=project.id%>"><%=link_to_remote project_status(project.project_status) ,:url => { :controller=>"/admin/projectmanagement",:action => "edit",:edit_status => true,:id => project.id},:update => "status_#{project.id}"%></td>
+                       				
+			      	       <%else%>
+										
+												<td><%= project.name %>&nbsp&nbsp<%=link_to "Edit", { :controller=>"/admin/projectmanagement",:action => "edit", :id => project.id }%></td>
+											
+												<td><%= project.url %>&nbsp&nbsp<a href="javascript:edit_project_url(<%=project.id%>);">Edit</a></td>
+												<td ><%=user.first_name if user%></td>
+												<td ><%=user.email if user%></br></td>
+												<td><%if plan!=nil%><% val = (plan.storage_used.nil?) ? 0 : plan.storage_used %><%=bandwidth_in_gb(val)%><%else%>0<%end%></td>
+												<td><%if plan!=nil%><% val = (plan.download_bandwidth_in_MB.nil?) ? 0 : plan.download_bandwidth_in_MB %>
+															<% val1= (plan.bandwidth_used.nil?) ? 0 : plan.bandwidth_used %><%download=(val+val1)%>
+															<%=bandwidth_in_gb(download)%><%else%>0<%end%></td>
+												<td id="status_<%=project.id%>"><%=link_to_remote project_status(project.project_status) ,:url => { :controller=>"/admin/projectmanagement",:action => "edit",:edit_status => true,:id => project.id},:update => "status_#{project.id}"%></td>
+                       				
+                       </tr>    
+										<% end %>	
+									</tbody>
+			<%end%>	
+		<%end%>
+                           
+	  </table>   
+	
+          </center>
+	     
+	</div> <!-- main-padder ends here -->
+       </div><!--  left-col-user main-content ends here -->
+     </div><!-- width-wrapper ends here -->
+</div><!-- container ends here -->
+
+
+</body>
+<script>
+function change_project_status(project_id,selected_id,selected_name)
+{
+	 if (selected_name=="Delete")
+	 {
+	   var c=confirm("Are you sure, you want to delete ? ");
+			if (c==true)
+			{
+				 document.getElementById("form_id_"+project_id).submit();
+			}
+			else
+			{
+				new Ajax.Updater("status_"+project_id,'/admin/projectmanagement/edit/'+project_id+'?edit_status='+true, {method: 'post'});
+			}
+	}
+ else
+	{
+	  document.getElementById("form_id_"+project_id).submit();
+	} 
+}
+</script>
+
+<script>
+function edit_project_url(id)
+{
+	document.location.href ="/admin/projectmanagement/edit/"+id+"?edit_url=true";
+			
+}
+
+</script>
+
+

@@ -1,0 +1,57 @@
+  <% if !@post_files.nil? and !@post_files.empty?%>
+		<h4>Files in this Post</h4>
+		<ul class="file-list">
+			<% count =5%>
+		 <% for post_file in @post_files[0..count-1] %>
+			<li style="background-image:url(<%=icon_with_file(post_file.content_type,post_file.filename)%>)">
+			<% if !check_completed_project %>
+				<%=link_to return_truncated_filename(post_file.filename),  "#", :onclick=>"completed_alert();"%></li>		
+				<% elsif !check_status_project %>
+				<%=link_to return_truncated_filename(post_file.filename),  "#", :onclick=>"suspend_alert();"%></li>		
+				<%else%>
+				<%=link_to return_truncated_filename(post_file.filename), "#",   :onclick=>"javascript:download_bandwidth_check_post_comment(#{post_file.id});"%></li>
+	
+			<%end%>
+
+		 <%end%>	
+			<% if @post_files.length > count %>
+				<li class="no-icon" id="com_more_<%@post.id%>"><a href="#" class="more-link" onclick="document.getElementById('com_more_<%@post.id%>').hide();document.getElementById('hidden_com_posts_<%=@post.id%>').show(); return false" ><%=@post_files.length - count%> more</a></li>
+				<div id="hidden_com_posts_<%=@post.id%>" style="display:none">
+					<%for post_file in @post_files[count..@post_files.length]%>
+					
+						<li style="background-image:url(<%=icon_with_file(post_file.content_type,post_file.filename)%>)">
+						<% if !check_completed_project %>
+							<%=link_to return_truncated_filename(post_file.filename),  "#",  :onclick=>"completed_alert();"%></li>					
+							<% elsif !check_status_project %>
+							<%=link_to return_truncated_filename(post_file.filename),  "#",  :onclick=>"suspend_alert();"%></li>					
+						<%else%>
+						<%=link_to return_truncated_filename(post_file.filename), "#",  :onclick=>"javascript:download_bandwidth_check_post_comment(#{post_file.id});"%></li>
+	
+						<%end%>
+
+					<%end%>
+				</div>
+			<%end%>		 
+		</ul>	
+ <%end%>		
+ 
+ <script>
+ function download_bandwidth_check_post_comment(id)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+		  <% if !@post_files.nil? and !@post_files.empty?%>
+				document.location.href ="/<%= @project.url %>/posts/<%= @project.id %>/download/"+id;
+			<% end %>
+		}
+		else
+		{
+
+$('account-limit-modal').show();
+
+		}
+}
+ </script>

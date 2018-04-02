@@ -1,0 +1,72 @@
+development: &non_production_settings
+  site_url: http://rfthink.com
+  site_name: cothinkit
+  admin_email: saravanankrishnan@railsfactory.org
+  dropio_api_key: aa6b700a23a69a6051802a6a6d134e8c5e76e02e
+  chat_host: chat.cothinkit 
+  postfix_email: reply.cothink.it
+  xpmm:
+    host: client70
+    bosh_host: cothinkitlocal.com
+    bosh_service: /http-bind/
+    muc_component: conference.client70
+    admin: admin
+    admin_password: 123
+    strophe_debug: false
+    
+  content:
+    type: jpeg,pdf,zip,gif,png,video,mp3,csv,msword,vnd.ms-excel,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.wordprocessingml.document,x-php,vnd.ms-access,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.presentationml.presentation,vnd.openxmlformats-officedocument.spreadsheetml.sheet,x-tar,x-rar
+    
+  site:
+    name: rfthink.com
+    
+  admin_reset_code:
+    email: raj.testerr@gmail.com
+        
+production:
+  site_url: http://cothinkit.com
+#  site_domain_url: cothinkit.com
+  site_name: cothinkit
+  admin_email: saravanankrishnan@railsfactory.org
+  chat_host: chat.cothinkit.com 
+  postfix_email: reply.cothink.it
+  xpmm:
+    host: ip-10-100-7-142.ec2.internal
+    bosh_host: cothinkit.com:5280
+    bosh_service: /http-bind/
+    muc_component: conference.ip-10-100-7-142.ec2.internal
+    admin: admin
+    admin_password: admin1234
+    strophe_debug: false
+    
+  content:
+    type: jpeg,pdf,zip,gif,png,video,mp3,csv,msword,vnd.ms-excel,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.wordprocessingml.document,x-php,vnd.ms-access,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.presentationml.presentation,vnd.openxmlformats-officedocument.spreadsheetml.sheet,x-tar,x-rar
+   
+  site:
+    name: cothinkit.com
+    
+  admin_reset_code:
+    email: jessema@gmail.com
+    
+test:
+  site_url: http://cothinkit
+  site_name: cothinkit 
+  admin_email: saravanankrishnan@railsfactory.org
+  dropio_api_key: aa6b700a23a69a6051802a6a6d134e8c5e76e02e
+  chat_host: chat.cothinkit
+  postfix_email: reply.cothink.it
+  xpmm:
+    host: ec2-184-73-213-100.compute-1.amazonaws.com
+    bosh_host: 184.73.213.100:5280
+    bosh_service: /http-bind/
+    muc_component: conference.ec2-184-73-213-100.compute-1.amazonaws.com
+    admin: admin
+    admin_password: admin
+    strophe_debug: false
+    
+  content:
+    type: jpeg,pdf,zip,gif,video,mp3,csv,msword,vnd.ms-excel,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.wordprocessingml.document,x-php,vnd.ms-access,vnd.ms-powerpoint,vnd.openxmlformats-officedocument.presentationml.presentation,vnd.openxmlformats-officedocument.spreadsheetml.sheet,x-tar,x-rar
+    
+  site:
+    name: rfthink.com
+

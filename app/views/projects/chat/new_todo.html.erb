@@ -1,0 +1,59 @@
+<div id="add-todo-chat-modal" class="modal" style="">
+		<a class="btn close-btn ir"  onclick='Control.Modal.close();return false;' href="#"><span>Close</span></a>
+		<%form_remote_tag(:url => create_todo_project_chat_path(@project.url,@project) ,:method => :post ,:html => {:class => "padder"}) do %>
+			<div class="group">
+			<%=hidden_field_tag :filter_option,  params[:filter_option]%>
+				<label>To-Do Title  &nbsp; &nbsp;  <span style="color: red;font-weight:normal" id="todo_title_error"> <%=error_message_on 'todo','title'%></span>    <span id="success_message" style="color: green;font-size:12px;"></span></label>
+				<div class="input-wrapper text-wrapper ">
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+					<div class="box-body">			
+						<%=text_field :todo ,'title'%>
+					</div>
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom"></div>
+					<div class="box-bottom-right"></div>
+				</div>
+			</div>
+			<div class="group task-col">
+				<label>Associated Task</label>
+				<%if !@tasks.empty?%>
+						<%=select("todo", "task_id", @tasks.collect {|r| [ r.title, r.id ]} ) %>
+				<%else%>
+				    <%=select("todo", "task_id", [["Unassigned To-Dos","0"]] ) %>
+				<%end%>
+			</div>			
+			<div class="group date-col">
+				<label>Due Date <!--<span class="instr">(E.g. 01/15/2010)</span>--> </label>
+				<div class="input-wrapper text-wrapper ">
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+					<div class="box-body">
+					<input type="text" name="todo[due_date]" value="no date"  id="date_display" />
+						<%#= calendar_date_select_tag "todo[due_date]", "", :month_year => "label", :valid_date_check => "date >= (new Date()).stripTime()", :value=>"no date"%>
+					</div>
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom"></div>
+					<div class="box-bottom-right"></div>
+				</div>
+			</div>
+			
+							<div class="calendar-widget">
+						<a href="#" class="btn ir calendar-btn" onclick="document.getElementById('update_calender').style.display='block';"><span>Date picker</span></a>
+
+						<div class="calendar-flyout" id ="update_calender">
+							<%=render :partial => "calender_display"%>
+							
+					</div>
+					</div>
+			<div class="group who-col">
+				<label>Who's responsible?</label>
+				<%=select_tag 'todo_users' ,options_for_select(@assignees,@assignees.last)%>
+			</div>
+			<div class="group submit-col">
+				<input type="submit" value="Add Task" class="btn"/>
+			</div>
+		<%end%>
+</div>

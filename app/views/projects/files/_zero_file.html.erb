@@ -1,0 +1,19 @@
+<div class="zerostate">
+  <div class="zero">
+    <h2>Upload your first file</h2>
+    <div class="zero-icon-file"></div>
+    <p >Upload files here so you and your team have access to project files anywhere and anytime you can browse the web on the internet.</p>
+    <ul>
+      <%form_tag(project_files_path(@project.url,@project) , :multipart => true, :target => 'upload_frame',:id => "upload_new_file_zero",:html => {:class => "padder"}) do %>
+        <% if !check_completed_project %>
+          <li><a href="#" class="zero-arrow" id="file_upload_zero" onclick="completed_alert(); return false">Upload a new file</a></li>
+					<% elsif !check_status_project %>
+          <li><a href="#" class="zero-arrow" id="file_upload_zero" onclick="suspend_alert(); return false">Upload a new file</a></li>
+        <%else%>
+          <li><a href="#" class="zero-arrow" id="file_upload_zero">Upload a new file
+          <input type="file" size="2" class="hide_zero" id="openssme_zero" onchange="show_confirm_zero();" name="file1" style="width:125px;"></input></a></li>
+        <%end%>
+      <%end%>
+    </ul>
+  </div>
+</div>

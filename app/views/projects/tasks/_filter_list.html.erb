@@ -1,0 +1,7 @@
+  <div id="posts-filter" class="filter dropmenu"><a href="#" class="menu-trigger btn ir"><span><%=params[:filter_option]%></span></a> <p>Filter</p>
+    <ul>
+      <%for filter in @filters%>
+      <li><%=link_to_remote filter,:url =>task_filter_project_tasks_path(@project.url,@project,:filter_option => filter),:method=>:get%></li>
+      <%end%>
+    </ul>
+  </div>

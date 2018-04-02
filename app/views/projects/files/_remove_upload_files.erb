@@ -1,0 +1,8 @@
+<div style="display: none;" id="file_upload">
+<div id="files_list"></div>
+<%=file_field_tag 'file', :id=>"my_file_element"%>
+<script>
+				var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 10 );
+				multi_selector.addElement( document.getElementById( 'my_file_element' ) );
+</script>
+</div>

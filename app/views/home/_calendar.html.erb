@@ -1,0 +1,35 @@
+
+<div class="calendar f-lft">
+<div class="month-nav">
+<a href="javascript:previous_month(<%=@year%>,<%=@month%>)" class="icon icon-left ir"><span><<</span></a>
+<a href="#" class="month-text"><%=return_month_name(@month)%></a>
+<a href="javascript:next_month(<%=@year%>,<%=@month%>)" class="icon icon-right ir"><span>>></span></a>
+</div>
+<%= calendar({:year => @year, :month => @month,:previous_month_text=>"<a class='icon icon-left ir' href='javascript:previous_month(#{@year},#{@month})'></a>",:next_month_text=>"<a class='icon icon-right ir' href='javascript:next_month(#{@year},#{@month})'></a>",:abbrev => (0..0),:other_month_class=>"dim",:month_name_class=>"month-text",:all_event=>true,:month_header =>false, :table_class => "calender11"}) do |d| 
+  cell_text = "#{d.mday}<br />" 
+  cell_attrs = {:class => 'day'} 
+  cell_attrs[:class]="selected today" if @current_date==d
+    
+  @events.each do |date,event| 
+      if date == d 
+      #cell_text << e.name << "<br />" 
+      cell_attrs[:class] = 'flag' 
+      cell_text=%Q{<a href="javascript:show_event('#{date}');">#{cell_text}</a>}
+			else
+			
+    end 
+  end 
+  if @events_todo && !@events_todo.nil?
+   @events_todo.each do |date,event| 
+      if date == d 
+      #cell_text << e.name << "<br />" 
+      cell_attrs[:class] = 'flag' 
+      cell_text=%Q{<a href="javascript:show_event('#{date}');">#{cell_text}</a>}
+    end 
+  end 
+  end
+	cell_text=%Q{<a href="javascript:show_date('#{d}');");">#{cell_text}</a>}
+  [cell_text, cell_attrs] 
+end %>
+
+</div>

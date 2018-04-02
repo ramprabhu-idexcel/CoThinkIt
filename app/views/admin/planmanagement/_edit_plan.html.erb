@@ -1,0 +1,21 @@
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Edit <%= @editplan.name %> Plan</h3>
+		  <div class="clear"></div>
+		</div>
+<center>
+<div class="content-box-content">
+<% remote_form_for @plans, :url =>{:action=> "update",:id=>@editplan.id }  do |f| %> 		
+Users
+<%=f.text_field :no_of_users,:value => @editplan.no_of_users.nil? ? "" : @editplan.no_of_users,:class=>"text-input",:size=>8%>
+Projects
+<%=f.text_field :no_of_projects,:value => @editplan.no_of_projects.nil? ? "" : @editplan.no_of_projects,:class=>"text-input",:size=>8%>
+Storage
+<%=f.text_field :storage,:value=>(convert_to_GB(@editplan.storage)),:class=>"text-input",:size=>8%>
+Transfer
+<%=f.text_field :transfer,:value=>(convert_to_GB(@editplan.transfer)),:class=>"text-input",:size=>8%>
+<input type="submit" value="Submit" class="button"/>
+<% end %>
+</div>
+</center>
+</div>

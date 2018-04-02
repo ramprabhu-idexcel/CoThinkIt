@@ -1,0 +1,26 @@
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Edit User</h3>
+		  <div class="clear"></div>
+		</div>
+
+<div class="content-box-content">
+
+			
+			<% @status=['Active','Suspend','Delete'] %>
+			<% @val = user_status(@edituser.status) %>
+<center>
+
+<% remote_form_for @user, :url =>{:controller=>"/admin/usermanagement", :action=> "update" ,:id=>@id}  do |f| %> 
+<b><%= @edituser.first_name %></b>
+Site Address 
+<%=f.text_field :site_address, :value => @edituser.site_address, :class=>"text-input",:size=>16%> 
+Plan 
+<%= select 'billing_information','plan_id',options_for_select(Plan.all.collect{|p| [p.name,p.id]},[@plan_de.name,@plan_de.id]) ,{} %> 
+Status 
+<%=select_tag :status,options_for_select(@status,@val) %>
+<input type="submit" value="Submit" class="button"/>
+<% end %>
+</center>
+</div>
+</div>

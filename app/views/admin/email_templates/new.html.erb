@@ -1,0 +1,28 @@
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#tab2').show();
+ });
+</script>
+
+<div class="content-box">
+  <div class="content-box-header"></div>
+  <div class="content-box-content">
+    <div id="tab2" class="tab-content" style="display: block;">
+      <% form_for(@email_template) do |f| %>
+        <fieldset>
+        <%= f.error_messages %>
+        <p>
+          <label><%= @email_template.key %></label>
+        </p>
+        <p>
+          <%= f.label :content %>
+          <%= f.text_area :content ,:class=>"text-input textarea wysiwyg",:id=>"textarea"%>
+        </p>
+        <p>
+          <%= f.submit 'Update',:class=>"button" %>
+        </p>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+</div>

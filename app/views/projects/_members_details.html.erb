@@ -1,0 +1,26 @@
+<%if @members["Administrator"]%>
+    <h4>Administrators</h4>
+    <ul class="bullets">
+      <%@members["Administrator"].each do |admin|%>
+        <li><a href="<%= edit_user_role_path(@project.url,@project,admin.user_id)%>"><%=h admin.user.full_name if admin.user%></a></li>
+      <%end%>
+      </ul>
+    <%end%>
+    
+    <%if @members["Team Member"]%>
+      <h4>Team Members</h4>
+      <ul class="bullets">
+      <%@members["Team Member"].each do |mem|%>
+        <li><a href="<%= edit_user_role_path(@project.url,@project,mem.user_id)%>"><%=h mem.user.full_name if mem.user%></a></li>
+      <%end%>
+      </ul>
+    <%end%>
+    
+    <%if @members["Guest"]%>
+		<h4>Guests</h4>
+		<ul class="bullets">
+			<%@members["Guest"].each do |guest|%>
+        <li><a href="<%= edit_user_role_path(@project.url,@project,guest.user_id)%>"><%=h guest.user.full_name if guest.user%></a></li>
+      <%end%>
+		</ul>
+  <%end%>

@@ -1,0 +1,85 @@
+		<% form_remote_tag :url=>update_account_users_path,:html=>{:class=>'two-col-form share-line r-align-labels'},:loading=>"Element.show('spinner')",:complete=>"Element.hide('spinner')" do %>
+			<div class="dash-box topless"><!-- dash-box topless starts here -->
+
+					</div><!-- end dash-box -->
+					<div class="dash-box topless">
+						<div class="padder dark-bg">
+							<fieldset class="max-width">
+								<h3>Credit Card Details</h3>
+								<p class="desc">Fill out our secure form to update your billing card.</p>
+								<div class="left-col">
+									<label>Cardholder</label>
+										<div class="input-wrapper text-wrapper ">
+											<div class="box-top-left"></div>
+											<div class="box-top"></div>
+											<div class="box-top-right"></div>
+											<div class="box-body">
+												<%= text_field_tag 'billing_information[card_holder]',nil %>
+											</div>
+											<div class="box-bottom-left"></div>
+											<div class="box-bottom"></div>
+											<div class="box-bottom-right"></div>
+										</div>
+									</div>
+	<div class="form-row"><!-- form-row  starts here -->
+		<div class="left-col">
+		<label>Card #</label>
+			<div class="input-wrapper text-wrapper ">
+				<div class="box-top-left"></div>
+				<div class="box-top"></div>
+				<div class="box-top-right"></div>
+					<div class="box-body">
+						<%= text_field_tag 'card',nil %>
+					</div>
+				<div class="box-bottom-left"></div>
+				<div class="box-bottom"></div>
+				<div class="box-bottom-right"></div>
+			</div>
+		</div>
+
+		<div class="right-col ccv-field">
+			<label>CCV#</label>
+				<div class="input-wrapper text-wrapper ">
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+						<div class="box-body">
+							<%= text_field_tag  'ccv',nil %>
+						</div>
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom"></div>
+					<div class="box-bottom-right"></div>
+				</div>
+		</div>
+	</div><!-- form-row  ends here -->
+	
+			<div class="form-row"><!-- form-row  starts here -->
+				<div class="left-col">
+				<label>Expires</label>
+				<%= select_month(Date.new(Date.today.year),:use_month_names =>%w(01-January 02-Febuary 03-March 04-April 05-May 06-June 07-July 08-August 09-September 10-October 11-November 12-December)) %>
+				</div>
+				<div class="right-col year-field">
+					<%= select_year(Date.today, :start_year =>Date.today.year, :end_year =>Date.today.year+12) %>
+				</div>
+			</div><!-- form-row  ends here -->
+								<div class="span-cols we-accept pre-submit-pad">
+									<label>We Accept</label>
+									<ul>
+										<li class="cc-mastercard ir"><span>MasterCard</span></li>
+										<li class="cc-visa ir"><span>Visa</span></li>
+										<li class="cc-amex ir"><span>American Express</span></li>
+										<li class="cc-discover ir"><span>Discover</span></li>
+										<li class="cc-diners ir"><span>Diners Club International</span></li>
+										<li class="cc-jcb ir"><span>JCB</span></li>
+										
+									</ul>
+								</div>
+                <input type="hidden" id="plan_id" name="plan_id">
+								<div class="submit-actions">
+									<input type="submit" class="btn save-btn" value="Save" />
+								</div>
+							</fieldset>
+						</div><!-- end padder dark-bg -->
+					</div><!-- end dash-box -->
+				<%end%>
+			</div> <!-- end main-padder -->

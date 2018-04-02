@@ -1,0 +1,16 @@
+<p>Set Status:</p>						
+	<% if parent =="task" %>
+		<%["pending", "accepted", "rejected"].each do |status| %>
+		
+				<%#=link_to_remote(status,{:url =>update_status_path_project_task_todos_path(@project.url,@project,@task,:comment_id => comment.id,:status =>status,:parent => parent), :method => :get} ,{:class => status_flag_style_update(comment, status)})%>
+	 	 
+	 
+		<%end%>
+	<%else%>
+		<%["pending", "accepted", "rejected"].each do |status| %>
+		
+				<%#=link_to_remote(status,{:url =>update_status_path_project_task_todos_path(@project.url,@project,@task,:id => @todo.id,:comment_id => comment.id,:status =>status,:parent => parent), :method => :get} ,{:class => status_flag_style_update(comment, status)})%>
+	 	 
+	 
+		<%end%>
+	<%end%>

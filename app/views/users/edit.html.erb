@@ -1,0 +1,258 @@
+<script type="text/javascript" src="/javascripts/jscolor.js"></script>
+<body class="global">
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<!-- Top header Links Ends Here -->
+<div class="container"><!--container starts here -->
+	<div class="width-wrapper"><!-- width-wrapper starts here -->
+		<div id="edit-profile" class="left-col main-content first-tab"><!-- left-col main-content first-tab starts here -->
+				<%if params && params[:project_id] %>
+					<%= render :partial => '/layouts/header_nav_tabs' %>
+				<%else%>
+					<ul class="nav-tabs">
+						<li id="global-tab" class="active"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li>
+									<li><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+					</ul>
+				<%end%>
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+						<div class="main-padder"><!-- main-padder starts here -->
+							<div class="dash-box"><!-- dash-box starts here -->
+								<h2 class="header-bar">Edit Profile</h2>
+									<div class="padder dark-bg"><!-- padder dark-bg starts here -->
+										<%form_tag( user_path(@user) ,:method => :put ,:multipart=>true, :target => 'upload_frame',:html => {:id=>"edit-profile-form"},:class=>'two-col-form share-line max-width') do %>
+											<p class="desc">The individual's first and last initial are displayed next to messages, tasks, posts and files.</p>
+											<%=hidden_field_tag :project_id,params[:project_id]%>
+												<div class="left-col"><!-- left-col starts here -->
+									<fieldset class="required">
+									
+<!-- First Name -->									
+	<label>First Name</label>
+		<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+			<div class="box-top-left"></div>
+				<div class="box-top"></div>
+				<div class="box-top-right"></div>
+				<div class="box-body"><!-- box-body starts here -->
+					<%if @user.id == current_user.id%>
+						<%= text_field 'user', 'first_name',:value =>@user.first_name %> 
+					<%else%>
+						<%= text_field 'user', 'first_name',:value =>@user.first_name ,:readonly => true%>
+					<%end%>
+				</div><!-- box-body ends here -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div><!-- input-wrapper text-wrapper ends here -->
+										
+	<!-- Last Name -->									
+		<label>Last Name</label>
+			<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+				<div class="box-top-left"></div>
+				<div class="box-top"></div>
+				<div class="box-top-right"></div>
+					<div class="box-body"><!-- box-body starts here -->
+						<%if @user.id == current_user.id%>
+							<%= text_field 'user', 'last_name',:value =>@user.last_name  %>
+						<%else%> 
+							<%= text_field 'user', 'last_name',:value =>@user.last_name ,:readonly => true%>
+						<%end%>
+					</div><!-- box-body ends here -->
+				<div class="box-bottom-left"></div>
+				<div class="box-bottom"></div>
+				<div class="box-bottom-right"></div>
+			</div><!-- input-wrapper text-wrapper ends here -->
+											
+	<!-- Company -->
+	<label>Email</label>
+		<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+				<div class="box-body"><!-- box-body starts here -->
+					<%if @user.id == current_user.id%>
+						<%= text_field 'user', 'email',:value =>@user.email  %>
+					<%else%> 
+						<%= text_field 'user', 'email',:value =>@user.email ,:readonly => true%>
+					<%end%>
+				</div><!-- box-body ends here -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+											
+	<!-- Company -->			
+		<label>Company</label>
+			<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+				<div class="box-top-left"></div>
+				<div class="box-top"></div>
+				<div class="box-top-right"></div>
+					<div class="box-body"><!-- box-body starts here -->
+						<%if @user.id == current_user.id%>
+							<%= text_field 'user', 'company',:value =>@user.company  %>
+						<%else%> 
+							<%= text_field 'user', 'company',:value =>@user.company ,:readonly => true%>
+						<%end%>
+					</div><!-- box-body ends here -->
+				<div class="box-bottom-left"></div>
+				<div class="box-bottom"></div>
+				<div class="box-bottom-right"></div>
+			</div><!-- input-wrapper text-wrapper ends here -->
+											
+	<!-- Password -->										
+		<label for="password">Password</label>
+			<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+				<div class="box-top-left"></div>
+				<div class="box-top"></div>
+				<div class="box-top-right"></div>
+					<div class="box-body"><!-- box-body starts here -->
+						<%if @user.id == current_user.id%>
+							<%= password_field 'user', 'password'  %>
+						<%else%>
+							<%= password_field 'user', 'password',:readonly => true%>
+						<%end%>
+					</div><!-- box-body ends here -->
+				<div class="box-bottom-left"></div>
+				<div class="box-bottom"></div>
+				<div class="box-bottom-right"></div>
+			</div><!-- input-wrapper text-wrapper ends here -->
+			
+		</fieldset>
+				
+				
+								
+		<p class="desc">Optional information</p>
+				<fieldset class="optional">
+				
+	<!-- Title -->				
+					<label>Title</label>
+						<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+							<div class="box-top-left"></div>
+							<div class="box-top"></div>
+							<div class="box-top-right"></div>
+								<div class="box-body"><!-- box-body starts here -->
+									<%if @user.id == current_user.id%>
+										<%= text_field 'user', 'title',:value =>@user.title %>
+									<%else%>
+										<%= text_field 'user', 'title',:value =>@user.title,:readonly => true%>
+									<%end%>
+								</div><!-- box-body ends here -->
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom"></div>
+							<div class="box-bottom-right"></div>
+						</div><!-- input-wrapper text-wrapper ends here -->
+					
+	<!-- Office Phone -->				
+			<label>Office Phone</label>
+				<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+						<div class="box-body"><!-- box-body starts here -->
+							<%if @user.id == current_user.id%>
+								<%= text_field 'user', 'office_phone',:value =>@user.office_phone %>
+							<%else%> 
+								<%= text_field 'user', 'office_phone',:value =>@user.office_phone,:readonly => true%>
+							<%end%>
+						</div><!-- box-body ends here -->
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom"></div>
+					<div class="box-bottom-right"></div>
+				</div><!-- input-wrapper text-wrapper ends here -->
+												
+			<!-- Mobile -->									
+			<label>Mobile</label>
+				<div class="input-wrapper text-wrapper "><!-- input-wrapper text-wrapper starts here -->
+					<div class="box-top-left"></div>
+					<div class="box-top"></div>
+					<div class="box-top-right"></div>
+						<div class="box-body"><!-- box-body starts here -->
+							<%if @user.id == current_user.id%>
+								<%= text_field 'user', 'mobile',:value => @user.mobile  %>
+							<%else%>
+								<%= text_field 'user', 'mobile',:value =>@user.mobile,:readonly => true%>
+							<%end%>
+						</div><!-- box-body ends here -->
+					<div class="box-bottom-left"></div>
+					<div class="box-bottom"></div>
+					<div class="box-bottom-right"></div>
+				</div><!-- input-wrapper text-wrapper ends here -->
+												
+			<!-- Time zone -->
+												<label>Time Zone</label>
+													<%if @user.id == current_user.id%>
+														<%= select_tag("time",options_for_select(@time_zone,@user.time_zone),{:prompt => 'Select Person'})%>
+													<%else%> 
+														<%= select_tag("time",options_for_select(@time_zone,@user.time_zone),{:prompt => 'Select Person',:disabled => true})%>
+													<%end%>
+																<% if params[:project_id]  and @project_user %>
+																	<label>Role</label>
+																		<%if @user.id == current_user.id%>									
+																			<%=select("roles", "name", Role.find(:all).collect {|r| [ r.name, r.id ]}, {:selected => (!@project_user.nil? and !@project_user.role.nil? ?  @project_user.role_id :  "Not yet assigned" )},{:disabled => true})  %>
+																		<%else%>
+																			<%=role_select_tag%>								
+																		<%end%>
+																<%end %>
+						<label style="margin-top: -4px;">Chat Color</label>
+						
+						
+		<div class="img-input">				
+						
+							<div class="color-chooser-display" id="color" style="margin-right: 0px; ">
+							</div> 
+							
+							 <input type="hidden" name="color_code" id="color_code"  value="<%=@user.color_code%>"  />
+						<%if @user.id == current_user.id%>		
+						
+						<div class="fieldHolder">
+						<input type="text" value="" alt="Select a Color" class="color {valueElement:'color_code',styleElement:'color'}"  src="/images/buttons/color-chooser.png" style="width: 30px;height: 22px;background: none;border: none;color: #000000; cursor:pointer;" onchange="document.getElementById('color_code').value = '#'+this.color;" readonly>
+						</div> 
+						
+</div><!--img-input-->						
+						
+						
+						<%end%>
+					</fieldset>
+				</div>
+				
+				<div class="right-col">
+				<fieldset class="avatar-chooser modal-trigger">
+					<a class="f-lft avatar-chooser-btn" href="#">
+					<%= image_tag "#{show_user_image(@user)}", :class=>"avatar frame", :alt=>"Avatar" %>
+					<!--<img class="avatar frame" alt="Avatar" src="<%#=show_user_image(@user)%>" />--></a>
+					<!-- 	<a href="#" class="f-lft upload-files">--><%if @user.id == current_user.id%><%= file_field_tag "image",{:style=>'font-size: 13px;'} %>Upload Profile Photo<%end%>
+				</fieldset>
+					<div class="submit-actions">
+						<input type="submit" class="btn save-btn" value="Save" />
+					</div>
+				</div>
+				<%end%>
+				
+			</div>
+		</div>
+	</div> <!-- end main-padder -->
+	
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	
+	<div id="sidebar" class="right-col">
+		<div id="online_user"><% if params[:project_id] %><%= render :partial=>'projects/dashboard/online_users' %><% else %> <%= render :partial=>'/home/online_users_global' %> <% end %> </div>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<iframe id='upload_frame' name="upload_frame" style="width:0px;height:0px;border:0px" src="about:blank"></iframe>
+</body>
+
+<style>
+	.fieldHolder
+	{
+		background: url(/images/buttons/color-chooser.png) no-repeat;
+	float:left;
+height:21px;
+width:20px;
+margin:2px 0 0 9px;
+	}
+</style>

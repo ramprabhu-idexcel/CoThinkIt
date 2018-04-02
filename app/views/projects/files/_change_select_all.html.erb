@@ -1,0 +1,18 @@
+<% if !check_status_project %>
+
+<%if params[:unselect]%>
+<a href="#" onclick="suspend_alert(); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=params[:file_id]%>',<%=params[:file_id]%>); return false">Select All</a>
+<%else%>
+<a href="#" onclick="suspend_alert(); return false">Download selected</a> | <a href="#" onclick="unselect_function('hidden_field_<%=params[:file_id]%>',<%=params[:file_id]%>); return false">Unselect All</a>
+<%end%>
+
+
+
+<%else%>
+<%if params[:unselect]%>
+<a href="#" onclick="download_selected_file('<%=params[:file_id]%>'); return false">Download selected</a> | <a href="#" onclick="call_function('hidden_field_<%=params[:file_id]%>',<%=params[:file_id]%>); return false">Select All</a>
+<%else%>
+<a href="#" onclick="download_selected_file('<%=params[:file_id]%>'); return false">Download selected</a> | <a href="#" onclick="unselect_function('hidden_field_<%=params[:file_id]%>',<%=params[:file_id]%>); return false">Unselect All</a>
+<%end%>
+
+<%end%>

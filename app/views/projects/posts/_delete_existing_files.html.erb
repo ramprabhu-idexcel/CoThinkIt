@@ -1,0 +1,5 @@
+<% if @post.attachments && !@post.attachments.nil? %>
+							<% @post.attachments.each do |attach| %>
+								<p><%= attach.filename %> <%=link_to_remote "remove",:url => delete_post_attachment_path(:id=>attach.id)%> </p>
+							<% end %>
+						<% end %>

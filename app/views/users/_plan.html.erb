@@ -1,0 +1,44 @@
+<div class="padder dark-bg">
+    <table class="price-plans" cellpadding="0" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="plan">Plan</th>
+          <th class="storage">Storage</th>
+          <th class="transfer">Transfer</th>
+          <th class="price">Price</th>
+          <th class="switch">Switch Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+			<% require 'recurly' %>
+        <%@plans.each_with_index do |plan,index|%>
+					<% if plan.name!="Beta" %>
+							<% recurly_plan=Recurly::Plan.find(plan.name.downcase) %>
+							<% price=recurly_plan.unit_amount_in_cents/100 %>
+					<% else %>
+							<% price=plan.price %>
+					<% end %>
+          <tr class="<%= plan_class(@plans.count,index)%> <%= current_plan_class(plan,index)%>">
+            <td class="plan"><%= (current_user.billing_information && current_user.billing_information.plan_id==plan.id) ? "Your Plan" : plan.name%></td>
+            <td class="storage"><%= display_in_gb(plan.storage)%></td>
+            <td class="transfer"><%= display_in_gb(plan.transfer)%></td>
+            <td class="price"><%= price==0.0 ? "FREE" : "$#{price.to_i}"%></td>
+            <td class="switch"><%=upgrade_link(plan)%></td>
+          </tr>
+        <%end%>
+        <%if @beta_plan%>
+         <tr class="selected last-row">
+            <td class="plan">Beta</td>
+            <td class="storage">Unlimited</td>
+            <td class="transfer">Unlimited</td>
+            <td class="price">FREE</td>
+            <td class="switch">-</td>
+          </tr>
+        <%end%>  
+      </tbody>
+    </table>
+    <p id="delete-desc" class="desc">
+		To update your credit card information <a href="#card_details" onclick="javascript:show_credit_card();">click here </a> <br/>
+		If you no longer wish to subscribe to our service you can <%=link_to_remote "delete your account",:url=>close_account_users_path,:confirm=>"Are you sure? Do you want to delete your account"%>
+</div>
+

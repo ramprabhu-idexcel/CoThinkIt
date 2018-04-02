@@ -1,0 +1,101 @@
+
+<% if !@plan_limits.nil? and !@plan_limits.max_storage_in_MB.nil? && !@plan_limits.max_bandwidth_in_MB.nil? %>
+<%unless beta_plan_user%>
+
+<% if @per_storage %>
+<% if params[:project_id] %>
+<% path="/users/#{current_user.id}/account?project_id=#{params[:project_id]}" %>
+<% else %>
+<% path="/users/#{current_user.id}/account" %>
+<% end %>
+
+<div class="sidebar-box">
+  <h4 class="box-top">Storage</h4>
+  <div class="meter">
+			
+	<%if @per_storage.to_i > 90 %>
+	<div class="meter-marker mark-100"></div>
+	<%elsif @per_storage.to_i > 80 %>
+    <div class="meter-marker mark-80"></div>
+		<%elsif @per_storage.to_i > 70 %>
+    <div class="meter-marker mark-70"></div>
+		<%elsif @per_storage.to_i > 60 %>
+    <div class="meter-marker mark-60"></div>
+		<%elsif @per_storage.to_i > 50 %>
+    <div class="meter-marker mark-50"></div>
+		<%elsif @per_storage.to_i > 40 %>
+    <div class="meter-marker mark-40"></div>
+		<%elsif @per_storage.to_i > 30 %>
+    <div class="meter-marker mark-30"></div>
+		<%elsif @per_storage.to_i > 20 %>
+    <div class="meter-marker mark-20"></div>
+		<%elsif @per_storage.to_i >10 %>
+    <div class="meter-marker mark-10"></div>
+		<%elsif @per_storage.to_i >0 %>
+    <div class="meter-marker mark-10" style="background-position:-125px 0;"></div>
+		<% else %>
+		<div class="meter-marker mark-0"></div>
+		<% end %>
+
+    <p class="ir"><a href="<%= path %>" title="<%= @used_storage_in_GB.round(2) %>&nbsp;<%= @format %> Used" style="margin-right:3px;"> 
+		<% if @format=="GB" %>
+		
+		<%= @used_storage_in_GB.round(1)==0.0?  @used_storage_in_GB.round(2): @used_storage_in_GB.round(1) %>
+		<% else %>
+		<%= @used_storage_in_GB.to_i %>
+		<% end %>
+		<%= @format %> Used</a></p>
+  </div>
+  <h4 class="box-mid">Bandwidth</h4>
+  <div class="meter">
+	
+	<%if @per_bandwidth.to_i > 90 %>
+	<div class="meter-marker mark-100"></div>
+	<%elsif @per_bandwidth.to_i > 80 %>
+    <div class="meter-marker mark-80"></div>
+		<%elsif @per_bandwidth.to_i > 70 %>
+    <div class="meter-marker mark-70"></div>
+		<%elsif @per_bandwidth.to_i > 60 %>
+    <div class="meter-marker mark-60"></div>
+		<%elsif @per_bandwidth.to_i > 50 %>
+    <div class="meter-marker mark-50"></div>
+		<%elsif @per_bandwidth.to_i > 40 %>
+    <div class="meter-marker mark-40"></div>
+		<%elsif @per_bandwidth > 30 %>
+    <div class="meter-marker mark-30"></div>
+		<%elsif @per_bandwidth > 20 %>
+    <div class="meter-marker mark-20"></div>
+		<%elsif @per_bandwidth > 10 %>
+    <div class="meter-marker mark-10"></div>
+		<%elsif @per_bandwidth.to_i >0 %>
+    <div class="meter-marker mark-10" style="background-position:-125px 0;"></div>
+		<% else %>
+		<div class="meter-marker mark-0"></div>
+		<% end %>
+    <p class="ir"><a href="<%= path %>" title="<%= @used_bandwidth_in_GB.round(2) %>&nbsp;<%= @format %> Used" style="margin-right:3px;"> 
+		<% if @format=="GB" %>
+		<%= @used_bandwidth_in_GB.round(1)==0.0? @used_bandwidth_in_GB.round(2):@used_bandwidth_in_GB.round(1) %>
+		<% else %>
+		<%= @used_bandwidth_in_GB.to_i %>
+		<% end %>
+		<%= @format %> Used</a></p>
+  </div>
+  <div class="box-bottom"></div>
+</div>
+<% else %>
+<div class="sidebar-box">
+  <h4 class="box-top">Storage</h4>
+  <div class="meter">
+		<div class="meter-marker mark-0"></div>
+	   <p class="ir"><a href="<%= path %>" title="0.0MB Used">&nbsp;0MB Used</a></p>
+  </div>
+  <h4 class="box-mid">Bandwidth</h4>
+  <div class="meter">
+	<div class="meter-marker mark-0"></div>
+	 <p class="ir"><a href="<%= path %>" title="0.0MB Used">&nbsp;0MB Used</a></p>
+  </div>
+  <div class="box-bottom"></div>
+</div>
+<% end %>
+<% end %>
+<% end %>

@@ -1,0 +1,15 @@
+<div style="" class="role-modal modal">
+		<a class="btn close-btn ir"  onclick='Control.Modal.close();return false;' href="#"><span>Close</span></a>
+		<%form_remote_tag(:url =>update_user_role_projects_path(:project_name=>@project.url,:project_id=>@project.id,:user_id=>@project_user.user_id) ,:html => {:method=>"put",:class => "padder"}) do %>
+			<div class="group">
+				<label>Change Role &nbsp; &nbsp;  <span style="color: red;font-weight:normal" id="todo_title_error"> <%=error_message_on 'todo','title'%></span>    <span id="success_message" style="color: green;font-size:12px;"></span></label>
+			
+			<div class="group who-col">
+				<label><%=h @project_user.user.user_name%></label>
+				<%=role_select_tag%>
+			</div>
+			<div class="group submit-col">
+				<input type="submit" value="Add Task" class="btn"/>
+			</div>
+		<%end%>
+</div>

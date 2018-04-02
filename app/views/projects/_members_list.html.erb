@@ -1,0 +1,55 @@
+<ul class="contact-list">
+
+  <%@proj_user.each do |proj_user|%>
+    <%user = proj_user.user%>
+    <%if !user.nil? && proj_user.status == true %>
+      <li class="card" id="member_<%=proj_user.user_id%>">
+        <div class="header avatar-header">
+				<%= image_tag "#{show_current_user_picture(user)}", :class=>"avatar", :alt=>"Avatar" %>
+          <!--<img class="avatar" alt="Avatar" src="<%#=show_current_user_picture(user)%>" /> -->
+          <h4><%=truncate("#{user.first_name} #{user.last_name}",:omission=>"",:length => 21)%></h4>
+          <p class="desc"><%=truncate("#{user.title}",:omission=>"",:length => 30)%></p>	
+          <%if update_project_user_role(proj_user.user)%>
+            <a class="f-rgt btn ir edit-icon" href="<%= edit_user_role_path(@project.url,@project,user.id)%>" title="Edit" id="edit_user_<%=user.id%>"><span>Edit</span></a>		
+            <!--<script>new Control.Modal($('edit_user_<%=user.id%>'), {className:'modal_container', method:'get'});</script>			 -->
+          <%end%>
+          <%if delete_command(proj_user) && @project.project_status == true %> 
+					<%= link_to_remote( "<span>Delete</span>",:url => { :controller => 'projects', :action =>'remove_user', :project_id=>@project.id,:user_id=>user.id },:html=>{:class=>"f-rgt btn ir delete-icon"},:confirm=>"Are you sure you want to remove this user?" ) %>
+				
+					<!--   <input  class="f-rgt btn ir delete-icon" onclick="suspend_alert(); return false"/> -->
+					<%end%>
+        </div>
+        <ul class="contact-info">
+          <li><span class="label">M:</span><%=user.mobile%></li>
+          <li><span class="label">O:</span><%=user.office_phone%></li>
+          <li><span class="label">E:</span><a href="mailto:<%=user.email%>"><%=user.email%></a></li>
+          <li><span class="label">Local time:</span><%=display_local_time(user)%></li>
+          <li><span class="label"><strong>Role:</strong></span><%=proj_user.role.name if proj_user.role%></li>
+        </ul>
+      </li>
+			<%else%>
+			
+			 <li class="card" id="member_invited_<%=proj_user.id%>">
+						 <div class="header avatar-header">
+<%= image_tag "#{show_current_user_picture(proj_user.user)}"	, :class=>"avatar", :alt=>"Avatar" %>
+						 <!--<img class="avatar" alt="Avatar" src="<%#=show_current_user_picture(proj_user.user)%>" /> -->
+						 <h4><% if !proj_user.first_name.nil? && !proj_user.last_name.nil? %> <%=truncate("#{proj_user.first_name} #{proj_user.last_name}",:omission=>"",:length => 21)%> 
+						 <% elsif !proj_user.first_name.nil? && proj_user.last_name.nil? %> <%=truncate("#{proj_user.first_name}" ,:omission=>"",:length => 21)%>
+						 <% end %></h4>
+							<%if delete_command(proj_user) && @project.project_status == true %>
+							<%= link_to_remote( "<span>Delete</span>",:url => { :controller => 'projects', :action =>'remove_invited_user', :project_id=>@project.id, :proj_user_id=>proj_user.id},:html=>{:class=>"f-rgt btn ir delete-icon"},:confirm=>"Are you sure you want to remove this user?" ) %>
+							
+					<!--   <input  class="f-rgt btn ir delete-icon" onclick="suspend_alert(); return false"/>-->
+							<%end%>
+						 </div>
+						 <ul class="contact-info">
+          <li><span class="label">M:</span></li>
+          <li><span class="label">O:</span></li>
+          <li><span class="label">E:</span><a href="mailto:<%=proj_user.email%>"><%=proj_user.email%></a></li>
+          <li><span class="label">Local time:</span></li>
+          <li><span class="label"><strong>Role:</strong></span>Invited</li>
+        </ul>
+						 </li>
+    <%end%>
+  <%end%>
+</ul>

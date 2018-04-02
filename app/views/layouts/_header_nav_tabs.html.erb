@@ -1,0 +1,12 @@
+
+<ul class="nav-tabs">
+	<% if controller_name=="dashboard"  && action_name!="project_settings" %> <li class="active"> <% else %> <li> <% end %><a href='<%= site_url+project_dashboard_index_path(@project.url,@project) %>' >Dashboard</a><div class="tab-right"></div></li>
+        
+  <li class="<%=header_style("projects/chat")%>"><h1><a href="<%= site_url+project_chat_index_path(@project.url,@project) %>">Chat</a></h1><div class="tab-right"></div></li>
+
+  <li class="<%=set_header_for_task_tabs%>"><a href="<%= site_url+project_tasks_path(@project.url,@project) %>" >Tasks</a><div class="tab-right"></div></li>
+
+  <li class="<%=header_style("projects/posts")%>"><a href="<%=site_url+project_posts_path(@project.url,@project)%>" >Posts</a><div class="tab-right"></div></li>
+          
+  <li class="<%=header_style("projects/files")%>"><a href="<%=site_url+project_files_path(@project.url,@project)%>" >Files</a><div class="tab-right"></div></li>
+</ul>

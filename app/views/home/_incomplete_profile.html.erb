@@ -1,0 +1,74 @@
+<div id="update-profile-modal" class="modal" style="display: block;margin-top:-100px;">
+  <a href="#" class="btn close-btn ir" onclick="$('update-profile-modal').style.display='none';"><span>Close</span></a>
+  <%@user=current_user%>
+  <%form_tag complete_profile_path,:class=>"padder",:method=>:put,:multipart=>true, :target => 'upload_frame' do%>
+    <h2>Your profile needs some love</h2>
+    <p class="desc">Update your profile to let your team know how best to contact you.</p>
+    <fieldset class="avatar-chooser modal-trigger">
+      <a class="f-lft avatar-chooser-btn" href="#"><%= image_tag "#{show_current_user_picture(current_user)}", :class=>"avatar frame", :alt=>"Avatar" %><!--<img src="<%#=show_current_user_picture(current_user)%>" class="avatar frame" alt="Avatar"/>--></a>
+      <a href="#" class="f-lft upload-files">Upload Profile Photo
+        <input type="file" size="1" class="upload_incomplete_profile" name="image" id="upload_file" onchange="return display_filename();" style="width:120px;"></input>
+      </a>
+    </fieldset>
+    <div class="modal_file_name" id="filename"></div>
+    <div class="group">
+      <label>Your Title</label>
+      <div class="input-wrapper text-wrapper ">
+        <div class="box-top-left"></div>
+        <div class="box-top"></div>
+        <div class="box-top-right"></div>
+        <div class="box-body">
+          <%=text_field :user,:title%>
+        </div>
+        <div class="box-bottom-left"></div>
+        <div class="box-bottom"></div>
+        <div class="box-bottom-right"></div>
+      </div>
+    </div>
+    <div class="group half-left-col">
+      <label>Your Office Phone</label>
+      <div class="input-wrapper text-wrapper ">
+        <div class="box-top-left"></div>
+        <div class="box-top"></div>
+        <div class="box-top-right"></div>
+        <div class="box-body">
+          <%=text_field :user,:office_phone%>
+        </div>
+        <div class="box-bottom-left"></div>
+        <div class="box-bottom"></div>
+        <div class="box-bottom-right"></div>
+      </div>
+    </div>
+    <div class="group half-right-col">
+      <label>Your Mobile Phone</label>
+      <div class="input-wrapper text-wrapper ">
+        <div class="box-top-left"></div>
+        <div class="box-top"></div>
+        <div class="box-top-right"></div>
+        <div class="box-body">
+          <%=text_field :user,:mobile%>
+        </div>
+        <div class="box-bottom-left"></div>
+        <div class="box-bottom"></div>
+        <div class="box-bottom-right"></div>
+      </div>
+    </div>
+    <div class="group half-left-col">
+      <label>Time Zone</label>
+      	<%= select_tag("user[time_zone]",options_for_select(@time_zone,@user.time_zone))%>
+    </div>
+    <div class="group color-col">
+      <label>Your Chat Color</label>
+      <div class="color-chooser-display" id="color">
+        <input type="hidden" name="user[color_code]" id="color_code"  value="<%=current_user.color_code%>"  />
+        <div class="field_modal_holder">
+          <input type="text" value="" alt="Select a Color" class="color {valueElement:'color_code',styleElement:'color'}"  src="/images/buttons/color-chooser.png" style="width: 30px;height: 22px;background: none;border: none;color: #000000; cursor:pointer;" onchange="document.getElementById('color_code').value = '#'+this.color;" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="group submit-col" style="margin-top: -60px;">
+      <%=submit_tag "Save",:class=>"btn save-btn"%>
+    </div>
+    <iframe id='upload_frame' name="upload_frame" style="width:0px;height:0px;border:0px" src="about:blank"></iframe>
+  <%end%>
+</div>

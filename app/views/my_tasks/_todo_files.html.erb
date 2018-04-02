@@ -1,0 +1,46 @@
+  <% if !@todo_files.nil? and !@todo_files.empty?%>
+		<h4>Files in this To-Do</h4>
+		<ul class="file-list">
+			<% count =5%>
+		 <% for todo_file in @todo_files[0..count-1] %>
+			<li style="background-image:url(<%=icon_with_file(todo_file.content_type,todo_file.filename)%>)">
+				
+			<%=link_to return_truncated_filename(todo_file.filename), "#",  :onclick=>"javascript:download_bandwidth_check_my_task(#{todo_file.id});"%></li>
+				
+			
+		 <%end%>	
+			<% if @todo_files.length > count %>
+				<li class="no-icon" id="com_more_<%@todo.id%>"><a href="#" class="more-link" onclick="document.getElementById('com_more_<%@task.id%>').hide();document.getElementById('hidden_com_tasks_<%=@task.id%>').show(); return false" ><%=@todo_files.length - count%> more</a></li>
+				<div id="hidden_com_tasks_<%=@task.id%>" style="display:none">
+					<%for todo_file in @todo_files[count..@todo_files.length]%>
+						<li style="background-image:url(<%=icon_with_file(todo_file.content_type,todo_file.filename)%>)">
+			
+						<%=link_to return_truncated_filename(todo_file.filename), "#",  :onclick=>"javascript:download_bandwidth_check_my_task(#{todo_file.id});"%></li>
+				
+			
+					<%end%>
+				</div>
+			<%end%>		 
+		</ul>	
+ <%end%>		
+ <script>
+function download_bandwidth_check_todo(id)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		if (check=="true")
+		{
+		<% if !@todo_files.nil? and !@todo_files.empty?%>
+				document.location.href ="/<%#= @project.url %>/tasks/todos/download/<%#= @project.id %>/<%= @task.id %>/"+id;
+			<% end %>
+		}
+		else
+		{
+		if (owner=="true")
+			alert("Please upgrade your plan on your account page to raise your transfer limits.")
+		else
+		alert("This project has reached its storage and/or transfer limit. Please notify the Project Owner that he or she should upgrade his or her cothinkit plan on the Account Page.")
+		}
+}
+ </script>

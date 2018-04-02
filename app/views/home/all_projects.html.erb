@@ -1,0 +1,84 @@
+<body class="files">
+  <%=render :partial=>"layouts/header_top"%>
+
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="chat" class="left-col main-content">
+		<ul class="nav-tabs">
+				<li id="global-tab"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li>
+				<li><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+			</ul>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+				<div class="dash-box">
+				<h2 class="header-bar">All Projects</h2>
+          <%unless @progress_projects.nil? || @progress_projects.empty?%>
+            
+            <div class="dash-list file-list">
+              <div class="header"><h3>In Progress</h3></div>
+              <ul class="wide">
+                <%@progress_projects.each do |project|%>
+                  <li class="file-folder" style="background:none;">
+                    <%=link_to project.name,find_project_url(project),:class=>"desc",:style=>"background-image: url(../images/icons/icons.png);"%>
+                  </li>
+                <%end%>
+              </ul>
+            </div>
+         <%end%>
+          <%unless @all_completed_projects.nil? || @all_completed_projects.empty? %>
+            <div class="dash-list file-list">
+              <div class="header"><h3>Completed Projects</h3></div>
+              <ul class="wide">
+                <%@all_completed_projects.each do |project|%>
+                  <li class="file-folder" style="background:none;">
+                    <%=link_to project.name,find_project_url(project),:class=>"desc",:style=>"background-image: url(../images/icons/icons.png);"%>
+                  </li>
+                <%end%>
+              </ul>
+            </div>
+          <%end%>
+				</div>
+			</div> <!-- end main-padder -->
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+	<div id="sidebar" class="right-col">
+	<% if @project_own && !@project_own.nil? %>
+	<% if params[:project_id] %>
+<% path="/users/#{current_user.id}/account?project_id=#{params[:project_id]}" %>
+<% else %>
+<% path="/users/#{current_user.id}/account" %>
+<% end %>
+<% end %>
+
+			<% if @project_own && !@project_own.nil? %>
+			    <%unless beta_plan_user%>
+
+      <h2><a href="<%= path %>">Your Overall Usage</a></h2>
+    <%=render :partial=>"bandwidth"%>
+		<% end %>
+		<% end %>
+    <%=render :partial=>"project_progress_complete"%>
+  </div>
+</div>
+<div id="footer" class="width-wrapper">
+	<p class="left-col">Managed <em>with</em> <a href="/">co&middot;think&middot;it</a></p>
+	<div id="topbutton"><a href="#masthead">Top</a></div>
+
+</div>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+
+</body>

@@ -1,0 +1,37 @@
+
+<script>
+function startCounter() {
+       new Ajax.Request('/projects/chat/<%= @project.id %>/online_user_card', {asynchronous:true, evalScripts:true, method:'post'}); return false;
+    }
+		var myInterval = window.setInterval("startCounter()", 300000)
+</script>
+
+
+<h2><a href="<%= project_dashboard_index_path(@project.url,@project) %>"><%= modified_captialize_call(@project.name)  if @project%> Project</a></h2>
+<div class="sidebar-box">
+  <div id="show_online">
+  <% if @online_users && !@online_users.empty? %>
+    <div class="box-top"><h4>Online</h4> <a class="h-action" href="<%=invite_path(@project.url,@project)%>">Invite</a></div>
+    <ul class="online-users" id="online_users">
+      <% alt =""%>
+        <% @online_users.each do |online| %>
+          <% if online.project_id==@project.id %>
+            <% if ((Time.now.gmtime-online.updated_at).to_i<300) %>
+              <li class="<%=alt%> online" id="user<%=online.user_id%>"><a href="<%=  project_people_path(@project.url,@project) %>"><%= display_user_name(online.user)%></a></li>
+            <% end %>
+            <% alt = (alt=="alt") ? "" : "alt"%>
+          <% end %>
+        <% end %>
+      
+    </ul>
+	</div>
+  <%end%>
+	<h4 class="box-mid"  style="<%=(@online_users && !@online_users.empty?) ? "" : "background-position: 0 0;" %>" id="settings_head">Settings</h4>
+				<ul class="settings-links">
+					<li class="people"><% if @project%><%=link_to "People & Permissions", project_people_path(@project.url,@project) %><%end%></li>
+					<li class="chatpopout"><a onclick='javascript:window.open("<%=project_chat_popout_path(@project.url,@project)%>", "blank","toolbar=no,width=500,height=500,scrollbars=1")' href="javascript:void(0)">Popout Chat</a></li>
+				</ul>
+
+	<div class="box-bottom"></div>
+</div>
+

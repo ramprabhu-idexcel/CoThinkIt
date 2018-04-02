@@ -1,0 +1,71 @@
+<% task1.each do |task| %>
+<%project = task.project%>
+	<div class="dash-list task-list" id="task-<%=task.id%>">
+		<div class="header">
+		<%if !project.nil?%>
+		<% @project_owner=	ProjectUser.find(:first, :conditions=>['project_id=? and is_owner =?', project.id, true]) %>
+												<% site_url="http://#{@project_owner.project.owner.site_address}.#{APP_CONFIG[:site][:name]}" %>
+			<h3><a href="<%=site_url+project_task_path(project.url,project,task)%>"><%=return_truncate_string_in_view_page(task.title,35)%></a></h3>
+			<%else%>
+			<h3><a href="<%= show_my_tasklist_path(:id=>task.id) %>"><%=return_truncate_string_in_view_page(task.title,35)%></a></h3>
+			<%end%>
+			<label>
+				<%= task.due_date.nil? ? "" : "Due #{task.due_date.strftime("%B %e")}" %>
+				
+				<% if project.nil?%>
+				   		<%=check_box_tag "task_complete",0,false,:id =>"show_selected",:onclick => "new Ajax.Updater('rightParsfsdfsft', '#{completed_mytask_path}',{method: 'get', parameters: 'id='+#{task.id} });"%>
+				<%else%>
+				<% if  check_status_project && check_completed_project %>
+				<% if check_role_for_guest %>
+						<%=check_box_tag "task_complete",0,false,:id =>"show_selected",:onclick => "new Ajax.Updater('rightParsfsdfsft', '#{completed_task_project_tasks_path(project.url,project,task)}',{method: 'get', parameters: 'id='+#{task.id} });"%>
+						<%else%>
+				    <%=check_box_tag "task_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;guest_user_alert();	" %>
+						<%end%>
+						<%else%>
+						<% if check_status_project %>
+						 <%=check_box_tag "task_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;suspend_alert();	" %>
+						 <% else %>
+						 <%=check_box_tag "task_complete",0,false,:id =>"show_selected",:onclick => "this.checked=false;completed_alert();	" %>
+						 <% end %>
+				<%end%>
+				<%end%>
+			</label>
+			<p class="description"><%=task.description%></p>
+		</div>
+		<% get_my_todo_details(task.id) %>
+		<div id="todos_list_task_<%=task.id%>">
+			<%=render :partial => "list_todo_details",:locals => {:task => task}%>
+		</div>
+		<div class="padder">
+			<div class="inline-trigger clearboth">
+			<% if project.nil? %>
+											<a id="add_todo_link_for_<%=task.id%>" onclick="new Ajax.Request('<%=new_my_todo_path(:id=>task.id)%>', {method: 'get'}); return false" class="add-todo btn ir" href="#" id="task_todos_<%=task.id%>"><span>Task</span></a>	
+			<%else%>
+			<% if !check_completed_project %>
+				<a href="#" class="add-todo btn ir" href="#" id="task_todos_<%=task.id%>" onclick="completed_alert(); return false"><span>Task</span></a>
+				<% elsif !check_status_project %>
+				<a href="#" class="add-todo btn ir" href="#" id="task_todos_<%=task.id%>" onclick="completed_alert(); return false"><span>Task</span></a>
+			<% elsif check_role_for_guest%>
+					<a id="add_todo_link_for_<%=task.id%>" onclick="new Ajax.Request('<%=new_project_task_todo_path(project.url,project, task,:filter_option =>"Assigned to mytask")%>', {method: 'get'}); return false" class="add-todo btn ir" href="#" id="task_todos_<%=task.id%>"><span>Task</span></a>			
+
+			<%else%>		
+			    <a href="#" class="add-todo btn ir" href="#" id="task_todos_<%=task.id%>" onclick="guest_user_alert(); return false"><span>Task</span></a>
+			<%end%>
+
+			<%end%>
+			<div id="create_new_todo_<%=task.id%>"> </div>
+			
+			</div>
+			<% ach_todo = task.todos.find_all_by_is_completed(true)%>
+			<%style_de= ach_todo.empty? ? "display:none" : ""%>
+			<div id="achieve_list_de_<%=task.id%>" style="<%=style_de%>" >
+			<% if !project.nil? %>
+				<%=link_to_remote("View Archived Tasks",{:url =>achieved_todo_project_tasks_path(project.url,project,:id =>task.id,:achieve => 1, :filter_option=>"Assigned to me"),:method => :get},{:class => "icon expand-right",:id=> "view_completed_#{task.id}"})%>
+				<%else%>
+				<%=link_to_remote("View Archived Tasks",{:url =>achieved_my_todo_path(:id =>task.id,:achieve => 1),:method => :get},{:class => "icon expand-right",:id=> "view_completed_#{task.id}"})%>
+				<%end%>
+			<ul class="archived" id="view_achieved_todos_<%=task.id%>"></ul>
+			</div>
+		</div>						
+	</div>					
+	<% end %>

@@ -1,0 +1,16 @@
+	<% if !completed_tasks .nil? and !completed_tasks.empty?%>	
+		<h4>Completed Tasks</h4>
+		<ul class="bullets">
+				<%for task in completed_tasks[0..2]%>
+					<li><a href="<%=project_task_path(@project.url,@project,task)%>"><%=truncate(task.title,:ommision =>"...",:length => 30)%></a></li>
+				<%end%>
+				<% if completed_tasks.length > 3%>
+					<li class="no-bullet" id="com_more_<%@project.id%>"><a href="#" class="more-link" onclick="document.getElementById('com_more_<%@project.id%>').hide();document.getElementById('hidden_com_tasks_<%=@project.id%>').show(); return false" ><%=completed_tasks.length - 3%> more</a></li>
+					<div id="hidden_com_tasks_<%=@project.id%>" style="display:none">
+						<%for task in completed_tasks[3..completed_tasks.length]%>
+							<li><a href="<%=project_task_path(@project.url,@project,task)%>"><%=truncate(task.title,:ommision =>"...",:length => 30)%></a></li>
+						<%end%>
+					</div>
+				<%end%>
+		</ul>
+	<%end%>

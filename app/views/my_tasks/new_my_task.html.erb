@@ -1,0 +1,79 @@
+						<div id="add-task-modal" class="modal">
+				<a href="#" onclick='Control.Modal.close();return false;' class="btn close-btn ir"><span>Close</span></a>
+				<!--<form action="#" class="padder"> -->
+					
+				<%form_remote_tag(:url => create_my_task_path ,:method => :post ,:html => {:class => "padder"}) do %>
+				<%=hidden_field_tag :filter_option,  params[:filter_option]%>				
+					<div class="group">
+						<label>Task Title &nbsp; &nbsp;  <span style="color: red;font-weight:normal" id="task_title_error"> <%=error_message_on 'task','title'%></span> </label>
+							<div class="input-wrapper text-wrapper ">
+
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+		   <%=text_field :task ,'title'%>
+			<!--<input type="text" namevalue="" onclick="this.value=''" /> -->
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+
+	</div>
+
+						</div>
+					<div class="group">
+						<label>Description</label>
+							<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+
+		<div class="box-body">
+				   <%=text_field :task ,'description'%>
+	<!--		<input type="text" value="" onclick="this.value=''" /> -->
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+						</div>
+
+
+					<div class="group date-col">
+						<label>Due Date <span class="instr">(E.g. 01/15/2010)</span>  </label>
+							<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+			<input type="text" name="task[due_date]" value="no date"  id="date_display" />
+<%#= calendar_date_select_tag "task[due_date]", " ", :month_year => "label" , :valid_date_check => "date >= (new Date()).stripTime()", :value=>"no date"%>
+
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+						</div>
+						<!-- -->
+				<div class="calendar-widget">
+						<a href="#" class="btn ir calendar-btn" onclick="document.getElementById('update_calender').style.display='block';"><span>Date picker</span></a>
+
+						<div class="calendar-flyout" id ="update_calender">
+							<%=render :partial => "calendar_display_tasklist"%>
+							
+					</div>
+					</div>
+
+<!---->					<div class="group submit-col">
+						<input type="submit" class="btn" value="Add Task" />
+					</div>
+				<!--</form> -->
+				<%end%>
+			</div>
+  <script>
+    $('task_title').focus()
+  </script>

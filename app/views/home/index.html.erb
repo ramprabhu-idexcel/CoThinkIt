@@ -1,0 +1,123 @@
+<body class="homepage">
+
+		<div id="bg-top"></div><div id="starburst"></div>
+		<div id="top">
+			<h1 id="logo" class="ir"><a href="/"><span>CoThink.it</span></a></h1>
+
+			<p id="login-blurb">Already have an account? <a href="/login" title="Log in">Log in.</a></p>
+		</div>
+		<div class="content-wrap">
+			<div id="banner">
+				<div class="content-wrap">
+					<h2>Working together just got easier</h2>
+					<p><em>Cothinkit</em> is a project management and group chat web application made just for you, your team, and your clients.</p>
+
+					<a href="<%=signup_path%>" class="btn-72 try-free-btn ir"><span><strong>Try it for free</strong> 30-day Free Trial. Signup in 60 seconds.</span></a>
+
+				</div>
+			</div>
+		</div>
+		<div class="features">
+			<div class="content-wrap">
+				<h3 class="wrap-940">Why We're Better</h3>
+
+				<ul>
+					<li><%= image_tag "/images/front/features/chat.jpg", :alt=>"Real-time Group Chat" %><!--<img alt="Real-time Group Chat" src="images/front/features/chat.jpg" />--><p><strong>Real-time Group Chat</strong> &ndash; The best ideas come from live discussions and the best discussions happen in real-time group chats.</p></li>
+					<li><%= image_tag "/images/front/features/tasks.jpg", :alt=>"Simple Tasks Management" %><!--<img alt="Simple Tasks Management" src="images/front/features/tasks.jpg" />--><p><strong>Simple Tasks Management</strong> &ndash; Added 'organize tasks' to your to-do list recently? You won't have to do that here. Ever.</p></li>
+					<li><%= image_tag "/images/front/features/dashboard.jpg", :alt=>"Clear Dashboards" %><!-- <img alt="Clear Dashboards" src="images/front/features/dashboard.jpg" /> --><p><strong>Clear Dashboards</strong> &ndash; Our dashboards keep you informed of what's due and what's happening on all your projects.</p></li>
+
+					<li><%= image_tag "/images/front/features/files.jpg", :alt=>"Files Big &amp; Small" %><!--<img alt="Files Big &amp; Small" src="images/front/features/files.jpg" />--><p><strong>Files Big &amp; Small</strong> &ndash; Size doesn't matter to us. We keep your files safe, secure, and organized just for you. </p></li>
+					<li><%= image_tag "/images/front/features/people.jpg", :alt=>"User and Project Limits" %><!--<img alt="User and Project Limits" src="images/front/features/people.jpg" />--><p><strong>User and Project Limits</strong> &ndash; We don't have them. Got a big project and a big team? We can handle it.</p></li>
+					<li><%= image_tag "/images/front/features/search.jpg", :alt=>"Find Files Fast" %><!--<img alt="Find Files Fast" src="images/front/features/search.jpg" />--><p><strong>Find Files Fast</strong> &ndash; Our searchable file management system locates critical files when you need them most.</p></li>
+				</ul>
+			</div>
+		</div>
+		<div id="home-foot">
+			<div id="plans" class="content-wrap">
+				<div id="starburst-wide"></div>
+				<div class="content-wrap">
+					<h3 class="wrap-940">Pricing &amp; Plans</h3>
+
+				</div>
+				<div class="table-wrap">
+					<table cellpadding="0" cellspacing="0">
+<thead>
+							<tr>
+								<th class="feature"></th>
+								<th>Organization</th>								
+								<th>Startup</th>
+								<th class="featured-top">Team</th>
+								<th>Freelancer</th>
+
+								<th>Trial</th>				
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="feature">Storage</td>
+								<td>100GB</td>
+								<td>50GB</td>								
+								<td class="featured-middle">25GB</td>
+
+								<td>1GB</td>
+								<td>10MB</td>
+								
+
+							</tr>
+							<tr>
+								<td class="feature">Transfer</td>
+								<td>300GB</td>
+								<td>150GB</td>
+
+								<td class="featured-middle">75GB</td>
+								<td>5GB</td>
+								<td>50MB</td>
+							</tr>
+							<tr>
+								<td class="feature">SSL Security</td>
+								<td class="check ir"><span>Yes</span></td>
+
+								<td class="check ir"><span>Yes</span></td>
+								<td class="check ir featured-middle"><span>Yes</span></td>
+								<td class="check ir"><span>Yes</span></td>
+								<td class="check ir"><span>Yes</span></td>
+							</tr>
+							<tr>
+								<td class="feature">Users</td>
+
+								<td><span>Unlimited</span></td>
+								<td><span>Unlimited</span></td>
+								<td class="featured-middle"><span>Unlimited</span></td>
+								<td><span>25</span></td>
+								<td><span>15</span></td>								
+							</tr>
+							<tr>
+
+								<td class="feature">Number of Projects</td>
+								<td><span>Unlimited</span></td>
+								<td><span>Unlimited</span></td>
+								<td class="featured-middle"><span>Unlimited</span></td>
+								<td><span>5</span></td>
+								<td><span>1</span></td>								
+							</tr>
+
+							<tr class="price-row">
+								<td class="feature s">Price</td>
+								<td class="s">$99</td>
+								<td class="s">$69</td>
+								<td class="featured-bottom">$24</td>
+								<td class="s">$9</td>
+
+								<td class="s"><em>FREE</em></td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+				<a href="<%=signup_path%>" class="btn-72 sign-up-btn ir"><span><strong>Sign Up</strong> Get started in 60 seconds.</span></a>
+			</div>
+			<%= render :partial=>'/layouts/front_footer'%>
+		</div>
+	</body>
+
+

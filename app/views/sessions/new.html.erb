@@ -1,0 +1,56 @@
+<body class="dialog login">
+		<div id="bg-top"></div>
+		<div id="top">
+		<div id="starburst"></div>
+		<h2 id="logo" class="ir"><a href="/"><span>CoThink.it</span></a></h2>
+		<p id="login-blurb">Don't have an account yet? <a href="/signup" title="Sign up">Sign up!</a></p>
+		</div>
+		<div class="content-wrap">
+		<div class="box-wrap">
+		<div class="box">
+		<h1>Log in to your account</h1>
+			<font color="green" > <%=flash[:notice]%></font>
+		<%if flash[:error]%>
+		<font color="red" > <%=flash[:error]%></font><% end %>
+		
+		<%form_remote_tag :url=> session_path do %>
+
+		<fieldset class="share-line">
+		<label>Email</label>
+		<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+		 <%=text_field :session,'email' %>
+	
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+		</div>
+		<label>Password</label>
+		<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+			<%= password_field :session, 'password' %>
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+		</div>
+		<label id="remember-me"><%= check_box :session,'remember_me' %>Remember me on this computer</label>
+		<a id="forgot-link" href="/forgot">Forgot password?</a>
+		<input type="submit" class="btn-47 login-btn" value="Log in" />
+		</fieldset>
+<% end -%>
+				</div>
+			</div>
+
+		</div>
+	</body>
+  <script>
+    $('session_email').focus()
+  </script>

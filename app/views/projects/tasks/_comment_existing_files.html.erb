@@ -1,0 +1,5 @@
+<% if @comment.attachments && !@comment.attachments.nil? %>
+							<% @comment.attachments.each do |attach| %>
+								<p><%= attach.filename %> <%=link_to_remote "remove",:url => delete_comment_attachment_path(:id=>attach.id)%> </p>
+							<% end %>
+						<% end %>

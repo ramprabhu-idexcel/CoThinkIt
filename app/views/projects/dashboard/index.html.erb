@@ -1,0 +1,337 @@
+<%= javascript_include_tag "scriptaculous.js"%>
+<%=javascript_include_tag "socky_chat.js"%>
+<% content_for :head do %>
+  <%= socky :host=>SOCKY_CONFIG[:host],:channels=>params[:project_id]%>
+<% end %>
+
+<body class="global">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<!-- Top header Links Ends Here -->
+
+<div class="container">
+
+    <%=render :partial=>"/projects/alert_message"%>
+
+	<div class="width-wrapper">
+		<div id="project-dashboard" class="left-col main-content first-tab">
+      <%= render :partial=>"/layouts/header_nav_tabs" %>
+      <%if @all_events.empty?%>
+        <%= render :partial=>"zero_project"%>
+      <%else%>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+			<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS STARTS -->	
+			<div class="dash-shortcuts clear">
+				<h2>Since You Last Logged In:</h2>
+					<ul>
+            <li><%=link_to "<span class='shortcut-num'>#{@late_todos.count>99 ? "99+" : @late_todos.count}</span> Late Tasks","#",:onclick=>"return late_todos()", :class=>"dash-shortcuts-active"%></li>
+            <li><%=link_to "<span class='shortcut-num'>#{@pending_todos.count>99 ? "99+" : @pending_todos.count}</span> Tasks In Progress","#",:onclick=>"return tasks_in_progress()"%></li>
+            <li><%=link_to "<span class='shortcut-num'>#{@unstarted_todos.count>99 ? "99+" : @unstarted_todos.count}</span> Pending Tasks","#",:onclick=>"return pending_tasks()"%></li>
+            <li><%=link_to "<span class='shortcut-num'>#{@new_messages.count>99 ? "99+" : @new_messages.count}</span> New Posts","#",:onclick=>"return new_posts()"%></li>
+            <li><%=link_to "<span class='shortcut-num'>#{@new_comments.count>99 ? "99+" : @new_comments.count}</span> New Comments","#",:onclick=>"return new_comments()"%></li>
+					</ul>
+				</div>	
+        
+<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS ENDS -->
+    <div class="dash-shortcuts-content activity-list" id="late_todos" style="display:none;">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@late_todos.each do |todo|%>
+      <% display_time(todo)%>
+        <%strike=""%>
+        <%strike="strike" if todo.is_completed%>
+        <tr>
+          <td class="type todo ir"><span>Task</span></td>
+          <td class="desc <%=strike%>"><%=link_to truncate(todo.title,180),project_site_url(todo.task.project)+project_task_todo_path(todo.task.project.url,todo.task.project,todo.task,todo),:title=>"Posted #{find_elapsed_time(todo.created_at)}"%></td>
+          <td class="by <%=strike%>" ><%= strike.blank? ? "Posted by" : "Completed by" %></td>
+          <td class="who <%=strike%>" ><%= link_to truncate(todo.user.full_name,10),project_site_url(todo.task.project)+project_people_path(todo.task.project.url,todo.task.project)%></td>
+          <td class="time <%=strike%>"><%= link_to display_time(todo).strftime("%m:%M %p"),"#"%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+
+
+
+ <div class="dash-shortcuts-content activity-list" id="unstarted_todos" style="display:none;">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@pending_todos.each do |todo|%>
+      <% display_time(todo)%>
+        <%strike=""%>
+        <%strike="strike" if todo.is_completed%>
+        <tr>
+          <td class="type todo ir"><span>Task</span></td>
+          <td class="desc <%=strike%>"><%=link_to truncate(todo.title,180),project_site_url(todo.task.project)+project_task_todo_path(todo.task.project.url,todo.task.project,todo.task,todo),:title=>"Posted #{find_elapsed_time(todo.created_at)}"%></td>
+          <td class="by <%=strike%>" ><%= strike.blank? ? "Posted by" : "Completed by" %></td>
+          <td class="who <%=strike%>" ><%= link_to truncate(todo.user.full_name,10),project_site_url(todo.task.project)+project_people_path(todo.task.project.url,todo.task.project)%></td>
+          <td class="time <%=strike%>"><%= link_to display_time(todo).strftime("%m:%M %p"),"#"%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+ <div class="dash-shortcuts-content activity-list" id="pending_todos" style="display:none;">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@unstarted_todos.each do |todo|%>
+      <% display_time(todo)%>
+        <%strike=""%>
+        <%strike="strike" if todo.is_completed%>
+        <tr>
+          <td class="type todo ir"><span>Task</span></td>
+          <td class="desc <%=strike%>"><%=link_to truncate(todo.title,180),project_site_url(todo.task.project)+project_task_todo_path(todo.task.project.url,todo.task.project,todo.task,todo),:title=>"Posted #{find_elapsed_time(todo.created_at)}"%></td>
+          <td class="by <%=strike%>" ><%= strike.blank? ? "Posted by" : "Completed by" %></td>
+          <td class="who <%=strike%>" ><%= link_to truncate(todo.user.full_name,10),project_site_url(todo.task.project)+project_people_path(todo.task.project.url,todo.task.project)%></td>
+          <td class="time <%=strike%>"><%= link_to display_time(todo).strftime("%m:%M %p"),"#"%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+
+
+
+ <div class="dash-shortcuts-content activity-list" id="new_messages" style="display:none;">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @new_messages.each do |post|%>
+      
+ <tr>
+          <td class="type comment ir"><span>Post</span></td>
+          <td class="desc"><%=link_to(truncate(post.title,180),project_site_url(post.project)+project_post_path(post.project.url,post.project,post),:title=>"posted #{find_elapsed_time(post.created_at)}")%></td>
+          <td class="by" >Posted by</td>
+          <td class="who" ><a href="<%=post_project_index(post)%>"><%=truncate(post.user.full_name,10)%></a></td>
+          <td class="time"><a href="#"><%#=post.created_at.strftime("%m")%></a></td>
+          <td class="proj"><a href="<%=post_index(post)%>"><%= post.project.name %></a></td>
+        </tr>
+      <%end%>
+    </tbody> 
+  </table>
+</div>
+
+
+
+ <div class="dash-shortcuts-content activity-list" id="new_comments" style="display:none;">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@new_comments.each do |comment|%>
+        <tr>
+          <td class="type comment ir"><span>Comment</span></td>
+          <td class="desc"><%=comment_link(comment)%></td>
+          <td class="by" >Posted by</td>
+          <td class="who" ><a href="<%=project_todo_site_url(comment)%>"><%=truncate(comment.commentable.user.full_name,10)%></a></td>
+          <td class="time"><a href="#"><%=comment.created_at.strftime("%m")%></a></td>
+          <td class="proj"><a href="<%=todo_project_index(comment)%>"><%= comment.project.name %></a></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+
+        
+        <%= render :partial=>"/home/more_history"%>
+      <div id="more_history">
+      
+      </div>
+      <!--<a href="javascript:more_history();" class="btn show-more-history ir"><span>Show more history</span></a>-->
+      <div id="more_history_link"><%if @all_events && @all_events.count>3 %><%=render :partial=>"more_history_link"%><% end %></div>
+      </div>
+      <%end%>
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+  
+	<div id="sidebar" class="right-col">
+	<div id="online_user">
+		<%= render :partial=>'projects/dashboard/online_users' %>
+	</div>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+<script>
+  var pending=true;
+  var late=true;
+  var progress=true;
+  var comments=true;
+  var posts=true;
+  function pending_tasks()
+  {
+    if(pending)
+    {
+      pending=false;
+      late, progress,comments,posts=true;
+      Effect.SlideDown('pending_todos',{duration:0.5});
+      return false;
+    }
+    else
+    {
+      pending=true
+      late, progress,comments,posts=true;
+      Effect.SlideUp('pending_todos',{duration:0.5});
+      return false;
+    }  
+  }
+  
+  function late_todos()
+  {
+    if(late)
+    {
+      late=false;
+      pending, progress,comments,posts=true;
+       Effect.SlideDown('late_todos',{duration:0.5}); 
+      return false;
+    }
+    else
+    {
+      late=true;
+      pending, progress,comments,posts=true;
+      Effect.SlideUp('late_todos',{duration:0.5});
+      return false;
+    }  
+  }
+  
+  function tasks_in_progress()
+  {
+    if(progress)
+    {
+      progress=false;
+      late, pending,comments,posts=true;
+       Effect.SlideDown('unstarted_todos',{duration:0.5}); 
+      return false;
+    }
+    else
+    {
+      progress=true;
+      late, pending,comments,posts=true;
+      Effect.SlideUp('unstarted_todos',{duration:0.5});
+      return false;
+    }  
+  }
+  
+  function new_posts()
+  {
+    if(posts)
+    {
+      posts=false;
+      late, progress,comments,pending=true;
+      Effect.SlideDown('new_messages',{duration:0.5});
+      return false;
+    }
+    else
+    {
+      posts=true;
+      late, progress,comments,pending=true;
+      Effect.SlideUp('new_messages',{duration:0.5});
+      return false;
+    }  
+  }
+  
+  function new_comments()
+  {
+    if(comments)
+    {
+      comments=false;
+      late, progress,pending,posts=true;
+      Effect.SlideDown('new_comments',{duration:0.5});
+      return false;
+    }
+    else
+    {
+      comments=true;
+      late, progress,pending,posts=true;
+      Effect.SlideUp('new_comments',{duration:0.5});
+      return false;
+    }  
+  }
+	
+	
+ function download_bandwidth_check_file_common(id,status)
+{
+		var check=status;
+  
+		if (check=="true")
+		{
+			document.location.href ="/users/download/"+id;
+		}
+		else
+		{
+      $('account-limit-modal').show();
+		}
+}
+</script>
+</body>
+</html>
+
+

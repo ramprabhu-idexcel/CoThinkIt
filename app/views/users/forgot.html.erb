@@ -1,0 +1,46 @@
+
+<body class="dialog forgot">
+
+		<div id="bg-top"></div>
+		<div id="top">
+			<div id="starburst"></div>
+			<h2 id="logo" class="ir"><a href="/"><span>CoThink.it</span></a></h2>
+
+			<p id="login-blurb">Already have an account? <a href="/login" title="Log in">Log in.</a></p>
+		</div>
+		<div class="content-wrap">
+			<div class="box-wrap">
+				<div class="box">
+				
+					<h1>Have you forgotten your password?</h1>
+					
+					<p>Enter the email address associated with your account and we will send you instructions on how to reset your password.</p>
+<font color="red"><%= flash[:notice]%></font>
+					
+					<%form_remote_tag :url=> { :controller => "users", :action => "forgot" } do %>
+						<fieldset class="share-line">
+							<label>Your Email</label>
+								<div class="input-wrapper text-wrapper ">
+		<div class="box-top-left"></div>
+		<div class="box-top"></div>
+		<div class="box-top-right"></div>
+		<div class="box-body">
+
+		<%=text_field :user,'email' %>
+		</div>
+		<div class="box-bottom-left"></div>
+		<div class="box-bottom"></div>
+		<div class="box-bottom-right"></div>
+	</div>
+
+								<input type="submit" class="btn-47 reset-password-btn" value="Email me reset instructions" />
+						</fieldset>
+
+					<%end%>
+				</div>
+			</div>
+		</div>
+	</body>
+    <script>
+    $('user_email').focus()
+  </script>

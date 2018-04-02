@@ -1,0 +1,172 @@
+<script type="text/javascript" src="/javascripts/admin/jquery-1.3.2.min.js"></script>
+
+<!-- jQuery Configuration -->
+
+<script type="text/javascript" src="/javascripts/admin/simpla.jquery.configuration.js"></script>
+
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Summary</h3>
+  <div class="clear"></div>
+</div>
+
+<div class="content-box-content">
+  <div id="tab1" class="tab-content default-tab" style="display: block;">
+
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>This Month</th>
+        <th>Historical  Average</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr >
+        <td >Storage</td>
+          <td ><% if @storage.to_i < 1024 %> <%= @storage.to_i %> MB <% else %> <%=  (@storage.to_i/1024).to_i %> GB <% end %></td>
+            <td ><%storage=0%>
+									<%if @plans.count!=0%><%@plans.each do |p|%><%storage=storage+p.storage%><%end%>
+										<%if @duration!=0%><%avg=storage/@duration%><% if avg.to_i < 1024 %> <%= avg.to_i %> MB <% else %> <%=(avg.to_i/1024).to_i %> GB <% end %>
+										<%else%><% if @storage.to_i < 1024 %> <%= @storage.to_i %> MB <% else %> <%=  (@storage.to_i/1024).to_i %> GB <% end %><%end%>
+									<%else%><%=@plans.count%> GB<%end%>
+									
+            </td>
+      </tr>
+      <tr >
+        <td >Transfer</td>
+        <td ><% if @bandwidth.to_i < 1024 %> <%= @bandwidth.to_i %> MB<% else %> <%=(@bandwidth.to_i/1024).to_i %> GB <% end %></td>
+				<td ><%bandwidth=0%>
+            <%if @plans.count!=0%><%@plans.each do |p|%>
+            <% val = (p.bandwidth.nil?) ? 0 : p.bandwidth %>
+            <% val1= 0 %>
+            <%download=(val+val1)%>
+            <%bandwidth=bandwidth+download%><%end%>
+            <%if @duration!=0%><%avg=bandwidth/@duration%><% if avg.to_i < 1024 %> <%= avg.to_i %> MB <% else %> <%=(avg.to_i/1024).to_i %> GB <% end %>
+            <%else%><% if @bandwidth.to_i < 1024 %> <%= @bandwidth.to_i %> MB<% else %> <%=(@bandwidth.to_i/1024).to_i %> GB <% end %><%end%>
+            <%else%><%=@plans.count%> GB<%end%>
+        </td>
+			</tr>
+			<tr>
+				<td>Projects</td>
+        <td ><%project=Project.find:all%><%value=0%>
+                <%if project.count!=0%><%project.each do |proj|%>
+                          <%value=value+current_month(proj)%><%end%><%=value%>
+                <%else%><%=Project.count%><%end%>
+        </td>	
+        <td > <%project=Project.find:all%>
+                <%if project.count!=0%><%duration=total_duration(project.first,project.last)%>
+                            <%if duration!=0%><%avg=project.count/duration%>
+                            <%= avg %>
+                      <%else%><%value=0%><%project.each do |proj|%>
+                    <%value=value+current_month(proj)%><%end%> <%=value%>									                      
+                      <%end%>
+                <%else%><%=project.count%><%end%>     
+        </td>
+      </tr>
+      <tr>
+        <td>Users</td>
+        <td><%=User.count%></td>
+        <td>
+        <%if User.count!=0%><%duration=total_duration(User.first,User.last)%>
+                                         <%if duration!=0%><%=User.count/duration%><%else%><%=User.count%><%end%>
+        <%else%><%=User.count%><%end%></center></td>
+        
+      </tr>
+      <tr>
+        <td>New Users</td>
+        <td ><%user=User.find:all%>
+        <%if user.count!=0%><%count=0%> 
+                  <%user.each do |u|%>
+             <%date=u.created_at.month%><%year=u.created_at.year%>
+             <%  if date==Time.now.month && year==Time.now.year%><%count=count+1%><% end%><% end%><%=count%>
+        <%else%><%=User.count%><%end%></td>
+        
+        <td><%user=User.find:all%>
+        <%if user.count!=0%><%count=0%> <%user.each do |u|%>
+          <%date=u.created_at.month%><%year=u.created_at.year%>
+                 <%  if date==Time.now.month && year==Time.now.year%><%count=count+1%><% end%><% end%>
+           <%duration=total_duration(User.first,User.last)%>
+           <%if duration!=0%><%avg=count/duration%><%=avg%>
+           <%else%><%=count%><%end%>
+        <%else%><%=User.count%><%end%></td>
+        
+      </tr>
+      <tr>
+          <td>Trial</td>
+          <td ><%user=User.find_all_by_status(true)%><%total_user=0%><%plan_user=0%>
+          <%if user.count!=0%>								
+                  <%  user.each do |rec| %><% date=rec.created_at.month%><%year=rec.created_at.year%>
+              <%  if date==Time.now.month && year==Time.now.year%><%total_user=total_user+1%><%planuser=BillingInformation.find_by_user_id(rec.id)%>
+              <%if planuser%><%plan_user=plan_user+1%><%end%><%end%><%end%>
+                 <%apprentice_current_month=total_user-plan_user%><%=apprentice_current_month%>
+          <%else%><%=user.count%><%end%>									
+          </td>
+          <td ><%plan_user=0%><%user=User.find_all_by_status(true)%>
+          <%if User.count!=0%><%user.each do |rec|%><%planuser=BillingInformation.find_by_user_id(rec.id)%><%if planuser%><%plan_user=plan_user+1%><%end%><%end%>
+            <%totaluser=User.count-plan_user%><%date1=user.first.created_at%><%date2=user.last.created_at%><%duration=(date1.year*12+date2.month) - (date2.year*12+date1.month)%>
+            <%if duration!=0%><%avg=totaluser/duration%><%=avg%>
+            <%else%><%total_user=0%><%plan_user=0%>  <%  user.each do |rec| %><% date=rec.created_at.month%><%year=rec.created_at.year%>
+              <%  if date==Time.now.month && year==Time.now.year%><%total_user=total_user+1%><%planuser=BillingInformation.find_by_user_id(rec.id)%><%if planuser%><%plan_user=plan_user+1%><%end%><%end%><%end%>
+                 <%apprentice_current_month=total_user-plan_user%><%=apprentice_current_month%><%end%>
+          <%else%><%=User.count%><%end%>
+          </td>
+          
+        </tr>
+        <tr>
+          <td>Freelancer</td>
+          <td ><%thinker=BillingInformation.find(:all,:conditions=>["plan_id=? ",4])%>                                     
+          <%count=0%><%  thinker.each do |t| %><% date=t.created_at.month%><%year=t.created_at.year%><%  if date==Time.now.month && year==Time.now.year%>
+          <%count=count+1%><% end%><% end%><%=count%></td>
+          
+          <td ><%thinker=BillingInformation.find(:all,:conditions=>["plan_id=? ",4])%>
+              <%if thinker.count!=0%><%duration=total_duration(thinker.first,thinker.last)%>
+                <%if duration!=0%><%avg=thinker.count/duration%><%=avg%>
+                <%else%><%count=0%><% thinker.each do |t| %><%count=count+1%><% end%><%=count%><% end%>
+              <%else%><%=thinker.count%><%end%>
+          </td>
+          
+        </tr>
+        <tr >
+          <td>Team</td>
+          <td ><%sage=BillingInformation.find(:all,:conditions=>["plan_id=? ",3])%>                                     
+          <%count=0%><%  sage.each do |s| %><% date=s.created_at.month%><%year=s.created_at.year%><%  if date==Time.now.month && year==Time.now.year%>
+          <%count=count+1%><% end%><% end%><%=count%></td>
+          
+          <td ><%sage=BillingInformation.find(:all,:conditions=>["plan_id=? ",3])%>
+              <%if sage.count!=0%><%duration=total_duration(sage.first,sage.last)%>
+                <%if duration!=0%><%avg=sage.count/duration%><%=avg%>
+                <%else%><%count=0%><% sage.each do |p| %><%count=count+1%><% end%><%=count%><% end%>
+              <%else%><%=sage.count%><%end%>
+          </td>
+        </tr>
+        <tr>
+          <td>Startup</td>
+          <td ><%prodigy=BillingInformation.find(:all,:conditions=>["plan_id=? ",2])%>                                     
+          <%count=0%><%  prodigy.each do |p| %><% date=p.created_at.month %><%year=p.created_at.year%><%  if date==Time.now.month && year==Time.now.year%>
+          <%count=count+1%><% end%><% end%><%=count%></td>
+          
+          <td ><%prodigy=BillingInformation.find(:all,:conditions=>["plan_id=? ",2])%>
+            <%if prodigy.count!=0%><%duration=total_duration(prodigy.first,prodigy.last)%>
+              <%if duration!=0%><%avg=prodigy.count/duration%><%=avg%>
+              <%else%><%count=0%><% prodigy.each do |p| %><%count=count+1%><% end%><%=count%><% end%>
+            <%else%><%=prodigy.count%><%end%>
+          </td>
+        </tr>
+        <tr>
+            <td>Organization</td>
+            <td > <%genius=BillingInformation.find(:all,:conditions=>["plan_id=? ",1])%>                                     
+            <%count=0%><%  genius.each do |g| %><% date=g.created_at.month%><%year=g.created_at.year%><%  if date==Time.now.month && year==Time.now.year%>
+            <%count=count+1%><% end%><% end%><%=count%></td>
+            <td><%genius=BillingInformation.find(:all,:conditions=>["plan_id=? ",1])%>
+              <%if genius.count!=0%><%duration=total_duration(genius.first,genius.last)%>
+                <%if duration!=0%><%avg=genius.count/duration%><%=avg%>
+                <%else%><%count=0%><% genius.each do |p| %><%count=count+1%><% end%><%=count%><% end%>
+              <%else%><%=genius.count%><%end%>
+            </td>
+          </tr>		
+      </tbody>
+    </table>
+  </div>
+

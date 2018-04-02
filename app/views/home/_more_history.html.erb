@@ -1,0 +1,74 @@
+<%i=0%>
+
+<%@all_events.each do |date,event|%>
+  <%unless i>2%>
+	<%
+			time_zone=find_time_zone						
+    today = Time.now.gmtime+find_current_zone_difference(time_zone)
+	%>
+    <div class="activity-list <%=Date.new(today.year,today.month,today.day)==date ? "selected": ""%>">
+      <div class="wrap-header"><h3><%= date_header(date)%></h3></div>
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th class="type">Type</th>
+            <th class="description">Description</th>
+            <th class="by">By</th>
+            <th class="user">User</th>
+            <th class="time">Time</th>
+            <th class="project">Project</th>
+          </tr>
+        </thead>
+        <tbody>
+				<% j=0 %>
+
+				<% k= 0 %>
+		     <%event.each do |e|%>
+					<% status="true" %>
+					<% if e && e.resource && !e.resource.nil? && status=="true"%>
+					<% strike =" "%>
+					<%   k=e.id if k==0%>
+					<% if e.resource_type=="Task" || e.resource_type=="Todo" %>
+					 <% if e.resource.is_completed  && e.resource.is_completed==true %>
+					  <% strike="strike" %>
+					 <% end %>
+					
+					<% end %>
+					<%if j<10 %>
+	
+		        <tr <%=(k==e.id) ? "class='first'":""%>>
+            <%=event_type(e)%>
+            <%display_events(e)%>
+						<% if e.resource_type=="Comment" %>
+							<td class="desc <%=strike%>" style="max-width:185px; min-width:181px;"><%= @event_link%></td>
+						<% else %>
+							<td class="desc <%=strike%>" style="max-width:185px; min-width:181px;"><%= @event_link%></td>
+						<% end %>
+            <td class="by <%=strike%>"><% if strike == "strike" %>Completed by <%else%>Posted by<%end%></td>
+            <td class="who <%=strike%>" style="min-width:72px;"><%= @user_link%></td>
+               <% if controller_name!="dashboard" %> <td class="proj" style="text-align:left;min-width:60px;"><%=@project_link%></td><% else %> <td class="time" ><%= @time_link %></td><% end %>
+            </tr>
+						<% elsif j>=10 %>
+          	<tr <%=(event.first==e) ? "class='first'":""%> id="<%= (event.first.created_at+(find_current_zone_difference(time_zone))).strftime("%d-%m")%>_<%= j %>" style="display:none;">
+            <%=event_type(e)%>
+            <%display_events(e)%>
+						<% if e.resource_type=="Comment" %>
+							<td class="desc  <%=strike%>"  style="max-width:185px; min-width:181px;"><%= @event_link%></td>
+						<% else %>
+							<td class="desc  <%=strike%>" style="max-width:185px; min-width:181px;"><%= @event_link%></td>
+						<% end %>
+            <td class="by <%=strike%>" >Posted by</td>
+            <td class="who <%=strike%>" style="min-width:72px;"><%= @user_link%></td>
+							<% if controller_name!="dashboard" %> <td class="proj" style="text-align:left;min-width:60px;"> <%=@project_link%></td><% else %><td class="time"><%= @time_link %></td><% end %>
+            </tr>
+						<% end %>
+             <%j=j+1 %>
+            <%end%>
+						<% end %>
+        </tbody>
+      </table>
+        <%= more_event_link(event)%>
+    </div>
+    <%i+=1%>
+  <%end%>
+<%end%>

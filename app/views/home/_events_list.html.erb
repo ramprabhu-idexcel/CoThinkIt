@@ -1,0 +1,49 @@
+<div class="dash-tasks f-lft">
+ <div id="dashboard_tasks_list">
+<% if @tasks.count>0 %>
+
+  <h3 class="task-title">Tasks</h3>
+  <ul>
+    <%@tasks.each_with_index do |task,index|%>
+      <li id="task_<%= task.id %>"><label id="label_task_<%= task.id %>">
+<% completed =  (!task.is_completed.nil? and task.is_completed== true) ? true : false %>				
+          <%if @global%>
+					<% if check_status_global_project_for_task(task) %>
+					 <% if check_user_role_for_task(task)%>
+							<%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "new Ajax.Updater('rightParsfsdfsft', '#{completed_task_project_tasks_path(task.project.url,task.project,task,:checked => completed,:dashboard => true)}',{method: 'get', parameters: 'id='+#{task.id} });"%>				
+						<%else%>
+						   <%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "guest_user_alert_check_box('task_com_#{task.id}');"%>	
+						<%end%>
+						<%else%>
+						 <%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "suspend_alert_check_box('task_com_#{task.id}');"%>
+				<%end%>
+					<%else%>
+						 <% if check_status_project %>
+									<% if check_role_for_guest%>
+											<%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "new Ajax.Updater('rightParsfsdfsft', '#{completed_task_project_tasks_path(@project.url,@project,task,:checked => completed,:dashboard => true)}',{method: 'get', parameters: 'id='+#{task.id} });"%>
+									<%else%>		
+											<%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "guest_user_alert_check_box('task_com_#{task.id}');"%>						
+									<%end%>
+							<%else%>
+							 <%=check_box_tag "task_complete",0,completed,:id =>"task_com_#{task.id}",:onclick => "suspend_alert_check_box('task_com_#{task.id}');"%>
+							<%end%>
+					<%end%>			
+		<strong><% if controller_name=="home" %> <%=h task.project.name%> -<% end %> </strong><%=h truncate(task.title,:ommision =>"...",:length => 35)%></label></li>
+      <%if index==2%><div id="more_tasks" style="display:none;"><%end%>
+    <%end%>
+    
+    
+
+    <%if @tasks.count>3%></div><li><%=link_to(pluralize(@tasks.count-3,"More Task"),"javascript:;",:onclick=>"expand_task();",:id=>"more_task_link")%></li><%end%>
+  </ul>
+
+	    <% end %>
+				</div>
+					<div id="dashboard_todos_list">
+			    <% if @todos.count>0 %>
+
+	<%=render :partial => "home/todo_list_in_dashboard"%>
+
+	 <% end %>
+	 	</div>
+</div>

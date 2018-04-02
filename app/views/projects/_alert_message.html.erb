@@ -1,0 +1,13 @@
+<div id="account-limit-modal" class="modal" style="display:none;">
+  <%=link_to content_tag(:span,"Close"),"#",:class=>"btn close-btn ir",:onclick=>"$('account-limit-modal').style.display='none';"%>
+  <h1>Awesome Job!</h1>
+  <%if @project && @project.owner==current_user%>
+    <p>You've reached the limits of your current plan! Time to upgrade to a bigger, better plan.</p>
+    <%=link_to content_tag(:span,"Upgrade Account"),account_path(current_user, :project_id=>@project.id),:class=>"btn upgrade-account-btn"%>
+  <%elsif @project && !@project.id.nil?%>
+    <p>This project has reached its storage and/or transfer limit. Please notify the Project Owner that he or she should upgrade his or her cothinkit plan on the Account Page.</p>
+		<% else %>
+		<p>You've reached the limits of your current plan! Time to upgrade to a bigger, better plan.</p>
+    <%=link_to content_tag(:span,"Upgrade Account"),account_path(current_user),:class=>"btn upgrade-account-btn"%>
+  <%end%>
+</div>

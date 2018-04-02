@@ -1,0 +1,3 @@
+
+<%= select 'billing_information','plan_id',options_for_select(Plan.all.collect{|p| [p.name,p.id]},[@plan_de.name,@plan_de.id]) ,{},:onchange=>"change_plan('#{params[:id]}',this.options[this.selectedIndex].value,this.options[this.selectedIndex].text);"%>
+

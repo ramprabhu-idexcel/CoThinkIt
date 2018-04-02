@@ -1,0 +1,88 @@
+		<% if !@comments.empty?%>		
+				<a name="comments"></a>
+				<div class="post-comments-header" id="lastest_comment">
+				  <%=render :partial=>'/projects/tasks/todos/lastest_comment',:locals=>{:comments => @comments}%>
+				</div>
+
+       <%for comment in @comments%> 
+				<div class="post-comment" id="comment_<%=comment.id%>">
+								<%= image_tag "#{show_profile_picture(comment)}", :title=>"#{display_user_name(comment.user)}", :alt=>"#{display_user_name(comment.user)}", :class=>"user" %>
+					<!--<img title="<%#=display_user_name(comment.user)%>" alt="<%#=display_user_name(comment.user)%>" src="<%#=show_profile_picture(comment)%>" class="user" /> -->
+					<p class="header"><a href="<%=project_people_path(@project.url,@project) %>"><%=display_user_name(comment.user)%></a> on <%=display_time_display(comment.created_at)%>
+						<% if comment.user_id==current_user.id %>
+								<a href="<%= project_edit_task_comment_path(@project.url, @project, comment, :task_id=>@task.id) %>" class="btn edit-icon ir" title="Edit"></a>
+						<% end %>
+           <% if delete_command(comment) && @project.project_status == true %> 					 
+					  <%=link_to_remote "<span>Delete</span>",{:url =>destroy_comment_project_task_path(@project.url,@project,@task,:comment_id => comment.id),:method=>:get,:confirm => "Are you sure you want to delete this comment? "},:class => "btn delete-icon ir", :title=>"Delete" %>
+					
+					 <%end%>
+					 
+					</p>
+					<div class="post-body">
+						<p><%=show_comment_details_with_sanitize(comment.comment)%></p>
+						
+						<ul class="file-list">
+							<%comment.attachments.each do |attachment|%>
+								<%attachment_content_type = find_attachment_content_type(attachment)%>	
+								<%if attachment_content_type != "image"%>								
+									<li style="background-image:url(<%=icon_with_file(attachment.content_type,attachment.filename)%>);" >
+									<% if !check_completed_project %>
+											<%=link_to  attachment.filename,  "#",:id => attachment.id, :onclick=>"completed_alert();"%></li>		
+											<% elsif !check_status_project %>
+											<%=link_to  attachment.filename,  "#",:id => attachment.id, :onclick=>"suspend_alert();"%></li>		
+									<%else%>
+									<%=link_to attachment.filename,  "#",  :onclick=>"javascript:download_bandwidth_check_task1(#{attachment.id});"%> </li>
+									<%end%>
+								<%end%>
+							<%end%>
+						</ul>
+						
+						<ul class="post-imgs">
+							<% comment.attachments.each do |attachment|%>															
+								<%attachment_content_type = find_attachment_content_type(attachment)%>								
+								<%if attachment_content_type == "image"%>
+									<li><a href="<%=attachment.public_filename%>" target="_new">
+									<%= image_tag "#{attachment.small_thumbnail}", :width=>'75', :height=>'75' %>
+									<!--<img src=<%#=attachment.small_thumbnail%> width='75' height='75'>--></a></li>									
+								<%end%>
+							<%end%>
+						</ul>	
+					</div>
+					<%if comment.status_flag%>					
+						<div id="set_status_<%=comment.id%>" class="status-options">
+							<%=render :partial=>'/projects/tasks/todos/status_update',:locals=>{:parent => parent,:comment => comment}%>
+						</div>
+						<div class="post-footer footer-grey post-history">
+							<div id='history_link_<%=comment.id%>'>
+								<%= render :partial=>'/projects/tasks/todos/history_link',:locals=>{:parent => parent,:comment => comment}%>
+							</div>
+							<div id = "history_<%=comment.id%>">
+								<%= render :partial=>'/projects/tasks/todos/history',:locals=>{:parent => parent,:comment => comment}%>
+							</div>
+							<div class="box-bottom-left"></div>
+							<div class="box-bottom-right"></div>
+						</div>					
+					<%end%> 
+				</div>
+				<%end%>
+		<%end%>		
+		
+		 <script>
+  function download_bandwidth_check_task1(id)
+{
+
+		var check="<%= @status %>";
+		var owner="<%= @is_proj_owner %>";
+		
+		if (check=="true")
+		{
+		<% if !@todo_files.nil? and !@todo_files.empty?%>
+				document.location.href ="/<%= @project.url %>/tasks/todos/download/<%= @project.id %>/<%= @task.id %>/"+id;
+			<% end %>
+		}
+		else
+		{
+$('account-limit-modal').show();
+		}
+}
+ </script>

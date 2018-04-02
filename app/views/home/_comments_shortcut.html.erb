@@ -1,0 +1,26 @@
+<div class="dash-shortcuts-content activity-list" id="dash_shortcuts">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@new_comments.each do |comment|%>
+        <tr>
+          <td class="type comment ir"><span>Comment</span></td>
+          <td class="desc"><%=comment_link(comment)%></td>
+          <td class="by" >Posted by</td>
+          <td class="who" ><a href="<%=project_todo_site_url(comment)%>"><%=truncate(comment.commentable.user.full_name,10)%></a></td>
+          <td class="time"><a href="#"><%=comment.created_at.strftime("%m")%></a></td>
+          <td class="proj"><a href="<%=todo_project_index(comment)%>"><%= comment.project.name %></a></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

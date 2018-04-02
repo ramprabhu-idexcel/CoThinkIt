@@ -1,0 +1,20 @@
+:host: 174.129.6.114
+:port: 8080
+:debug: true
+
+# :subscribe_url: http://174.129.6.114/chat/subscribe
+# :unsubscribe_url: http://174.129.6.114/chat/unsubscribe
+
+:secret: my_secret_key
+
+:secure: false
+
+# :timeout: 3
+
+#:log_path: /var/log/socky.log
+
+# :pid_path: /var/run/socky.pid
+
+# :tls_options:
+#   :private_key_file: /private/key
+#   :cert_chain_file: /ssl/certificate

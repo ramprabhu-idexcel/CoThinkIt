@@ -1,0 +1,3 @@
+<% form_for @project, :url =>{:controller=>"/admin/projectmanagement", :action=> "update" ,:id=>@project.id}, :html => {:id => "form_id_#{params[:id]}"}  do |f| %>
+<%=select_tag :project_status,options_for_select(@status,@val),:onchange =>"change_project_status('#{params[:id]}',this.options[this.selectedIndex].value,this.options[this.selectedIndex].text);"%>
+<%end%>

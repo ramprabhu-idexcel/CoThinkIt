@@ -1,0 +1,199 @@
+<%#= javascript_include_tag "scriptaculous.js"%>
+<%=javascript_include_tag "jscolor.js"%>
+<%=javascript_include_tag "socky_chat.js"%>
+<% content_for :head do %>
+  <%= socky :host=>SOCKY_CONFIG[:host],:channels=>"global"%>
+<% end %>
+<body class="global">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+   <%=render :partial=>"/projects/alert_message"%>
+<!-- Top header Links Ends Here -->
+
+<div class="container">
+	<div class="width-wrapper">
+		<div id="global-dashboard" class="left-col main-content first-tab">
+			<ul class="nav-tabs">
+				<li id="global-tab" class="active"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li><!--<font color="green" > <%#=flash[:notice]%></font>-->
+				<li><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+			</ul>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+
+			<div class="box-top-right"></div>
+			<div class="main-padder">
+			
+      <%if @progress_projects.empty? && @completed_projects.empty?%>
+        <%=render :partial=>"zero_global_dashboard"%>
+      <%else%>
+			<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS STARTS -->
+			<div class="dash-shortcuts clear">
+        <h2>Since You Last Logged In:</h2>
+        <ul id="shortcut_list">
+          <li><%=link_to "#{show_unread_values(@late_todos)} Late Tasks","#",:onclick=>"return late_todos()", :class=>"dash-shortcuts-active"%></li>
+          <li><%=link_to "#{show_unread_values(@pending_todos)}  Tasks In Progress","#",:onclick=>"return tasks_in_progress()"%></li>
+          <li><%=link_to "#{show_unread_values(@unstarted_todos)}  Pending Tasks","#",:onclick=>"return pending_tasks()"%></li>
+          <li><%=link_to_remote "#{show_unread_values(@new_messages)}  New Posts","#",:onclick=>"return new_posts()"%></li>
+          <li><%=link_to_remote "#{show_unread_values(@new_comments)}  New Comments","#",:onclick=>"return new_comments()"%></li>
+        </ul>
+      </div>
+				<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS ENDS -->
+				
+				<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS ACTIVITY STARTS -->
+				<div class="dash-shortcuts-content activity-list" id="dash_shortcuts">
+					
+				</div>
+
+				<!-- DEFAULT DESIGN FOR DASHBOARD SHORTCUTS ACTIVITY ENDS -->
+
+
+      <%end%>
+      <%unless @all_events.empty?%>
+        <%= render :partial=>"more_history"%>
+      <%end%>
+      <div id="more_history">
+      
+      </div>
+      <!--<a href="javascript:more_history();" class="btn show-more-history ir"><span>Show more history</span></a>-->
+      <div id="more_history_link" ><%if @all_events && @all_events.count>3 %> <%=render :partial=>"more_history_link"%> <%end%> </div>
+      </div>
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+		</div>
+	</div>
+ 
+			
+	<div id="sidebar" class="right-col">
+		<a href="/projects/new" class="btn create-new-project-btn ir"><span>Create a new project</span></a><br/>
+    <%=render :partial=>"incomplete_profile" if current_user.profile_incomplete? && session[:from_login]%>
+    <%session[:from_login]=nil%>
+		<%=render :partial=>"project_progress_complete"%>
+	</div>
+</div>
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+
+
+
+
+<script>
+  $.pending=true;
+  $.late=true;
+  $.progress=true;
+  $.comments=true;
+  $.posts=true;
+  function pending_tasks()
+  {
+    if($.pending)
+    {
+      $.pending=false;
+      $.late, $.progress,$.comments,$.posts=true;
+      new Ajax.Request('/pending_tasks', {asynchronous:true, evalScripts:true, method:'get'}); 
+      return false;
+    }
+    else
+    {
+      $.pending=true
+      $.late, $.progress,$.comments,$.posts=true;
+      Effect.SlideUp('dash_shortcuts');
+      return false;
+    }  
+  }
+  
+  function late_todos()
+  {
+    if($.late)
+    {
+      $.late=false;
+      $.pending, $.progress,$.comments,$.posts=true;
+      new Ajax.Request("<%=late_tasks_path%>", {asynchronous:true, evalScripts:true, method:'get'}); 
+      return false;
+    }
+    else
+    {
+      $.late=true
+      $.pending, $.progress,$.comments,$.posts=true;
+      Effect.SlideUp('dash_shortcuts');
+      return false;
+    }  
+  }
+  
+  function tasks_in_progress()
+  {
+    if($.progress)
+    {
+      $.progress=false;
+      $.late, $.pending,$.comments,$.posts=true;
+      new Ajax.Request("<%=task_in_progress_path%>", {asynchronous:true, evalScripts:true, method:'get'}); 
+      return false;
+    }
+    else
+    {
+      $.progress=true
+      $.late, $.pending,$.comments,$.posts=true;
+      Effect.SlideUp('dash_shortcuts');
+      return false;
+    }  
+  }
+  
+  function new_posts()
+  {
+    if($.posts)
+    {
+      $.posts=false;
+      $.late, $.progress,$.comments,$.pending=true;
+      new Ajax.Request("<%=new_posts_path%>", {asynchronous:true, evalScripts:true, method:'get'}); 
+      return false;
+    }
+    else
+    {
+      $.posts=true
+      $.late, $.progress,$.comments,$.pending=true;
+      Effect.SlideUp('dash_shortcuts');
+      return false;
+    }  
+  }
+  
+  function new_comments()
+  {
+    if($.comments)
+    {
+      $.comments=false;
+      $.late, $.progress,$.pending,$.posts=true;
+      new Ajax.Request("<%=new_comments_path%>", {asynchronous:true, evalScripts:true, method:'get'}); 
+      return false;
+    }
+    else
+    {
+      $.comments=true
+      $.late, $.progress,$.pending,$.posts=true;
+      Effect.SlideUp('dash_shortcuts');
+      return false;
+    }  
+  }
+	
+	
+ function download_bandwidth_check_file_common(id,status)
+{
+		var check=status;
+  
+		if (check=="true")
+		{
+			document.location.href ="/users/download/"+id;
+		}
+		else
+		{
+      $('account-limit-modal').show();
+		}
+}
+</script>

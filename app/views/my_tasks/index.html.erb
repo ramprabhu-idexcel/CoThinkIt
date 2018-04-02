@@ -1,0 +1,95 @@
+<%#= javascript_include_tag "scriptaculous.js"%>
+<%=javascript_include_tag "socky_chat.js"%>
+<% content_for :head do %>
+  <%= socky :host=>'ws://174.129.6.114',:channels=>"global"%>
+<% end %>
+<body class="tasks">
+
+<!-- Top header Links Starts Here -->
+<%=render :partial=>'/layouts/header_top'%>
+<!-- Top header Links Ends Here -->
+
+<div class="container" style="overflow: visible;">
+	<div class="width-wrapper">
+		<div id="tasks" class="left-col main-content">
+			<!--Header Navigation Tabs -->
+			<ul class="nav-tabs">
+				<li id="global-tab"><h1><a href="<%=path_global%>"><span></span>Global Dashboard</a></h1><div class="tab-right"></div></li><!--<font color="green" > <%#=flash[:notice]%></font>-->
+				<li  class="active" class="active"><h1><a href="<%=my_tasks_path%>">My Tasks</a></h1><div class="tab-right"></div></li>
+			</ul>
+			<div class="box-top-left"></div>
+			<div class="box-top"></div>
+			<div class="box-top-right"></div>
+			       <%if @tasks.empty?%>
+						 <div class="main-padder" style="overflow:visible;">
+        <%=render :partial=>"zero_tasks"%>
+				</div>
+        <%else%>
+								<% @tasks.each do |pos, task1| %>
+
+			<div class="main-padder" style="overflow:visible;" id="main-padder_<%= pos %>">
+
+
+				<div class="dash-box">
+					<h2 class="header-bar"><% if pos.nil? %>My Tasks <% else %> <% proj=Project.find_by_id(pos) %> <%= proj.name.capitalize %><% end %></h2>
+					<% if pos.nil? %>
+					<div class="header-tools">
+						<div id="posts-filter" class="filter dropmenu"><%=link_to_remote "View All",{:url =>mytask_filter_path(:filter_option => "View All"),:method=>:get,:loading=>"Element.show('spinner')",:complete=>"Element.hide('spinner')"},:class => "menu-trigger btn ir"%><!--<a href="#" class="menu-trigger btn ir"><span>View All</span></a>--> <p>Filter</p>
+							<ul>
+								<li><%=link_to_remote "Due Today",:url =>mytask_filter_path(:filter_option => "Due Today"),:method=>:get,:loading=>"Element.show('spinner')",:complete=>"Element.hide('spinner')"%></li>
+								<li><%=link_to_remote "Due This Week",:url =>mytask_filter_path(:filter_option => "Due This Week"),:method=>:get,:loading=>"Element.show('spinner')",:complete=>"Element.hide('spinner')"%></li>
+							</ul>
+						</div>
+
+							<%=link_to_remote("Reorder Task Lists",{:url =>change_reorder_mytask_page_path(:reorder=>1),:method => :get,:loading=>"Element.show('spinner')",:complete=>"Element.hide('spinner')"} ,{:id => "reorder-tasks"})%>
+					</div>
+					<% end %>
+				
+		<% if pos.nil? %><div id="task_list_"><% else %> <div id="task_list_<%= pos %>"><% end %>
+			<%=render :partial => "tasks_list", :locals => {:task1 => task1}%>	
+		</div>
+	</div>
+</div>
+<br/><br/>
+	<%end%>
+<br/><br/>
+			  <%end%>
+<!-- end main-padder -->
+
+			<div class="box-bottom-left"></div>
+			<div class="box-bottom"></div>
+			<div class="box-bottom-right"></div>
+
+	</div>
+</div>
+	<%= render :partial=>'task_right_bar'%>
+
+
+
+<%= render :partial=>'/layouts/base_footer'%>
+<!--[if IE 6]>
+<script type="text/javascript">
+    /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; }
+    var IE6UPDATE_OPTIONS = {
+        icons_path: "http://static.ie6update.com/hosted/ie6update/images/"
+    }
+</script>
+<script type="text/javascript" src="http://static.ie6update.com/hosted/ie6update/ie6update.js"></script>
+<![endif]-->
+<div id="spinner" style="display:none;"></div>
+</body>
+</html>
+<script>
+function set_visible_to_task(task_id)
+{
+	if (document.getElementById('view_completed_'+task_id).className == "icon expand-down")
+	{
+        document.getElementById('view_achieved_todos_'+task_id).show();
+	}
+	else
+	{
+	         document.getElementById('view_achieved_todos_'+task_id).hide();
+	}
+}
+</script>
+

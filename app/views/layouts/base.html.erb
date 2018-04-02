@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<% ctrlr = controller.controller_name %>
+<% acn = controller.action_name %>
+<% if acn=="project_settings"%>
+<title>Cothinkit - <%= @project.name.titleize %> - Project Settings</title>
+<% else %>
+	<title><%= title(ctrlr,acn)%></title>
+<% end %>
+	<meta name="robots" content="INDEX,FOLLOW" />
+	<%=  stylesheet_link_tag 'base'%>
+	<!--<link href="/stylesheets/base.css" media="screen" rel="stylesheet" type="text/css" />	-->
+  <%= javascript_include_tag 'prototype','effects','dragdrop','controls','application','control.modal', :cache=>"cached_default_javascripts" %>
+  <%= javascript_include_tag 'scriptaculous' , :cache=>"cached_script_javascripts"%>
+  <%= javascript_include_tag :socky,'socky_chat.js',:cache=>"cached_socky_javascripts"%>
+  <%if params[:project_id] && controller.action_name!="chat_popout"%>
+    <% content_for :head do %>
+      <%= socky :host=>SOCKY_CONFIG[:host],:channels=>params[:project_id]%>
+    <% end %>
+  <%end%>
+<%=yield :head%>
+   
+	<!--[if lt IE 7]>
+	<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE7.js" type="text/javascript"></script>
+	<![endif]-->
+	<script type="text/javascript" src="https://use.typekit.com/kho4jtx.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <link rel="shortcut icon" href="http://cti-asset1.s3.amazonaws.com/images/favicon.ico" />
+	
+	
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8425425-17']);
+  _gaq.push(['_setDomainName', '.cothinkit.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+	
+</head>
+
+<%=yield%>
+ 
+
+</html>
+
+
+

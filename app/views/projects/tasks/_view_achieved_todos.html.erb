@@ -1,0 +1,28 @@
+<ul class="archived" id="view_achieved_todos_<%=@task.id%>">
+  <% if !@todos_com.nil? and !@todos_com.empty?%>
+		<%for todo in @todos_com[0..2]%>
+				<li id="achieved_todo_<%=todo.id%>">
+				<% completed =  (!todo.is_completed.nil? and todo.is_completed== true) ? true : false %>
+					<% if  !check_completed_project %>
+				<%=check_box_tag "todo_complete",0,completed,:id =>"show_selected",:onclick => "this.checked=true;completed_alert();	" %>
+				<% elsif  !check_status_project %>
+				<%=check_box_tag "todo_complete",0,completed,:id =>"show_selected",:onclick => "this.checked=true;suspend_alert();	" %>
+				<%else%>
+				<%=check_box_tag "todo_uncomplete",0,completed,:id =>"show_selected",:onclick => "new Ajax.Updater('test', '#{completed_todo_project_task_todos_path(@project.url,@project,@task,todo,:checked => completed, :filter_option=>params[:filter_option])}',{method: 'get', parameters: 'id='+#{todo.id} });"%>
+						 
+				<%end%>
+				<label><%=todo.title%></label></li>
+		<%end%>							
+		<% if @todos_com.length > 3%>
+				<li id="more_link_<%@task.id%>"><a href="#" class="more-link" onclick="document.getElementById('more_link_<%@task.id%>').hide();document.getElementById('hidden_todos_<%=@task.id%>').show(); return false" ><%=@todos_com.length - 3%> more completed</a></li>
+				<div id="hidden_todos_<%=@task.id%>" style="display:none">
+					<%for todo in @todos_com[3..@todos_com.length]%>
+						<li id="achieved_todo_<%=todo.id%>">
+						<% completed =  (!todo.is_completed.nil? and todo.is_completed== true) ? true : false %>
+						
+						<%=check_box_tag "todo_uncomplete",0,completed,:id =>"show_selected",:onclick => "new Ajax.Updater('test', '#{completed_todo_project_task_todos_path(@project.url,@project,@task,todo,:checked => completed,:filter_option=>params[:filter_option])}',{method: 'get', parameters: 'id='+#{todo.id} });"%><label><%=todo.title%></label></li>
+					<%end%>	
+				</div>
+		<%end%>
+	<%end%>							
+</ul>

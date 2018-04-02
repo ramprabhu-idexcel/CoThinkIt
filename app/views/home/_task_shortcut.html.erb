@@ -1,0 +1,36 @@
+<div class="dash-shortcuts-content activity-list" id="dash_shortcuts">
+  <table cellpadding="0" cellspacing="0">
+    <thead>
+      <tr>
+      <th class="type">Type</th>
+      <th class="description">Description</th>
+      <th class="by">By</th>
+      <th class="user">User</th>
+      <th class="time">Time</th>
+      <th class="project">Project</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@todos.each do |todo|%>
+        <tr>
+          <%strike=""%>
+          <%strike="strike" if todo.is_completed%>
+          <td class="type todo ir"><span>Task</span></td>
+          <%if todo.task.project%>
+            <td class="desc <%=strike%>"><%=link_to truncate(todo.title,180),project_site_url(todo.task.project)+project_task_todo_path(todo.task.project.url,todo.task.project,todo.task,todo),:title=>"Posted #{find_elapsed_time(todo.created_at)}"%></td>
+            <td class="by <%=strike%>" ><%= strike.blank? ? "Posted by" : "Completed by" %></td>
+            <td class="who <%=strike%>" ><%= link_to truncate(todo.user.full_name,10),project_site_url(todo.task.project)+project_people_path(todo.task.project.url,todo.task.project)%></td>
+            <td class="time <%=strike%>"><%= link_to todo.created_at.strftime("%m"),"#"%></td>
+            <td class="proj <%=strike%>"><%= link_to truncate(todo.task.project.name,10),project_site_url(todo.task.project)+project_dashboard_index_path(todo.task.project.url,todo.task.project)%></td>
+          <%else%> <%# "My tasks project_id nil"%>
+            <td class="desc <%=strike%>"><%=link_to truncate(todo.title,180),show_my_tasklist_path(:id=>todo.task_id),:title=>"Posted #{find_elapsed_time(todo.created_at)}"%></td>
+            <td class="by <%=strike%>"><%= strike.blank? ? "Posted by" : "Completed by" %></td>
+            <td class="who <%=strike%>" ><%= link_to truncate(todo.user.full_name,10),edit_user_path(current_user)%></td>
+            <td class="time <%=strike%>"><%= link_to todo.created_at.strftime("%m"),"#"%></td>
+            <td class="proj <%=strike%>"><%= link_to "My Tasks",my_tasks_path%></td>
+          <%end%>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>

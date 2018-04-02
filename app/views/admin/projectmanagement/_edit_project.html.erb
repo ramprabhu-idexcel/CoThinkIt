@@ -1,0 +1,23 @@
+<div class="content-box">
+  <div class="content-box-header">
+    <h3 style="cursor: s-resize;">Edit Project</h3>
+		  <div class="clear"></div>
+		</div>
+<center>
+<div class="content-box-content">
+
+<% @status=['Active','Suspend','Delete'] %>
+<% @val = (@project.project_status==true) ? 'Active' : 'Suspend' %>
+
+<% remote_form_for @project,  :url =>{:controller=>"/admin/projectmanagement", :action=> "update" ,:id=>@id}  do |f| %> 		
+Project Name 
+<%=f.text_field :name,:value => @project.name,:class=>"text-input",:size=>18%> 
+Project URL 
+<%=f.text_field :url,:value => @project.url,:class=>"text-input",:size=>18%>
+Status 
+<%=select_tag :project_status,options_for_select(@status,@val) %>
+<input type="submit" value="Submit"  class="button"/>
+<% end %>
+</div>
+</center>
+</div>
